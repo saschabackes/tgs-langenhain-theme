@@ -79,3 +79,4 @@ require_once TGS_DIR . '/inc/cpt-sportstaetten.php';
 require_once TGS_DIR . '/inc/cpt-abteilungen.php';
 require_once TGS_DIR . '/inc/meta-fields.php';
 require_once TGS_DIR . '/inc/kurs-anmeldung.php';
+require_once TGS_DIR . '/inc/shortcodes.php';

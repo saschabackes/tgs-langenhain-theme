@@ -1,0 +1,112 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"className":"tgs-hero","layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<div class="wp-block-group tgs-hero">
+    <!-- wp:group -->
+    <div class="wp-block-group">
+        <!-- wp:heading {"level":1} -->
+        <h1 class="wp-block-heading">Dein Sport.<br>Dein <em>Verein.</em></h1>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph -->
+        <p>Über 20 Kurse und Trainings für alle Altersklassen — direkt in Langenhain.</p>
+        <!-- /wp:paragraph -->
+        <!-- wp:buttons {"className":"tgs-hero-btns"} -->
+        <div class="wp-block-buttons tgs-hero-btns">
+            <!-- wp:button {"className":"tgs-hero-btn-w"} -->
+            <div class="wp-block-button tgs-hero-btn-w"><a class="wp-block-button__link" href="/kurse">Alle Kurse ansehen</a></div>
+            <!-- /wp:button -->
+            <!-- wp:button {"className":"tgs-hero-btn-g"} -->
+            <div class="wp-block-button tgs-hero-btn-g"><a class="wp-block-button__link" href="/kurse">Kursübersicht</a></div>
+            <!-- /wp:button -->
+        </div>
+        <!-- /wp:buttons -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:group {"className":"tgs-hero-logo-wrap","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+    <div class="wp-block-group tgs-hero-logo-wrap">
+        <!-- wp:site-logo {"width":130,"className":"tgs-hero-logo"} /-->
+        <!-- wp:paragraph {"className":"tgs-hero-since"} -->
+        <p class="tgs-hero-since">Seit 1886</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"tgs-section"} -->
+<div class="wp-block-group tgs-section">
+    <!-- wp:group {"className":"tgs-section-hd","layout":{"type":"flex","justifyContent":"space-between"}} -->
+    <div class="wp-block-group tgs-section-hd">
+        <!-- wp:paragraph {"className":"tgs-section-title"} -->
+        <p class="tgs-section-title"><strong>Aktuelle Kurse &amp; Trainings</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"tgs-section-more"} -->
+        <p class="tgs-section-more"><a href="/kurse">Alle ansehen →</a></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:shortcode -->
+    [tgs_kurstabelle limit="8"]
+    <!-- /wp:shortcode -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"tgs-section-alt"} -->
+<div class="wp-block-group tgs-section-alt">
+    <!-- wp:group {"className":"tgs-section-hd","layout":{"type":"flex","justifyContent":"space-between"}} -->
+    <div class="wp-block-group tgs-section-hd">
+        <!-- wp:paragraph {"className":"tgs-section-title"} -->
+        <p class="tgs-section-title"><strong>Abteilungen</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"tgs-section-more"} -->
+        <p class="tgs-section-more"><a href="/abteilungen">Alle Abteilungen →</a></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:shortcode -->
+    [tgs_abteilungen]
+    <!-- /wp:shortcode -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"tgs-section-alt"} -->
+<div class="wp-block-group tgs-section-alt">
+    <!-- wp:group {"className":"tgs-section-hd","layout":{"type":"flex","justifyContent":"space-between"}} -->
+    <div class="wp-block-group tgs-section-hd">
+        <!-- wp:paragraph {"className":"tgs-section-title"} -->
+        <p class="tgs-section-title"><strong>Aktuelles</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"tgs-section-more"} -->
+        <p class="tgs-section-more"><a href="/aktuelles">Alle Beiträge →</a></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:latest-posts {"postsToShow":3,"displayPostDate":true,"className":"tgs-news-grid"} /-->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"tgs-section"} -->
+<div class="wp-block-group tgs-section">
+    <!-- wp:group {"className":"tgs-section-hd","layout":{"type":"flex","justifyContent":"space-between"}} -->
+    <div class="wp-block-group tgs-section-hd">
+        <!-- wp:paragraph {"className":"tgs-section-title"} -->
+        <p class="tgs-section-title"><strong>Ansprechpartner</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"tgs-section-more"} -->
+        <p class="tgs-section-more"><a href="/kontakt">Alle Kontakte →</a></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:shortcode -->
+    [tgs_ansprechpartner]
+    <!-- /wp:shortcode -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"mitglied-cta","area":"uncategorized"} /-->
+
+<!-- wp:shortcode -->
+[tgs_sponsoren]
+<!-- /wp:shortcode -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->

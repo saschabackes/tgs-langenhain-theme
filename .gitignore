@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# WordPress (nur Theme im Repo, nicht die ganze WP-Installation)
+wp-config.php
+wp-content/uploads/
+wp-content/plugins/
+
+# Node (falls Build-Tools hinzukommen)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+*.zip
+dist/

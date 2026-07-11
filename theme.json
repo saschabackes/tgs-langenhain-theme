@@ -1,0 +1,170 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "720px",
+      "wideSize": "960px"
+    },
+    "color": {
+      "palette": [
+        { "slug": "primary", "color": "#3D5A40", "name": "Waldgrün" },
+        { "slug": "primary-dark", "color": "#2A3F2C", "name": "Waldgrün Dunkel" },
+        { "slug": "primary-light", "color": "#8FBF8F", "name": "Waldgrün Hell" },
+        { "slug": "primary-bg", "color": "#EEF5EE", "name": "Waldgrün Hintergrund" },
+        { "slug": "surface", "color": "#F8F6F0", "name": "Creme" },
+        { "slug": "surface-alt", "color": "#FFFFFF", "name": "Weiß" },
+        { "slug": "border", "color": "#E4DDD0", "name": "Rand" },
+        { "slug": "text", "color": "#1A2A1E", "name": "Text" },
+        { "slug": "text-muted", "color": "#999999", "name": "Text Gedämpft" },
+        { "slug": "warning", "color": "#C07020", "name": "Warnung" },
+        { "slug": "footer-bg", "color": "#1A2A1E", "name": "Footer Hintergrund" }
+      ],
+      "gradients": [],
+      "defaultPalette": false,
+      "defaultGradients": false
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          "slug": "body",
+          "name": "Inter (Body)"
+        },
+        {
+          "fontFamily": "'Libre Baskerville', Georgia, serif",
+          "slug": "heading",
+          "name": "Libre Baskerville (Überschriften)"
+        }
+      ],
+      "fontSizes": [
+        { "slug": "xs", "size": "0.625rem", "name": "XS (10px)" },
+        { "slug": "small", "size": "0.75rem", "name": "Klein (12px)" },
+        { "slug": "medium", "size": "0.875rem", "name": "Mittel (14px)" },
+        { "slug": "large", "size": "1.125rem", "name": "Groß (18px)" },
+        { "slug": "x-large", "size": "1.5rem", "name": "XL (24px)" },
+        { "slug": "xx-large", "size": "1.75rem", "name": "XXL (28px)" }
+      ],
+      "fluid": false
+    },
+    "spacing": {
+      "units": ["rem", "px"],
+      "spacingSizes": [
+        { "slug": "10", "size": "0.25rem", "name": "XXS" },
+        { "slug": "20", "size": "0.5rem", "name": "XS" },
+        { "slug": "30", "size": "0.75rem", "name": "S" },
+        { "slug": "40", "size": "1rem", "name": "M" },
+        { "slug": "50", "size": "1.25rem", "name": "L" },
+        { "slug": "60", "size": "1.5rem", "name": "XL" },
+        { "slug": "70", "size": "2rem", "name": "XXL" },
+        { "slug": "80", "size": "3rem", "name": "XXXL" }
+      ]
+    },
+    "border": {
+      "radius": true,
+      "color": true,
+      "style": true,
+      "width": true
+    },
+    "custom": {
+      "border-radius": "3px",
+      "border-radius-lg": "4px",
+      "transition": "all 0.15s ease",
+      "shadow-sm": "0 1px 3px rgba(0,0,0,0.08)",
+      "shadow-md": "0 4px 12px rgba(0,0,0,0.1)"
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--surface)",
+      "text": "var(--wp--preset--color--text)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--body)",
+      "fontSize": "var(--wp--preset--font-size--medium)",
+      "lineHeight": "1.6"
+    },
+    "spacing": {
+      "blockGap": "var(--wp--preset--spacing--40)"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "700"
+        },
+        "color": {
+          "text": "var(--wp--preset--color--text)"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--primary)"
+        },
+        "typography": {
+          "fontWeight": "600",
+          "textDecoration": "none"
+        },
+        ":hover": {
+          "typography": {
+            "textDecoration": "underline"
+          }
+        }
+      },
+      "button": {
+        "border": {
+          "radius": "3px"
+        },
+        "color": {
+          "background": "var(--wp--preset--color--primary)",
+          "text": "#FFFFFF"
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--body)",
+          "fontSize": "var(--wp--preset--font-size--small)",
+          "fontWeight": "700"
+        },
+        "spacing": {
+          "padding": {
+            "top": "0.5rem",
+            "bottom": "0.5rem",
+            "left": "1.25rem",
+            "right": "1.25rem"
+          }
+        },
+        ":hover": {
+          "color": {
+            "background": "var(--wp--preset--color--primary-dark)"
+          }
+        }
+      }
+    },
+    "blocks": {
+      "core/site-title": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontSize": "var(--wp--preset--font-size--large)"
+        }
+      },
+      "core/navigation": {
+        "typography": {
+          "fontSize": "var(--wp--preset--font-size--small)",
+          "fontWeight": "500"
+        }
+      }
+    }
+  },
+  "templateParts": [
+    { "name": "header", "title": "Header", "area": "header" },
+    { "name": "footer", "title": "Footer", "area": "footer" },
+    { "name": "sponsor-bar", "title": "Sponsorenleiste", "area": "uncategorized" },
+    { "name": "mitglied-cta", "title": "Mitglied werden CTA", "area": "uncategorized" }
+  ],
+  "customTemplates": [
+    { "name": "single-tgs_kurs", "title": "Kurs-Detailseite", "postTypes": ["tgs_kurs"] },
+    { "name": "single-tgs_sportstaette", "title": "Sportstätte", "postTypes": ["tgs_sportstaette"] },
+    { "name": "single-tgs_abteilung", "title": "Abteilungsseite", "postTypes": ["tgs_abteilung"] },
+    { "name": "archive-tgs_kurs", "title": "Kursübersicht", "postTypes": ["tgs_kurs"] }
+  ]
+}

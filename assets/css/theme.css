@@ -1,0 +1,246 @@
+/**
+ * TGS Langenhain — Theme Styles
+ * Ergänzt die theme.json-Definitionen um Komponentenstyles
+ *
+ * Farbvariablen kommen aus theme.json:
+ * --wp--preset--color--primary: #3D5A40
+ * --wp--preset--color--surface: #F8F6F0
+ * --wp--preset--color--border: #E4DDD0
+ * --wp--preset--color--text: #1A2A1E
+ */
+
+/* ===== TOPBAR ===== */
+.tgs-topbar {
+    padding: 0 1.5rem;
+    height: 32px;
+}
+
+/* ===== NAVIGATION ===== */
+.tgs-nav {
+    padding: 0 1.5rem;
+    height: 62px;
+}
+
+.tgs-club-info .tgs-since {
+    margin-top: -4px;
+}
+
+/* ===== KURS-TABELLE ===== */
+.tgs-kurs-tabelle {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tgs-kurs-tabelle th {
+    text-align: left;
+    font-size: 9px;
+    color: #BBB;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--wp--preset--color--border, #E4DDD0);
+}
+
+.tgs-kurs-tabelle td {
+    font-size: 12px;
+    padding: 7px 8px;
+    border-bottom: 1px solid #F0EDE4;
+}
+
+.tgs-kurs-tabelle tr:hover td {
+    background: #FAFAF7;
+}
+
+.tgs-kurs-kategorie {
+    color: var(--wp--preset--color--primary, #3D5A40);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tgs-kurs-name {
+    font-weight: 600;
+    color: var(--wp--preset--color--text, #1A2A1E);
+}
+
+.tgs-kurs-meta {
+    color: #999;
+    font-size: 11px;
+}
+
+.tgs-status-frei {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--wp--preset--color--primary, #3D5A40);
+}
+
+.tgs-status-warteliste {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--wp--preset--color--warning, #C07020);
+}
+
+/* ===== FILTER CHIPS ===== */
+.tgs-chip {
+    display: inline-block;
+    border: 1px solid var(--wp--preset--color--border, #E4DDD0);
+    background: var(--wp--preset--color--surface, #F8F6F0);
+    color: #666;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tgs-chip:hover,
+.tgs-chip.active {
+    background: var(--wp--preset--color--primary, #3D5A40);
+    color: #fff;
+    border-color: var(--wp--preset--color--primary, #3D5A40);
+}
+
+/* ===== KONTAKT-KARTEN ===== */
+.tgs-kontakt-card {
+    background: var(--wp--preset--color--surface, #F8F6F0);
+    border: 1px solid var(--wp--preset--color--border, #E4DDD0);
+    border-radius: 4px;
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.tgs-kontakt-role {
+    font-size: 9px;
+    color: var(--wp--preset--color--primary, #3D5A40);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
+}
+
+.tgs-kontakt-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--wp--preset--color--text, #1A2A1E);
+    margin-bottom: 0.15rem;
+}
+
+.tgs-kontakt-mail {
+    font-size: 10px;
+    color: var(--wp--preset--color--primary, #3D5A40);
+    font-weight: 600;
+}
+
+/* ===== ANMELDEFORMULAR ===== */
+.tgs-anmeldung-form {
+    max-width: 480px;
+    padding: 1.25rem;
+    background: var(--wp--preset--color--surface, #F8F6F0);
+    border: 1px solid var(--wp--preset--color--border, #E4DDD0);
+    border-radius: 4px;
+}
+
+.tgs-anm-title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+
+.tgs-anm-info {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.tgs-anm-info--wait {
+    color: var(--wp--preset--color--warning, #C07020);
+    background: #FEF5EC;
+    padding: 0.6rem 0.8rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--wp--preset--color--warning, #C07020);
+}
+
+.tgs-anm-field {
+    margin-bottom: 0.75rem;
+}
+
+.tgs-anm-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--wp--preset--color--text, #1A2A1E);
+    margin-bottom: 0.25rem;
+}
+
+.tgs-anm-field input[type="text"],
+.tgs-anm-field input[type="email"],
+.tgs-anm-field input[type="tel"],
+.tgs-anm-field textarea {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 13px;
+    border: 1px solid var(--wp--preset--color--border, #E4DDD0);
+    border-radius: 3px;
+    font-family: var(--wp--preset--font-family--body);
+    background: #fff;
+}
+
+.tgs-anm-field input:focus,
+.tgs-anm-field textarea:focus {
+    outline: none;
+    border-color: var(--wp--preset--color--primary, #3D5A40);
+    box-shadow: 0 0 0 2px rgba(61, 90, 64, 0.15);
+}
+
+.tgs-anm-submit {
+    background: var(--wp--preset--color--primary, #3D5A40);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: var(--wp--preset--font-family--body);
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.tgs-anm-submit:hover {
+    background: var(--wp--preset--color--primary-dark, #2A3F2C);
+}
+
+.tgs-anm-success {
+    background: var(--wp--preset--color--primary-bg, #EEF5EE);
+    color: var(--wp--preset--color--primary, #3D5A40);
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-left: 3px solid var(--wp--preset--color--primary, #3D5A40);
+    margin-bottom: 1rem;
+}
+
+.tgs-anm-success--wait {
+    background: #FEF5EC;
+    color: var(--wp--preset--color--warning, #C07020);
+    border-color: var(--wp--preset--color--warning, #C07020);
+}
+
+.tgs-anm-error {
+    background: #FEE;
+    color: #C33;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 13px;
+    border-left: 3px solid #C33;
+    margin-bottom: 1rem;
+}
+
+.tgs-anm-message {
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,24 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"layout":{"type":"constrained"}} -->
+<div class="wp-block-group">
+    <!-- wp:query {"queryId":1,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date"}} -->
+    <div class="wp-block-query">
+        <!-- wp:post-template -->
+            <!-- wp:post-title {"isLink":true} /-->
+            <!-- wp:post-date /-->
+            <!-- wp:post-excerpt /-->
+        <!-- /wp:post-template -->
+        <!-- wp:query-pagination -->
+            <!-- wp:query-pagination-previous /-->
+            <!-- wp:query-pagination-numbers /-->
+            <!-- wp:query-pagination-next /-->
+        <!-- /wp:query-pagination -->
+    </div>
+    <!-- /wp:query -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"mitglied-cta","area":"uncategorized"} /-->
+<!-- wp:template-part {"slug":"sponsor-bar","area":"uncategorized"} /-->
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->

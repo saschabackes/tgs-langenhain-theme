@@ -162,3 +162,8 @@ img { max-width: 100%; height: auto; }
     .tgs-hero-logo-wrap .wp-block-site-logo img { height: 90px !important; }
     .tgs-hero h1 { font-size: 22px; }
 }
+
+/* NAV EXTRAS */
+.tgs-nav-left { gap: 12px; }
+.tgs-nav-divider { width: 1px; height: 32px; background: #E4DDD0; }
+.tgs-hero-logo { filter: drop-shadow(0 2px 12px rgba(0,0,0,.3)); }

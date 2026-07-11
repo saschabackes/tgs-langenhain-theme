@@ -1,18 +1,21 @@
-<!-- wp:group {"className":"tgs-footer","style":{"color":{"background":"#1A2A1E"}},"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
-<div class="wp-block-group tgs-footer has-background" style="background-color:#1A2A1E">
+<!-- wp:group {"className":"tgs-footer","layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<div class="wp-block-group tgs-footer">
     <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
     <div class="wp-block-group">
-        <!-- wp:image {"width":"24px","sizeSlug":"thumbnail","className":"tgs-footer-logo"} -->
-        <figure class="wp-block-image size-thumbnail tgs-footer-logo" style="width:24px">
-            <img src="" alt="TGS Logo"/>
-        </figure>
-        <!-- /wp:image -->
-        <!-- wp:paragraph {"style":{"typography":{"fontSize":"11px"},"color":{"text":"#4A6A4A"}}} -->
-        <p style="color:#4A6A4A;font-size:11px">TGS 1886 Langenhain e.V.</p>
+        <!-- wp:shortcode -->
+        [tgs_logo color="white" height="24"]
+        <!-- /wp:shortcode -->
+        <!-- wp:paragraph -->
+        <p>TGS 1886 Langenhain e.V.</p>
         <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
-
-    <!-- wp:navigation {"layout":{"type":"flex"},"style":{"typography":{"fontSize":"10px"}},"textColor":"","className":"tgs-footer-nav"} /-->
+    <!-- wp:group {"layout":{"type":"flex"}} -->
+    <div class="wp-block-group">
+        <!-- wp:paragraph -->
+        <p><a href="/kontakt">Kontakt</a> · <a href="/datenschutz">Datenschutz</a> · <a href="/impressum">Impressum</a></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
 </div>
 <!-- /wp:group -->

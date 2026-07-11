@@ -80,3 +80,106 @@ require_once TGS_DIR . '/inc/cpt-abteilungen.php';
 require_once TGS_DIR . '/inc/meta-fields.php';
 require_once TGS_DIR . '/inc/kurs-anmeldung.php';
 require_once TGS_DIR . '/inc/shortcodes.php';
+
+/**
+ * Auto-Setup: Logo, Seitentitel und Untertitel bei Theme-Aktivierung
+ */
+function tgs_auto_setup() {
+    // Seitentitel
+    update_option( 'blogname', 'TGS Langenhain' );
+    update_option( 'blogdescription', 'Sportverein im Taunus seit 1886' );
+
+    // Logo in Mediathek hochladen (falls noch nicht vorhanden)
+    $logo_black = TGS_DIR . '/assets/images/tgs-logo-black.png';
+    $logo_white = TGS_DIR . '/assets/images/tgs-logo-white.png';
+
+    // Schwarzes Logo als Site Logo (für helle Hintergründe / Nav)
+    $existing = get_posts( array(
+        'post_type'  => 'attachment',
+        'title'      => 'tgs-logo-black',
+        'numberposts' => 1,
+    ) );
+
+    if ( empty( $existing ) && file_exists( $logo_black ) ) {
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        $upload = wp_upload_bits( 'tgs-logo-black.png', null, file_get_contents( $logo_black ) );
+        if ( ! $upload['error'] ) {
+            $attach_id = wp_insert_attachment( array(
+                'post_title'     => 'tgs-logo-black',
+                'post_mime_type' => 'image/png',
+                'post_status'    => 'inherit',
+            ), $upload['file'] );
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $upload['file'] );
+            wp_update_attachment_metadata( $attach_id, $attach_data );
+            set_theme_mod( 'custom_logo', $attach_id );
+        }
+    } elseif ( ! empty( $existing ) ) {
+        set_theme_mod( 'custom_logo', $existing[0]->ID );
+    }
+
+    // Weißes Logo ebenfalls hochladen (für dunkle Hintergründe)
+    $existing_w = get_posts( array(
+        'post_type'  => 'attachment',
+        'title'      => 'tgs-logo-white',
+        'numberposts' => 1,
+    ) );
+
+    if ( empty( $existing_w ) && file_exists( $logo_white ) ) {
+        $upload_w = wp_upload_bits( 'tgs-logo-white.png', null, file_get_contents( $logo_white ) );
+        if ( ! $upload_w['error'] ) {
+            $attach_id_w = wp_insert_attachment( array(
+                'post_title'     => 'tgs-logo-white',
+                'post_mime_type' => 'image/png',
+                'post_status'    => 'inherit',
+            ), $upload_w['file'] );
+            wp_generate_attachment_metadata( $attach_id_w, $upload_w['file'] );
+            // Store white logo ID for use in templates
+            update_option( 'tgs_logo_white_id', $attach_id_w );
+        }
+    }
+}
+add_action( 'after_switch_theme', 'tgs_auto_setup' );
+
+/**
+ * Helper: White logo URL (für Hero/Footer)
+ */
+function tgs_get_white_logo_url() {
+    $id = get_option( 'tgs_logo_white_id' );
+    if ( $id ) {
+        $url = wp_get_attachment_url( $id );
+        if ( $url ) return $url;
+    }
+    // Fallback: direkt aus Theme-Ordner
+    return TGS_URI . '/assets/images/tgs-logo-white.png';
+}
+
+/**
+ * Shortcode [tgs_logo] — rendert das Logo
+ * Attribute: color="white|black" height="130"
+ */
+function tgs_shortcode_logo( $atts ) {
+    $atts = shortcode_atts( array(
+        'color'  => 'black',
+        'height' => '44',
+        'class'  => '',
+    ), $atts );
+
+    if ( $atts['color'] === 'white' ) {
+        $url = tgs_get_white_logo_url();
+    } else {
+        $logo_id = get_theme_mod( 'custom_logo' );
+        $url = $logo_id ? wp_get_attachment_url( $logo_id ) : TGS_URI . '/assets/images/tgs-logo-black.png';
+    }
+
+    return sprintf(
+        '<img src="%s" alt="TGS 1886 Langenhain e.V." height="%s" style="height:%spx;width:auto;display:block;" class="%s">',
+        esc_url( $url ),
+        esc_attr( $atts['height'] ),
+        esc_attr( $atts['height'] ),
+        esc_attr( $atts['class'] )
+    );
+}
+add_shortcode( 'tgs_logo', 'tgs_shortcode_logo' );

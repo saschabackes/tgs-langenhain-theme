@@ -21,6 +21,7 @@ function tgs_register_meta_fields() {
         '_tgs_ort_id'          => 'integer',  // Link to tgs_sportstaette
         '_tgs_status'          => 'string',   // 'frei' or 'warteliste'
         '_tgs_max_teilnehmer'  => 'integer',
+        '_tgs_kurs_anmeldung'  => 'string',   // '' / 'pflicht' or 'offen'
         '_tgs_zielgruppe'      => 'string',
         '_tgs_ansprechpartner' => 'string',
         '_tgs_ansprechpartner_email' => 'string',
@@ -99,6 +100,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_uhrzeit_ende'    => array( 'label' => 'Uhrzeit (Ende)', 'type' => 'time' ),
         '_tgs_ort'             => array( 'label' => 'Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle' ),
         '_tgs_max_teilnehmer'  => array( 'label' => 'Max. Teilnehmer', 'type' => 'number', 'placeholder' => 'leer = unbegrenzt' ),
+        '_tgs_kurs_anmeldung'  => array( 'label' => 'Anmeldung', 'type' => 'select', 'options' => array( 'pflicht' => 'Anmeldung erforderlich (mit Warteliste)', 'offen' => 'Offener Kurs – keine Anmeldung nötig' ) ),
         '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'text', 'placeholder' => 'z.B. Erwachsene, Kinder 3-6 J.' ),
         '_tgs_ansprechpartner' => array( 'label' => 'Ansprechpartner (Name)', 'type' => 'text' ),
         '_tgs_ansprechpartner_email' => array( 'label' => 'E-Mail Ansprechpartner', 'type' => 'email' ),
@@ -142,7 +144,7 @@ function tgs_save_kurs_meta( $post_id ) {
 
     $fields = array(
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
-        '_tgs_status', '_tgs_max_teilnehmer', '_tgs_zielgruppe',
+        '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung', '_tgs_zielgruppe',
         '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel',
         '_tgs_mitbringen',
     );

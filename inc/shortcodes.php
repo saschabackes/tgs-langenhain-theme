@@ -93,6 +93,9 @@ function tgs_shortcode_kurstabelle( $atts ) {
                     $status_class = $status === 'warteliste' ? 'tgs-status-warteliste' : 'tgs-status-frei';
                     $status_label = $status === 'warteliste' ? '⚠ Warteliste' : '✓ Freie Plätze';
                     $link_label   = $status === 'warteliste' ? 'Warteliste →' : 'Details →';
+                    if ( function_exists( 'tgs_kurs_ist_offen' ) && tgs_kurs_ist_offen( $kurs->ID ) ) {
+                        $status_class = 'tgs-status-frei'; $status_label = '✓ Offen'; $link_label = 'Details →';
+                    }
                 ?>
                 <tr class="tgs-kurs-row" data-kategorie="<?php echo esc_attr( $kat_slug ); ?>">
                     <?php if ( ! $is_kompakt ) : ?>
@@ -290,6 +293,8 @@ function tgs_shortcode_kurs_detail() {
     $status_class = $status === 'warteliste' ? 'tgs-status-warteliste' : 'tgs-status-frei';
     $btn_label    = $status === 'warteliste' ? 'Auf Warteliste setzen' : 'Jetzt anmelden';
     $zeit_display = $zeit . ( $zeit_ende ? ' – ' . $zeit_ende . ' Uhr' : ' Uhr' );
+    $offen = function_exists( 'tgs_kurs_ist_offen' ) && tgs_kurs_ist_offen( $post_id );
+    if ( $offen ) { $status_label = '✓ Offen – keine Anmeldung nötig'; $status_class = 'tgs-status-frei'; }
 
     ob_start();
     ?>
@@ -304,7 +309,7 @@ function tgs_shortcode_kurs_detail() {
             </div>
         </div>
         <div class="tgs-kd-cta">
-            <a href="#tgs-anmeldung" class="tgs-kd-btn"><?php echo $btn_label; ?></a>
+            <?php if ( ! $offen ) : ?><a href="#tgs-anmeldung" class="tgs-kd-btn"><?php echo $btn_label; ?></a><?php endif; ?>
             <div class="<?php echo $status_class; ?>"><?php echo $status_label; ?></div>
         </div>
     </div>

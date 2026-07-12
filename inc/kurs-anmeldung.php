@@ -84,6 +84,11 @@ function tgs_kurs_capacity( $kurs_id ) {
     );
 }
 
+/** Offener Kurs ohne Anmeldung (Drop-in)? */
+function tgs_kurs_ist_offen( $kurs_id ) {
+    return get_post_meta( $kurs_id, '_tgs_kurs_anmeldung', true ) === 'offen';
+}
+
 /** Kurs-Meta _tgs_status (frei|warteliste) an die Kapazität angleichen (für die Kurstabelle). */
 function tgs_sync_kurs_status( $kurs_id ) {
     $cap = tgs_kurs_capacity( $kurs_id );
@@ -156,6 +161,12 @@ function tgs_anmeldung_shortcode( $atts ) {
     $kurs_id = intval( $atts['kurs_id'] );
     $kurs    = get_post( $kurs_id );
     if ( ! $kurs || $kurs->post_type !== 'tgs_kurs' ) return '<p>Kurs nicht gefunden.</p>';
+
+    // Offener Kurs: keine Anmeldung, nur Hinweis
+    if ( tgs_kurs_ist_offen( $kurs_id ) ) {
+        return '<div class="tgs-anmeldung-form"><h3 class="tgs-anm-title">Keine Anmeldung nötig</h3>'
+            . '<p class="tgs-anm-info">Dieser Kurs ist offen für alle — komm einfach vorbei! Die Teilnahme ist über deine TGS-Mitgliedschaft abgedeckt.</p></div>';
+    }
 
     $message = '';
     if ( isset( $_POST['tgs_anm_submit'] ) && isset( $_POST['tgs_anm_nonce'] )
@@ -747,6 +758,12 @@ add_action( 'admin_post_tgs_anm_add', 'tgs_handle_anm_add' );
 
 function tgs_kurs_anmeldungen_metabox_html( $post ) {
     $kurs_id = $post->ID;
+
+    if ( tgs_kurs_ist_offen( $kurs_id ) ) {
+        echo '<p style="font-size:14px;"><strong>Offener Kurs</strong> — keine Anmeldung und keine Teilnehmerverwaltung nötig. Auf der Website erscheint nur ein „einfach vorbeikommen"-Hinweis. Umstellen kannst du das oben in „Kursdetails" → <em>Anmeldung</em>.</p>';
+        return;
+    }
+
     $cap  = tgs_kurs_capacity( $kurs_id );
     $conf = tgs_kurs_anm_list( $kurs_id, 'bestaetigt' );
     $wait = tgs_kurs_anm_list( $kurs_id, 'warteliste' );

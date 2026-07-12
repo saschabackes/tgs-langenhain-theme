@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.4.4] — 2026-07-12
+
+### Hinzugefügt — Offene Kurse (ohne Anmeldung)
+- Neues Feld „Anmeldung" in den Kursdetails: „Anmeldung erforderlich" (Standard) oder **„Offener Kurs – keine Anmeldung nötig"** (Drop-in).
+- Offener Kurs: Kursseite zeigt statt Formular einen „einfach vorbeikommen"-Hinweis; kein „Jetzt anmelden"-Button; Status „✓ Offen"; im Backend keine Teilnehmerverwaltung (Hinweis in der Anmeldungs-Box).
+
 ## [0.4.3] — 2026-07-12
 
 ### Hinzugefügt — Stiller Teilnehmer-Import (laufende Kurse)

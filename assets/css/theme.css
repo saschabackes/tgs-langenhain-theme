@@ -225,16 +225,45 @@ img { max-width: 100%; height: auto; }
 .tgs-ss-liste-desc { font-size: 14px; color: #66625a; margin-bottom: .45rem; }
 .tgs-ss-liste-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
 
-/* ============ ABTEILUNG DETAIL (Hero jetzt hell) ============ */
-.tgs-abt-hero { background: var(--tgs-creme); padding-block: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; border-bottom: 1px solid var(--tgs-border); }
+/* ============ ABTEILUNG DETAIL (Hero hell, ohne Logo) ============ */
+.tgs-abt-hero { background: var(--tgs-creme); padding-block: 2.4rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
+.tgs-abt-hero-badge { width: 54px; height: 54px; border-radius: 14px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 27px; margin-bottom: .9rem; }
 .tgs-abt-hero-icon { font-size: 44px; margin-bottom: .5rem; }
-.tgs-abt-hero-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; color: var(--tgs-ink); margin: 0 0 .5rem 0; font-weight: 700; }
-.tgs-abt-hero-sub { font-size: 16px; color: #5f5a4d; line-height: 1.55; max-width: 46ch; margin: 0; }
-.tgs-abt-hero-logo { flex-shrink: 0; }
-.tgs-abt-hero-logo img { filter: drop-shadow(0 8px 20px rgba(26,42,30,.18)); height: 120px !important; width: auto; }
-.tgs-abt-detail-layout { display: grid; grid-template-columns: 1fr 260px; gap: 2rem; padding: 2.25rem max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-abt-hero-h1 { font-family: 'Libre Baskerville', serif; font-size: 36px; color: var(--tgs-ink); margin: 0 0 .35rem 0; font-weight: 700; }
+.tgs-abt-hero-sub { font-size: 16px; color: #5f5a4d; line-height: 1.55; max-width: 60ch; margin: 0; }
+.tgs-abt-detail-layout { display: grid; grid-template-columns: 1fr 300px; gap: 2.5rem; align-items: start; padding: 2.25rem max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); background: #fff; border-bottom: 1px solid var(--tgs-border); }
 .tgs-abt-detail-content { font-size: 16px; color: #44433b; line-height: 1.75; }
-.tgs-abt-detail-content p { margin-bottom: .9rem; }
+.tgs-abt-detail-content > p { margin-bottom: .9rem; }
+.tgs-abt-detail-content > p:first-child { font-size: 17px; color: var(--tgs-body, #33322b); line-height: 1.7; }
+.tgs-abt-detail-content h2 { font-family: 'Libre Baskerville', serif; font-size: 23px; color: var(--tgs-ink); font-weight: 700; margin: 2rem 0 .3rem; }
+.tgs-abt-detail-content h3 { font-family: 'Libre Baskerville', serif; font-size: 18px; color: var(--tgs-ink); font-weight: 700; margin: 1.4rem 0 .3rem; }
+.tgs-abt-detail-sidebar { position: sticky; top: 1.25rem; align-self: start; }
+
+/* ---- Wiederverwendbare Content-Bausteine ---- */
+.tgs-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.4rem; }
+.tgs-chip-fact { font-size: 13px; font-weight: 600; color: var(--tgs-green); background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 999px; padding: 6px 14px; }
+.tgs-infobox { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--tgs-border); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; margin: .5rem 0 1.2rem; }
+.tgs-infobox-col { background: #fff; padding: 1.1rem 1.25rem; }
+.tgs-infobox-h { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--tgs-green); font-weight: 700; margin: 0 0 .5rem; }
+.tgs-infobox-big { font-family: 'Libre Baskerville', serif; font-size: 20px; color: var(--tgs-ink); margin-bottom: .25rem; }
+.tgs-infobox-body { font-size: 14px; color: #44433b; line-height: 1.6; }
+.tgs-infobox-body small { display: inline-block; margin-top: .35rem; color: var(--tgs-muted); font-size: 12.5px; line-height: 1.5; }
+.tgs-gruppen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: .5rem 0 1.2rem; }
+.tgs-gcard { background: #fff; border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.1rem 1.2rem; }
+.tgs-gcard-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .5rem; }
+.tgs-gcard-nm { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); }
+.tgs-gcard-chip { font-size: 11px; font-weight: 700; color: var(--tgs-green); background: #E8F3E8; border-radius: 6px; padding: 3px 9px; white-space: nowrap; }
+.tgs-gcard-desc { font-size: 13.5px; color: #44433b; line-height: 1.55; margin: 0; }
+.tgs-gcard-note { margin-top: .6rem; font-size: 12.5px; color: #9a6116; background: #FBEEDA; border-radius: 7px; padding: .4rem .6rem; line-height: 1.5; }
+.tgs-cta-box { background: var(--tgs-green); border-radius: 12px; padding: 1.1rem 1.2rem; margin-bottom: 1rem; }
+.tgs-cta-box--wa { background: #25693f; }
+.tgs-cta-box-h { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #fff; font-weight: 700; margin-bottom: .35rem; }
+.tgs-cta-box-t { font-size: 13px; color: var(--tgs-green-ll); margin: 0 0 .8rem; line-height: 1.5; }
+.tgs-cta-box--wa .tgs-cta-box-t { color: #cfe8d6; }
+.tgs-cta-box-btn { display: inline-block; background: #fff; color: var(--tgs-green-d); font-weight: 700; font-size: 13.5px; padding: 10px 22px; border-radius: 8px; text-align: center; text-decoration: none; }
+/* In der schmalen Sidebar volle Breite */
+.tgs-abt-detail-sidebar .tgs-cta-box-btn { display: block; }
+.tgs-cta-box--wa .tgs-cta-box-btn { color: #1c5030; }
 
 /* ============ ABTEILUNG LISTE (Karten-Raster) ============ */
 .tgs-abt-liste { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -292,8 +321,10 @@ img { max-width: 100%; height: auto; }
   .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid var(--tgs-border); }
   .tgs-ss-info-grid { grid-template-columns: 1fr; padding: 1.5rem; }
   .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
-  .tgs-abt-hero { flex-direction: column; text-align: center; gap: 1.2rem; }
+  .tgs-abt-hero { text-align: left; }
   .tgs-abt-detail-layout { grid-template-columns: 1fr; }
+  .tgs-abt-detail-sidebar { position: static; }
+  .tgs-infobox, .tgs-gruppen-grid { grid-template-columns: 1fr; }
   .tgs-abt-liste { grid-template-columns: 1fr; }
   .tgs-footer { flex-direction: column; gap: .6rem; text-align: center; }
 }

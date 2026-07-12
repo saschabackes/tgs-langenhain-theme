@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.2.5' );
+define( 'TGS_VERSION', '0.3.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -80,6 +80,7 @@ require_once TGS_DIR . '/inc/cpt-abteilungen.php';
 require_once TGS_DIR . '/inc/meta-fields.php';
 require_once TGS_DIR . '/inc/kurs-anmeldung.php';
 require_once TGS_DIR . '/inc/shortcodes.php';
+require_once TGS_DIR . '/inc/content-blocks.php';
 
 /**
  * Auto-Setup: Logo, Seitentitel und Untertitel bei Theme-Aktivierung
@@ -194,6 +195,7 @@ function tgs_fix_shortcode_wpautop( $content ) {
         'tgs_navigation', 'tgs_logo', 'tgs_anmeldung',
         'tgs_sportstaette_detail', 'tgs_sportstaetten_liste',
         'tgs_abteilung_detail', 'tgs_abteilungen_detail_liste',
+        'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box',
     );
     
     foreach ( $shortcodes as $sc ) {

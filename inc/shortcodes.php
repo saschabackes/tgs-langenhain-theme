@@ -577,13 +577,10 @@ function tgs_shortcode_abteilung_detail() {
     ob_start();
     ?>
     <div class="tgs-abt-hero">
-        <div>
-            <div class="tgs-abt-hero-icon"><?php echo esc_html( $icon ); ?></div>
+        <div class="tgs-abt-hero-inner">
+            <div class="tgs-abt-hero-badge"><?php echo esc_html( $icon ); ?></div>
             <h1 class="tgs-abt-hero-h1"><?php echo esc_html( $abt_name ); ?></h1>
             <p class="tgs-abt-hero-sub"><?php echo esc_html( get_the_excerpt() ); ?></p>
-        </div>
-        <div class="tgs-abt-hero-logo">
-            <?php echo do_shortcode( '[tgs_logo color="black" height="120"]' ); ?>
         </div>
     </div>
 

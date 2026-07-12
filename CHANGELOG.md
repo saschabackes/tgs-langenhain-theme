@@ -2,6 +2,19 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.0] — 2026-07-12
+
+### Hinzugefügt — Wiederverwendbare Content-Bausteine (inc/content-blocks.php)
+- `[tgs_chips]A | B | C[/tgs_chips]` — Fakten-Chip-Reihe
+- `[tgs_infobox]` + `[tgs_infospalte titel="" gross=""]` — mehrspaltige Info-Box (z. B. Treffpunkt & Ausrüstung)
+- `[tgs_gruppen]` + `[tgs_gruppe name="" grad="" hinweis=""]` — Karten-Raster für Gruppen/Angebote mit Schwierigkeits-Chip
+- `[tgs_cta_box titel="" text="" button="" url="" farbe="gruen|whatsapp"]` — hervorgehobene Aktions-Box (z. B. WhatsApp-Community)
+- Alle mit wpautop-sicherer Inhaltsbereinigung; in Fix-Liste aufgenommen
+
+### Geändert — Abteilungs-Detailseite
+- Hero: redundantes Logo entfernt, Icon im grün getönten Badge, linksbündig, Untertitel breiter
+- Layout: Sidebar sticky, Content-Spalte mit Serifen-Zwischenüberschriften (h2/h3) und größerem Lead-Absatz für reichen Content (Vorbild: Radsport)
+
 ## [0.2.5] — 2026-07-12
 
 ### Geändert — Kurs-Detailseite (Layout „Option C")

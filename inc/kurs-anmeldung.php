@@ -520,6 +520,7 @@ function tgs_mail_confirmed( $anm_id, $status ) {
 }
 
 function tgs_mail_promoted( $anm_id ) {
+    if ( get_post_meta( $anm_id, '_tgs_anm_manuell', true ) ) return; // stille, importierte Teilnehmer
     $email   = get_post_meta( $anm_id, '_tgs_anm_email', true );
     $name    = get_post_meta( $anm_id, '_tgs_anm_name', true );
     $token   = get_post_meta( $anm_id, '_tgs_anm_token', true );
@@ -643,6 +644,7 @@ add_action( 'admin_post_tgs_anm_manage', 'tgs_handle_anm_manage' );
 
 /** Info-Mail an eine vom Kursleiter entfernte Person. */
 function tgs_mail_removed( $anm_id ) {
+    if ( get_post_meta( $anm_id, '_tgs_anm_manuell', true ) ) return; // stille, importierte Teilnehmer
     $email = get_post_meta( $anm_id, '_tgs_anm_email', true );
     if ( ! $email || ! is_email( $email ) ) return;
     $name    = get_post_meta( $anm_id, '_tgs_anm_name', true );
@@ -654,6 +656,94 @@ function tgs_mail_removed( $anm_id ) {
     );
     wp_mail( $email, 'Abmeldung: ' . $kurs, $body, tgs_mail_headers() );
 }
+
+/* -------------------------------------------------------------------------
+ * Stiller Import bestehender Teilnehmer (laufende Kurse) — OHNE E-Mails
+ * ----------------------------------------------------------------------- */
+function tgs_register_teilnehmer_add_page() {
+    add_submenu_page( null, 'Teilnehmer hinzufügen', '', 'edit_posts', 'tgs-teilnehmer-add', 'tgs_teilnehmer_add_page' );
+}
+add_action( 'admin_menu', 'tgs_register_teilnehmer_add_page' );
+
+function tgs_teilnehmer_add_page() {
+    if ( ! current_user_can( 'edit_posts' ) ) wp_die( 'Keine Berechtigung.' );
+    $kurs_id = isset( $_GET['kurs'] ) ? intval( $_GET['kurs'] ) : 0;
+    $kurs    = $kurs_id ? get_post( $kurs_id ) : null;
+    if ( ! $kurs || $kurs->post_type !== 'tgs_kurs' ) wp_die( 'Kurs nicht gefunden.' );
+    ?>
+    <div class="wrap">
+        <h1>Teilnehmer hinzufügen — <?php echo esc_html( get_the_title( $kurs_id ) ); ?></h1>
+        <p style="max-width:640px;">Für bereits laufende Kurse: trage hier bestehende Teilnehmer ein. <strong>Es werden keine E-Mails verschickt</strong> — niemand bekommt eine Bestätigungs- oder Benachrichtigungsmail. (Online-Neuanmeldungen über die Website laufen weiterhin mit Bestätigungslink.)</p>
+        <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+            <input type="hidden" name="action" value="tgs_anm_add">
+            <input type="hidden" name="kurs_id" value="<?php echo esc_attr( $kurs_id ); ?>">
+            <?php wp_nonce_field( 'tgs_anm_add_' . $kurs_id, 'tgs_add_nonce' ); ?>
+            <table class="form-table"><tbody>
+                <tr><th><label for="tgs_add_people">Teilnehmer</label></th>
+                    <td><textarea id="tgs_add_people" name="tgs_add_people" rows="10" class="large-text" placeholder="Je Zeile eine Person:&#10;Petra Muster, petra@example.de&#10;Max Beispiel&#10;Anna Schmidt, anna@example.de"></textarea>
+                    <p class="description">Eine Person pro Zeile: <code>Vor- und Nachname, e-mail@optional.de</code>. Die E-Mail ist optional — ohne E-Mail kann die Person ihre Kursübersicht später nicht selbst per „Meine Kurse" abrufen, du verwaltest sie dann im Backend.</p></td></tr>
+                <tr><th>Status</th><td>
+                    <label><input type="radio" name="tgs_add_status" value="bestaetigt" checked> Als angemeldet</label> &nbsp;&nbsp;
+                    <label><input type="radio" name="tgs_add_status" value="warteliste"> Auf Warteliste</label></td></tr>
+            </tbody></table>
+            <p><button type="submit" class="button button-primary">Hinzufügen (ohne E-Mail)</button>
+               <a href="<?php echo esc_url( admin_url( 'post.php?post=' . $kurs_id . '&action=edit' ) ); ?>" class="button">Abbrechen</a></p>
+        </form>
+    </div>
+    <?php
+}
+
+function tgs_handle_anm_add() {
+    $kurs_id = isset( $_POST['kurs_id'] ) ? intval( $_POST['kurs_id'] ) : 0;
+    if ( ! $kurs_id || empty( $_POST['tgs_add_nonce'] ) || ! wp_verify_nonce( $_POST['tgs_add_nonce'], 'tgs_anm_add_' . $kurs_id ) ) {
+        wp_die( 'Ungültige oder abgelaufene Anfrage.' );
+    }
+    if ( ! current_user_can( 'edit_posts' ) ) wp_die( 'Keine Berechtigung.' );
+
+    $status = ( isset( $_POST['tgs_add_status'] ) && $_POST['tgs_add_status'] === 'warteliste' ) ? 'warteliste' : 'bestaetigt';
+    $lines  = preg_split( '/\r\n|\r|\n/', isset( $_POST['tgs_add_people'] ) ? wp_unslash( $_POST['tgs_add_people'] ) : '' );
+    $added  = 0;
+
+    foreach ( (array) $lines as $line ) {
+        $line = trim( $line );
+        if ( $line === '' ) continue;
+        $email = ''; $name = $line;
+        if ( preg_match( '/^(.*?)[;,]\s*([^\s;,<>]+@[^\s;,<>]+)\s*$/u', $line, $m ) ) {
+            $name  = trim( $m[1] );
+            $email = sanitize_email( $m[2] );
+        } elseif ( preg_match( '/([^\s;,<>]+@[^\s;,<>]+)/', $line, $m ) ) {
+            $email = sanitize_email( $m[1] );
+            $name  = trim( str_replace( array( $m[1], '<', '>' ), '', $line ), " ,;\t" );
+        }
+        $name = sanitize_text_field( $name );
+        if ( $name === '' && $email === '' ) continue;
+
+        if ( $email ) {
+            $dup = get_posts( array( 'post_type' => 'tgs_anmeldung', 'post_status' => 'publish', 'numberposts' => 1, 'fields' => 'ids',
+                'meta_query' => array( 'relation' => 'AND',
+                    array( 'key' => '_tgs_anm_kurs_id', 'value' => $kurs_id ),
+                    array( 'key' => '_tgs_anm_email', 'value' => $email ),
+                    array( 'key' => '_tgs_anm_status', 'value' => array( 'unbestaetigt', 'bestaetigt', 'warteliste' ), 'compare' => 'IN' ),
+                ) ) );
+            if ( $dup ) continue;
+        }
+        $id = wp_insert_post( array( 'post_type' => 'tgs_anmeldung', 'post_status' => 'publish',
+            'post_title' => sprintf( '%s — %s', ( $name ? $name : $email ), get_the_title( $kurs_id ) ) ) );
+        if ( is_wp_error( $id ) || ! $id ) continue;
+        update_post_meta( $id, '_tgs_anm_kurs_id', $kurs_id );
+        update_post_meta( $id, '_tgs_anm_name', $name );
+        update_post_meta( $id, '_tgs_anm_email', $email );
+        update_post_meta( $id, '_tgs_anm_status', $status );
+        update_post_meta( $id, '_tgs_anm_token', wp_generate_password( 32, false, false ) );
+        update_post_meta( $id, '_tgs_anm_datum', current_time( 'Y-m-d H:i:s' ) );
+        update_post_meta( $id, '_tgs_anm_manuell', '1' ); // still importiert → keine Auto-Mails
+        $added++;
+    }
+    tgs_sync_kurs_status( $kurs_id );
+    wp_safe_redirect( add_query_arg( 'tgs_added', $added, admin_url( 'post.php?post=' . $kurs_id . '&action=edit' ) ) );
+    exit;
+}
+add_action( 'admin_post_tgs_anm_add', 'tgs_handle_anm_add' );
 
 function tgs_kurs_anmeldungen_metabox_html( $post ) {
     $kurs_id = $post->ID;
@@ -669,8 +759,14 @@ function tgs_kurs_anmeldungen_metabox_html( $post ) {
     echo '</p>';
     echo '<p style="color:#999;font-size:12px;margin:0 0 .5em;">Die max. Teilnehmerzahl stellst du oben in „Kursdetails" ein (leer = unbegrenzt). Status wird automatisch berechnet.</p>';
 
+    if ( isset( $_GET['tgs_added'] ) ) {
+        echo '<div class="notice notice-success inline" style="margin:.2em 0 1em;"><p>' . intval( $_GET['tgs_added'] ) . ' Teilnehmer hinzugefügt (ohne E-Mail).</p></div>';
+    }
+    $add_url = admin_url( 'admin.php?page=tgs-teilnehmer-add&kurs=' . $kurs_id );
+    echo '<p style="margin:.2em 0 1.2em;"><a href="' . esc_url( $add_url ) . '" class="button">＋ Teilnehmer manuell hinzufügen (ohne E-Mail)</a> <span style="color:#999;font-size:12px;">— für bereits laufende Kurse</span></p>';
+
     if ( empty( $conf ) && empty( $wait ) ) {
-        echo '<p style="color:#999;">Noch keine bestätigten Anmeldungen.</p>';
+        echo '<p style="color:#999;">Noch keine Anmeldungen.</p>';
         return;
     }
     tgs_render_anm_table( 'Angemeldet', $conf, false, array( 'remove' ) );

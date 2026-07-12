@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.4.3] — 2026-07-12
+
+### Hinzugefügt — Stiller Teilnehmer-Import (laufende Kurse)
+- In der Kurs-Box „Anmeldungen zu diesem Kurs" → Button **„＋ Teilnehmer manuell hinzufügen (ohne E-Mail)"**: Öffnet eine Seite, auf der bestehende Teilnehmer (je Zeile „Name, E-Mail" — E-Mail optional) direkt als angemeldet oder auf Warteliste eingetragen werden. **Kein Double-Opt-In, keine E-Mails** — ideal für bereits laufende Kurse.
+- Manuell importierte Teilnehmer (`_tgs_anm_manuell`) erhalten auch bei Entfernen/Nachrücken **keine** automatischen Mails (offline-verwaltet). Online-Neuanmeldungen laufen unverändert mit Bestätigungslink.
+
 ## [0.4.2] — 2026-07-12
 
 ### Hinzugefügt — Teilnehmerverwaltung

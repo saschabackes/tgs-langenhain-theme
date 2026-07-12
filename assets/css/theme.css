@@ -238,3 +238,9 @@ img { max-width: 100%; height: auto; }
     .tgs-abt-detail-layout { grid-template-columns: 1fr; }
     .tgs-abt-liste-card { flex-direction: column; text-align: center; }
 }
+
+/* FIX: span-based cards (wpautop workaround) */
+.tgs-abt-card, .tgs-abt-liste-card { cursor: pointer; }
+.tgs-abt-icon, .tgs-abt-name, .tgs-abt-desc { display: block; }
+.tgs-abt-liste-icon, .tgs-abt-liste-body, .tgs-abt-liste-name, 
+.tgs-abt-liste-desc, .tgs-abt-liste-contact { display: block; }

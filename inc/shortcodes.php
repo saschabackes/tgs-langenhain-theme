@@ -132,11 +132,11 @@ function tgs_shortcode_abteilungen() {
         $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
         $excerpt = get_the_excerpt( $abt->ID );
         $url     = get_permalink( $abt->ID );
-        $html .= '<a href="' . esc_url( $url ) . '" class="tgs-abt-card">';
-        $html .= '<div class="tgs-abt-icon">' . esc_html( $icon ) . '</div>';
-        $html .= '<div class="tgs-abt-name">' . esc_html( $abt->post_title ) . '</div>';
-        $html .= '<div class="tgs-abt-desc">' . esc_html( $excerpt ) . '</div>';
-        $html .= '</a>';
+        $html .= '<div class="tgs-abt-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
+        $html .= '<span class="tgs-abt-icon">' . esc_html( $icon ) . '</span>';
+        $html .= '<span class="tgs-abt-name">' . esc_html( $abt->post_title ) . '</span>';
+        $html .= '<span class="tgs-abt-desc">' . esc_html( $excerpt ) . '</span>';
+        $html .= '</div>';
     }
     $html .= '</div>';
     return $html;
@@ -652,17 +652,17 @@ function tgs_shortcode_abteilungen_detail_liste() {
         $excerpt = get_the_excerpt( $abt->ID );
         $url     = get_permalink( $abt->ID );
 
-        $html .= '<a href="' . esc_url( $url ) . '" class="tgs-abt-liste-card">';
-        $html .= '<div class="tgs-abt-liste-icon">' . esc_html( $icon ) . '</div>';
-        $html .= '<div class="tgs-abt-liste-body">';
-        $html .= '<div class="tgs-abt-liste-name">' . esc_html( $abt->post_title ) . '</div>';
-        $html .= '<div class="tgs-abt-liste-desc">' . esc_html( $excerpt ) . '</div>';
+        $html .= '<div class="tgs-abt-liste-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
+        $html .= '<span class="tgs-abt-liste-icon">' . esc_html( $icon ) . '</span>';
+        $html .= '<span class="tgs-abt-liste-body">';
+        $html .= '<span class="tgs-abt-liste-name">' . esc_html( $abt->post_title ) . '</span>';
+        $html .= '<span class="tgs-abt-liste-desc">' . esc_html( $excerpt ) . '</span>';
         if ( $leitung ) {
-            $html .= '<div class="tgs-abt-liste-contact">Ansprechpartner: ' . esc_html( $leitung ) . '</div>';
+            $html .= '<span class="tgs-abt-liste-contact">Ansprechpartner: ' . esc_html( $leitung ) . '</span>';
         }
-        $html .= '</div>';
+        $html .= '</span>';
         $html .= '<span class="tgs-abt-liste-arrow">→</span>';
-        $html .= '</a>';
+        $html .= '</div>';
     }
     $html .= '</div>';
     return $html;

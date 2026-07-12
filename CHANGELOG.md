@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.2.3] — 2026-07-12
+
+### Geändert
+- **Seitenkopf (page-hero)**: kleines, redundantes zweites Logo rechts entfernt. Stattdessen das Wappen als dezentes Wasserzeichen (~6 % Deckkraft) hinter dem Titel, am rechten Rand auslaufend. Logo bleibt allein Header + Startseiten-Hero vorbehalten. Reines CSS, greift ohne Vorlagen-Reset.
+
 ## [0.2.2] — 2026-07-12
 
 ### Geändert

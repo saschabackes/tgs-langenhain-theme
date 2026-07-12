@@ -1,3 +1,9 @@
+## [0.14.0] — 2026-07-12
+
+### Hinzugefügt — Impressum & Datenschutzerklärung
+- Neue Shortcodes [tgs_impressum] und [tgs_datenschutz] für Rechtsseiten, gesetzt und lesbar (.tgs-legal). Impressum mit Vereinsdaten, Vorstand (§26 BGB), Registereintrag (Amtsgericht Frankfurt, VR 4433); Datenschutz auf die neue Seite zugeschnitten (Server-Logs, Kontaktformular, Kursanmeldung inkl. Kinder/Alter, Bewertungen, YouTube-nocookie, Google Fonts, Betroffenenrechte, Aufsichtsbehörde). Stammdaten zentral in inc/rechtstexte.php.
+- Hinweis: Vorlage/Entwurf, vor Veröffentlichung prüfen (lassen).
+
 ## [0.13.0] — 2026-07-12
 
 ### Behoben / Hinzugefügt

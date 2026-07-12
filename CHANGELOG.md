@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.2.2] — 2026-07-12
+
+### Geändert
+- **Abteilungen-Übersicht neu gestaltet**: bildschirmbreite Listenzeilen → 2-spaltiges Karten-Raster (`[tgs_abteilungen_detail_liste]`). Icon im grün getönten Badge, Name als Serife, Beschreibung, Fuß mit Ansprechpartner + „Zur Abteilung →". Kein toter Raum mehr, Hover-Lift. Mobile einspaltig.
+
 ## [0.2.1] — 2026-07-12
 
 ### Geändert

@@ -222,16 +222,18 @@ img { max-width: 100%; height: auto; }
 .tgs-abt-detail-content { font-size: 16px; color: #44433b; line-height: 1.75; }
 .tgs-abt-detail-content p { margin-bottom: .9rem; }
 
-/* ============ ABTEILUNG LISTE ============ */
-.tgs-abt-liste { display: flex; flex-direction: column; gap: 12px; }
-.tgs-abt-liste-card { display: flex; align-items: center; gap: 1.2rem; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.2rem 1.4rem; color: inherit; cursor: pointer; }
-.tgs-abt-liste-card:hover { border-color: var(--tgs-green); text-decoration: none; }
-.tgs-abt-liste-icon { font-size: 34px; flex-shrink: 0; display: block; }
-.tgs-abt-liste-body { flex: 1; display: block; }
-.tgs-abt-liste-name { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .2rem; display: block; }
-.tgs-abt-liste-desc { font-size: 14px; color: #66625a; line-height: 1.45; margin-bottom: .2rem; display: block; }
-.tgs-abt-liste-contact { font-size: 13px; color: var(--tgs-muted); display: block; }
-.tgs-abt-liste-arrow { font-size: 22px; color: var(--tgs-green); font-weight: 700; flex-shrink: 0; }
+/* ============ ABTEILUNG LISTE (Karten-Raster) ============ */
+.tgs-abt-liste { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.tgs-abt2-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 14px; padding: 1.6rem 1.7rem; display: flex; flex-direction: column; color: inherit; cursor: pointer; transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.tgs-abt2-card:hover { border-color: var(--tgs-green); transform: translateY(-3px); box-shadow: 0 16px 32px -22px rgba(26,42,30,.5); text-decoration: none; }
+.tgs-abt2-top { display: flex; align-items: center; gap: 14px; margin-bottom: 1rem; }
+.tgs-abt2-badge { width: 54px; height: 54px; border-radius: 14px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 27px; flex-shrink: 0; }
+.tgs-abt2-name { font-family: 'Libre Baskerville', serif; font-size: 21px; font-weight: 700; color: var(--tgs-ink); line-height: 1.15; display: block; }
+.tgs-abt2-desc { font-size: 15px; color: #5f5a4d; line-height: 1.55; margin: 0 0 1.2rem; display: block; }
+.tgs-abt2-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border-l); }
+.tgs-abt2-ap { font-size: 12.5px; color: var(--tgs-muted); }
+.tgs-abt2-ap b { color: #44433b; font-weight: 600; }
+.tgs-abt2-link { font-size: 13.5px; font-weight: 700; color: var(--tgs-green); white-space: nowrap; }
 
 /* ============================================
    RESPONSIVE
@@ -275,7 +277,7 @@ img { max-width: 100%; height: auto; }
   .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
   .tgs-abt-hero { flex-direction: column; text-align: center; gap: 1.2rem; }
   .tgs-abt-detail-layout { grid-template-columns: 1fr; }
-  .tgs-abt-liste-card { flex-direction: column; text-align: center; }
+  .tgs-abt-liste { grid-template-columns: 1fr; }
   .tgs-footer { flex-direction: column; gap: .6rem; text-align: center; }
 }
 

@@ -652,16 +652,22 @@ function tgs_shortcode_abteilungen_detail_liste() {
         $excerpt = get_the_excerpt( $abt->ID );
         $url     = get_permalink( $abt->ID );
 
-        $html .= '<div class="tgs-abt-liste-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
-        $html .= '<span class="tgs-abt-liste-icon">' . esc_html( $icon ) . '</span>';
-        $html .= '<span class="tgs-abt-liste-body">';
-        $html .= '<span class="tgs-abt-liste-name">' . esc_html( $abt->post_title ) . '</span>';
-        $html .= '<span class="tgs-abt-liste-desc">' . esc_html( $excerpt ) . '</span>';
-        if ( $leitung ) {
-            $html .= '<span class="tgs-abt-liste-contact">Ansprechpartner: ' . esc_html( $leitung ) . '</span>';
-        }
+        $html .= '<div class="tgs-abt2-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
+        $html .= '<span class="tgs-abt2-top">';
+        $html .= '<span class="tgs-abt2-badge">' . esc_html( $icon ) . '</span>';
+        $html .= '<span class="tgs-abt2-name">' . esc_html( $abt->post_title ) . '</span>';
         $html .= '</span>';
-        $html .= '<span class="tgs-abt-liste-arrow">→</span>';
+        if ( $excerpt ) {
+            $html .= '<span class="tgs-abt2-desc">' . esc_html( $excerpt ) . '</span>';
+        }
+        $html .= '<span class="tgs-abt2-foot">';
+        if ( $leitung ) {
+            $html .= '<span class="tgs-abt2-ap">Ansprechpartner: <b>' . esc_html( $leitung ) . '</b></span>';
+        } else {
+            $html .= '<span class="tgs-abt2-ap"></span>';
+        }
+        $html .= '<span class="tgs-abt2-link">Zur Abteilung →</span>';
+        $html .= '</span>';
         $html .= '</div>';
     }
     $html .= '</div>';

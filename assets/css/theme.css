@@ -480,6 +480,16 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-sk-lead { font-size: 16px; color: #55524a; line-height: 1.6; margin: 0; }
 .tgs-sk-section { font-family: 'Libre Baskerville', serif; font-size: 26px; color: var(--tgs-ink); margin: 2.4rem 0 1.2rem; padding-top: 1.6rem; border-top: 2px solid var(--tgs-border); }
 
+/* Aktionstage */
+.tgs-sk-aktion { background: #fbf3e7; border: 1px solid #eaddc7; border-radius: 16px; padding: 1.4rem 1.6rem; margin-bottom: 2rem; }
+.tgs-sk-aktion-hd { font-family: 'Libre Baskerville', serif; font-size: 22px; font-weight: 700; color: var(--tgs-ink); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+.tgs-sk-aktion-neu { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #fff; background: #c8873f; border-radius: 999px; padding: 3px 10px; }
+.tgs-sk-aktion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tgs-sk-aktion-item { background: #fff; border: 1px solid #eaddc7; border-radius: 12px; padding: 1.1rem 1.3rem; }
+.tgs-sk-aktion-day { font-size: 16px; font-weight: 700; color: var(--tgs-green); margin-bottom: .3rem; }
+.tgs-sk-aktion-desc { font-size: 13.5px; color: #66625a; line-height: 1.5; margin-bottom: .5rem; }
+.tgs-sk-aktion-price { font-family: 'Libre Baskerville', serif; font-size: 20px; font-weight: 700; color: #c8873f; }
+
 .tgs-sk-speisen, .tgs-sk-getraenke { column-count: 2; column-gap: 3rem; }
 .tgs-sk-cat { break-inside: avoid; margin-bottom: 1.8rem; }
 .tgs-sk-cat-title { font-family: 'Libre Baskerville', serif; font-size: 20px; color: var(--tgs-green); margin: 0 0 .2rem; font-weight: 700; }
@@ -653,6 +663,7 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-gs-facts { grid-template-columns: 1fr 1fr; }
   .tgs-sk { padding-block: 1.6rem; }
   .tgs-sk-speisen, .tgs-sk-getraenke { column-count: 1; }
+  .tgs-sk-aktion-grid { grid-template-columns: 1fr; }
   .tgs-sk-h1 { font-size: 26px; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }

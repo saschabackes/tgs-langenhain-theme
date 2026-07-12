@@ -1,3 +1,8 @@
+## [0.12.2] — 2026-07-12
+
+### Hinzugefügt — Aktionstage auf der Speisekarte
+- Neue hervorgehobene Box „Aktionstage" ganz oben auf der Speisekarte (aus dem Flyer): Montag Schnitzeltag (je 18,00 €) und Donnerstag Rumpsteaktag (je 28,00 €), jeweils inkl. Pommes, Beilagensalat und 1 Getränk (außer Wein). Zentral in inc/speisekarte.php pflegbar.
+
 ## [0.12.1] — 2026-07-12
 
 ### Behoben

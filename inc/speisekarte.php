@@ -23,6 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function tgs_speisekarte_daten() {
     return array(
+        'aktionstage' => array(
+            array( 'Montag', 'Schnitzeltag', 'Alle Schnitzel inkl. Pommes, Beilagensalat und 1 Getränk (außer Wein)', '18,00' ),
+            array( 'Donnerstag', 'Rumpsteaktag', 'Alle Rumpsteaks inkl. Pommes, Beilagensalat und 1 Getränk (außer Wein)', '28,00' ),
+        ),
         'speisen' => array(
             array(
                 'title' => 'Antipasti & Vorspeisen',
@@ -329,6 +333,21 @@ function tgs_shortcode_speisekarte() {
             <h1 class="tgs-sk-h1">Unsere Speisekarte</h1>
             <p class="tgs-sk-lead">Frische italienische &amp; deutsche Küche zu familienfreundlichen Preisen. Guten Appetit – Buon Appetito!</p>
         </div>
+
+        <?php if ( ! empty( $d['aktionstage'] ) ) : ?>
+        <div class="tgs-sk-aktion">
+            <div class="tgs-sk-aktion-hd"><span class="tgs-sk-aktion-neu">Neu</span> Aktionstage</div>
+            <div class="tgs-sk-aktion-grid">
+                <?php foreach ( $d['aktionstage'] as $a ) : ?>
+                <div class="tgs-sk-aktion-item">
+                    <div class="tgs-sk-aktion-day"><?php echo esc_html( $a[0] ); ?> · <?php echo esc_html( $a[1] ); ?></div>
+                    <div class="tgs-sk-aktion-desc"><?php echo esc_html( $a[2] ); ?></div>
+                    <div class="tgs-sk-aktion-price">je <?php echo esc_html( $a[3] ); ?> €</div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
 
         <div class="tgs-sk-speisen">
             <?php foreach ( $d['speisen'] as $cat ) echo tgs_speise_kategorie_html( $cat ); ?>

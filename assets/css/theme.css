@@ -281,6 +281,8 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-fact-ic { font-size: 18px; }
 .tgs-ss-fact-k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; }
 .tgs-ss-fact-v { font-size: 14px; font-weight: 600; color: var(--tgs-ink); line-height: 1.4; }
+/* wpautop fügt in FSE gelegentlich leere Absätze ein — hier ausblenden (sonst leere Grid-Spalte) */
+.tgs-ss-facts p:empty, .tgs-ss-hero p:empty, .tgs-ss-body > p:empty { display: none; }
 
 /* Body: Inhalt + Ausstattungs-Sidebar */
 .tgs-ss-body { display: grid; grid-template-columns: 1fr 300px; gap: 2.4rem; align-items: start; }

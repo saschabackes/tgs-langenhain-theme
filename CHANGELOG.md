@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.7.1] — 2026-07-12
+
+### Behoben
+- Sportstätten-Detailseite: leerer Kasten in der Fakten-Leiste entfernt (durch wpautop eingefügte leere Absätze werden ausgeblendet).
+
 ## [0.7.0] — 2026-07-12
 
 ### Hinzugefügt — Sportstätten für Außenanlagen ausgebaut

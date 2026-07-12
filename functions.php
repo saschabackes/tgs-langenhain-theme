@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.9.0' );
+define( 'TGS_VERSION', '0.10.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -83,6 +83,7 @@ require_once TGS_DIR . '/inc/kurs-bewertung.php';
 require_once TGS_DIR . '/inc/kurs-meldungen.php';
 require_once TGS_DIR . '/inc/sport-icons.php';
 require_once TGS_DIR . '/inc/mitglied.php';
+require_once TGS_DIR . '/inc/gaststaette.php';
 require_once TGS_DIR . '/inc/shortcodes.php';
 require_once TGS_DIR . '/inc/content-blocks.php';
 
@@ -199,7 +200,7 @@ function tgs_fix_shortcode_wpautop( $content ) {
         'tgs_navigation', 'tgs_logo', 'tgs_anmeldung', 'tgs_kurs_status',
         'tgs_sportstaette_detail', 'tgs_sportstaetten_liste',
         'tgs_abteilung_detail', 'tgs_abteilungen_detail_liste',
-        'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box', 'tgs_whatsapp', 'tgs_kurs_bewertungen', 'tgs_kurs_meldungen', 'tgs_breadcrumb', 'tgs_beitraege', 'tgs_mitglied_werden',
+        'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box', 'tgs_whatsapp', 'tgs_kurs_bewertungen', 'tgs_kurs_meldungen', 'tgs_breadcrumb', 'tgs_beitraege', 'tgs_mitglied_werden', 'tgs_gaststaette',
     );
     
     foreach ( $shortcodes as $sc ) {

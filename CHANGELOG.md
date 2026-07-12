@@ -1,3 +1,9 @@
+## [0.10.0] — 2026-07-12
+
+### Hinzugefügt — Seite „Vereinsgaststätte" (Zu den Eichen – Da Luca)
+- Neuer Shortcode `[tgs_gaststaette]`: einladende Seite mit Hero (Google-Bewertung 4,6★ + Live-Status „jetzt geöffnet/geschlossen"), Schnell-Fakten (heute, Telefon zum Anrufen, Adresse zu Maps, Küche), Öffnungszeiten-Tabelle mit Hervorhebung des heutigen Tages und Ruhetag, appetitlich präsentiertem Speisenangebot + Button zur Speisekarte (statt Karten-Scan), Bewertungs-Karte mit Link zu Google, Besonderheiten und Kontakt/Reservierungs-CTA (Klick zum Anrufen).
+- Alle Angaben (Öffnungszeiten, Kontakt, Links, Bewertung) zentral in `inc/gaststaette.php` pflegbar.
+
 ## [0.9.0] — 2026-07-12
 
 ### Hinzugefügt — Altersgrenzen für Kurse

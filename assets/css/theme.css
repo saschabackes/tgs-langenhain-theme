@@ -318,9 +318,10 @@ a.tgs-chip:hover { color: #fff; }
 /* .tgs-mw ist der EINE zentrierende Container (wie .tgs-section). Die umgebende
    Seiten-Section wird entrahmt, damit sich die Zentrierung nicht verdoppelt,
    und der doppelte Seitentitel wird ausgeblendet. */
-.tgs-mw { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
-.tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw) { padding: 0 !important; border-bottom: none; background: transparent; }
-body:has(.tgs-mw) .wp-block-post-title { display: none; }
+.tgs-mw, .tgs-gs { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
+.tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw),
+.tgs-section:has(.tgs-gs), .wp-block-post-content:has(.tgs-gs) { padding: 0 !important; border-bottom: none; background: transparent; }
+body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title { display: none; }
 .tgs-mw-block { margin-top: 2.6rem; }
 .tgs-mw-intro { max-width: 760px; }
 .tgs-mw-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .5rem; }
@@ -363,6 +364,89 @@ body:has(.tgs-mw) .wp-block-post-title { display: none; }
 .tgs-mw-faq-item { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.1rem 1.3rem; }
 .tgs-mw-faq-item strong { display: block; font-size: 15px; color: var(--tgs-ink); margin-bottom: .3rem; }
 .tgs-mw-faq-item span { font-size: 14px; color: #66625a; line-height: 1.55; }
+
+/* ============ VEREINSGASTSTÄTTE ============ */
+.tgs-gs { --gs-amber: #c8873f; }
+.tgs-gs-btn { display: inline-block; font-size: 15px; font-weight: 700; padding: 12px 24px; border-radius: 999px; white-space: nowrap; }
+.tgs-gs-btn:hover { text-decoration: none; opacity: .92; }
+.tgs-gs-btn--primary { background: var(--gs-amber); color: #fff; }
+.tgs-gs-btn--ghost { background: transparent; color: var(--tgs-green); border: 1.5px solid var(--tgs-border); }
+.tgs-gs-hero .tgs-gs-btn--ghost { color: #fff; border-color: rgba(255,255,255,.5); }
+
+/* Hero */
+.tgs-gs-hero { background: linear-gradient(135deg, #2f4230 0%, var(--tgs-green) 55%, #3c5a3e 100%); border-radius: 18px; overflow: hidden; }
+.tgs-gs-hero-inner { padding: 3rem 2.4rem; max-width: 720px; }
+.tgs-gs-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #e7c9a0; }
+.tgs-gs-h1 { font-family: 'Libre Baskerville', serif; font-size: 40px; line-height: 1.1; color: #fff; margin: .5rem 0 .3rem; font-weight: 700; }
+.tgs-gs-sub { font-size: 18px; color: rgba(255,255,255,.85); margin: 0 0 1rem; }
+.tgs-gs-hero-badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 1.1rem; }
+.tgs-gs-rating { display: inline-flex; align-items: center; gap: 6px; background: var(--gs-amber); color: #fff; font-weight: 700; font-size: 15px; padding: 6px 14px; border-radius: 999px; }
+.tgs-gs-rating span { font-weight: 500; font-size: 13px; opacity: .9; }
+.tgs-gs-rating:hover { text-decoration: none; opacity: .92; }
+.tgs-gs-status { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+.tgs-gs-status--open { background: #dff0d8; color: #2f6b2f; }
+.tgs-gs-status--closed { background: rgba(255,255,255,.15); color: #fff; }
+.tgs-gs-tagline { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.82); margin: 0 0 1.4rem; }
+.tgs-gs-hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Schnell-Fakten */
+.tgs-gs-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--tgs-border); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; margin-top: 1.4rem; }
+.tgs-gs-fact { background: var(--tgs-creme); padding: 1.1rem 1.3rem; display: flex; flex-direction: column; gap: 3px; color: inherit; }
+.tgs-gs-fact--link:hover { background: #eef2ea; text-decoration: none; }
+.tgs-gs-fact-k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; }
+.tgs-gs-fact-v { font-size: 15px; font-weight: 600; color: var(--tgs-ink); line-height: 1.35; }
+.tgs-gs-fact--link .tgs-gs-fact-v { color: var(--tgs-green); }
+
+/* Zwei-Spalten: Öffnungszeiten + Speisen */
+.tgs-gs-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 2rem; margin-top: 2.6rem; align-items: start; }
+.tgs-gs-block { margin-top: 2.6rem; }
+.tgs-gs-grid .tgs-gs-block { margin-top: 0; }
+.tgs-gs-h2 { font-family: 'Libre Baskerville', serif; font-size: 24px; color: var(--tgs-ink); margin: 0 0 1rem; font-weight: 700; }
+.tgs-gs-lead { font-size: 15px; color: #55524a; line-height: 1.6; margin: 0 0 1.2rem; }
+
+/* Öffnungszeiten-Tabelle */
+.tgs-gs-hours { width: 100%; border-collapse: collapse; }
+.tgs-gs-hours th, .tgs-gs-hours td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--tgs-border); font-size: 15px; }
+.tgs-gs-hours th { font-weight: 600; color: var(--tgs-ink); width: 42%; }
+.tgs-gs-hours td { color: #55524a; }
+.tgs-gs-hours tr.is-today { background: #fbf3e7; }
+.tgs-gs-hours tr.is-today th, .tgs-gs-hours tr.is-today td { border-left: 3px solid var(--gs-amber); font-weight: 700; color: var(--tgs-ink); }
+.tgs-gs-hours tr.is-today th:first-child { box-shadow: none; }
+.tgs-gs-hours tr.is-closed td { color: #a49f95; }
+.tgs-gs-today-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #fff; background: var(--gs-amber); border-radius: 999px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+.tgs-gs-note { font-size: 13px; color: #8a867b; line-height: 1.55; margin-top: 1rem; }
+
+/* Speisen-Grid */
+.tgs-gs-speisen { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.4rem; }
+.tgs-gs-speise { display: flex; gap: .7rem; align-items: center; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: .9rem 1rem; }
+.tgs-gs-speise-ic { font-size: 22px; flex-shrink: 0; }
+.tgs-gs-speise-tx { display: flex; flex-direction: column; }
+.tgs-gs-speise-tx strong { font-size: 14px; color: var(--tgs-ink); }
+.tgs-gs-speise-tx span { font-size: 12.5px; color: #8a867b; }
+.tgs-gs-menu-btn { display: inline-block; font-size: 15px; font-weight: 700; color: var(--tgs-green); border: 1.5px solid var(--tgs-green); padding: 10px 20px; border-radius: 999px; }
+.tgs-gs-menu-btn:hover { background: var(--tgs-green); color: #fff; text-decoration: none; }
+
+/* Bewertungen */
+.tgs-gs-reviews { display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; background: #fbf3e7; border: 1px solid #eaddc7; border-radius: 16px; padding: 1.8rem 2rem; margin-top: 2.6rem; }
+.tgs-gs-reviews-l { text-align: center; }
+.tgs-gs-reviews-score { font-family: 'Libre Baskerville', serif; font-size: 46px; font-weight: 700; color: var(--gs-amber); line-height: 1; }
+.tgs-gs-reviews-stars { color: var(--gs-amber); font-size: 18px; letter-spacing: 2px; margin: .3rem 0; }
+.tgs-gs-reviews-sub { font-size: 12px; color: #8a867b; }
+.tgs-gs-reviews-r p { font-size: 15px; color: #55524a; line-height: 1.6; margin: 0 0 1rem; }
+
+/* Besonderheiten */
+.tgs-gs-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tgs-gs-feature { display: flex; gap: .9rem; align-items: flex-start; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.1rem 1.3rem; }
+.tgs-gs-feature-ic { font-size: 24px; flex-shrink: 0; }
+.tgs-gs-feature-tx strong { display: block; font-size: 15px; color: var(--tgs-ink); margin-bottom: .2rem; }
+.tgs-gs-feature-tx span { font-size: 13.5px; color: #66625a; line-height: 1.5; }
+
+/* Kontakt / CTA */
+.tgs-gs-contact { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; background: var(--tgs-green); border-radius: 16px; padding: 1.8rem 2rem; margin-top: 2.6rem; }
+.tgs-gs-contact-h { font-family: 'Libre Baskerville', serif; font-size: 22px; color: #fff; margin-bottom: .3rem; }
+.tgs-gs-contact-sub { font-size: 14px; color: rgba(255,255,255,.82); }
+.tgs-gs-contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.tgs-gs-contact .tgs-gs-btn--ghost { color: #fff; border-color: rgba(255,255,255,.5); }
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
@@ -500,6 +584,13 @@ body:has(.tgs-mw) .wp-block-post-title { display: none; }
   .tgs-ss-ausst { position: static; }
   .tgs-mw { padding-block: 1.6rem; }
   .tgs-mw-h1 { font-size: 26px; }
+  .tgs-gs { padding-block: 1.6rem; }
+  .tgs-gs-hero-inner { padding: 2rem 1.5rem; }
+  .tgs-gs-h1 { font-size: 30px; }
+  .tgs-gs-grid { grid-template-columns: 1fr; gap: 2.2rem; }
+  .tgs-gs-speisen { grid-template-columns: 1fr; }
+  .tgs-gs-features { grid-template-columns: 1fr; }
+  .tgs-gs-reviews { grid-template-columns: 1fr; gap: 1rem; text-align: center; padding: 1.5rem; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }
   .tgs-mw-cta { padding: 1.4rem 1.5rem; }

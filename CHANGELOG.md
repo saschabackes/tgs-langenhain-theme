@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.2.4] — 2026-07-12
+
+### Geändert
+- **Logo im Seitenkopf komplett entfernt.** Wasserzeichen (0.2.3) wieder raus; zusätzlich das per `[tgs_logo]`-Shortcode gerenderte Logo aus den Archiv-Vorlagen (Abteilungen, Sportstätten) und das `wp:site-logo` aus dem Kurse-Archiv entfernt. CSS blendet sicherheitshalber jedes Bild im Seitenkopf aus (`.tgs-page-hero img`), damit es auch ohne Vorlagen-Reset sofort greift. Seitenkopf zeigt jetzt nur Titel + Untertitel.
+
 ## [0.2.3] — 2026-07-12
 
 ### Geändert

@@ -67,13 +67,11 @@ img { max-width: 100%; height: auto; }
 .tgs-hero-since { display: none; }
 
 /* ============ PAGE HERO (innere Seiten, hell) ============ */
-.tgs-page-hero { position: relative; overflow: hidden; background: var(--tgs-creme); padding-block: 2.25rem; border-bottom: 1px solid var(--tgs-border); display: flex; justify-content: flex-start; align-items: center; gap: 2rem; }
+.tgs-page-hero { background: var(--tgs-creme); padding-block: 2.25rem; border-bottom: 1px solid var(--tgs-border); display: flex; justify-content: flex-start; align-items: center; gap: 2rem; }
 .tgs-page-hero h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .3rem 0; font-weight: 700; }
 .tgs-page-hero p { font-size: 16px; color: #6b665a; margin: 0; }
-/* Wappen als dezentes Wasserzeichen statt zweitem kleinen Logo */
-.tgs-page-hero > * { position: relative; z-index: 1; }
-.tgs-page-hero .wp-block-site-logo { display: none; }
-.tgs-page-hero::after { content: ""; position: absolute; right: -38px; top: 50%; transform: translateY(-50%); width: 230px; height: 230px; background: url(../images/tgs-logo-black.png) center/contain no-repeat; opacity: .06; z-index: 0; pointer-events: none; }
+/* Kein Logo im Seitenkopf — Logo bleibt Header + Startseiten-Hero vorbehalten */
+.tgs-page-hero img, .tgs-page-hero .wp-block-site-logo { display: none !important; }
 
 /* ============ SECTIONS ============ */
 .tgs-section { padding-block: 2.5rem; background: #fff; border-bottom: 1px solid var(--tgs-border); }
@@ -263,7 +261,6 @@ img { max-width: 100%; height: auto; }
   .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 130px !important; }
   .tgs-page-hero { flex-direction: column; text-align: center; gap: 1rem; padding-block: 1.8rem; }
   .tgs-page-hero h1 { font-size: 26px; }
-  .tgs-page-hero .wp-block-site-logo img { height: 48px !important; }
   .tgs-section, .tgs-section-alt { padding-block: 1.8rem; }
   .tgs-section-hd { flex-direction: column; gap: .3rem; align-items: flex-start; }
   .tgs-kurstabelle-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }

@@ -378,3 +378,42 @@ function tgs_shortcode_kurs_detail() {
     return ob_get_clean();
 }
 add_shortcode( 'tgs_kurs_detail', 'tgs_shortcode_kurs_detail' );
+
+/**
+ * [tgs_navigation] — Hauptnavigation aus klassischem WP-Menü
+ */
+function tgs_shortcode_navigation() {
+    // Versuche zuerst das registrierte Menü
+    if ( has_nav_menu( 'primary' ) ) {
+        return wp_nav_menu( array(
+            'theme_location' => 'primary',
+            'container'      => 'nav',
+            'container_class'=> 'tgs-main-nav',
+            'menu_class'     => 'tgs-nav-list',
+            'depth'          => 1,
+            'echo'           => false,
+        ) );
+    }
+    
+    // Fallback: Menü nach Name suchen
+    $menu = wp_get_nav_menu_object( 'Main' );
+    if ( $menu ) {
+        return wp_nav_menu( array(
+            'menu'           => $menu->term_id,
+            'container'      => 'nav',
+            'container_class'=> 'tgs-main-nav',
+            'menu_class'     => 'tgs-nav-list',
+            'depth'          => 1,
+            'echo'           => false,
+        ) );
+    }
+    
+    // Letzter Fallback: statische Links
+    return '<nav class="tgs-main-nav"><ul class="tgs-nav-list">
+        <li><a href="/kurse">Kurse</a></li>
+        <li><a href="/abteilungen">Abteilungen</a></li>
+        <li><a href="/sportstaetten">Sportstätten</a></li>
+        <li><a href="/kontakt">Ansprechpartner</a></li>
+    </ul></nav>';
+}
+add_shortcode( 'tgs_navigation', 'tgs_shortcode_navigation' );

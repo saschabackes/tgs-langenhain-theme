@@ -167,3 +167,12 @@ img { max-width: 100%; height: auto; }
 .tgs-nav-left { gap: 12px; }
 .tgs-nav-divider { width: 1px; height: 32px; background: #E4DDD0; }
 .tgs-hero-logo { filter: drop-shadow(0 2px 12px rgba(0,0,0,.3)); }
+
+/* MAIN NAV (Classic Menu) */
+.tgs-main-nav { display: flex; align-items: center; }
+.tgs-nav-list { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+.tgs-nav-list li { margin: 0; }
+.tgs-nav-list li a { font-size: 12px; color: #666; font-weight: 500; text-decoration: none; }
+.tgs-nav-list li a:hover { color: #3D5A40; text-decoration: none; }
+.tgs-nav-list li.current-menu-item a,
+.tgs-nav-list li.current_page_item a { color: #3D5A40; font-weight: 700; }

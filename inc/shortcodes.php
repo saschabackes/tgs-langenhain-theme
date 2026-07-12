@@ -101,7 +101,7 @@ function tgs_shortcode_kurstabelle( $atts ) {
                     <?php if ( ! $is_kompakt ) : ?>
                     <td><span class="tgs-kurs-kategorie"><?php echo esc_html( $kat_name ); ?></span></td>
                     <?php endif; ?>
-                    <td><a href="<?php echo get_permalink( $kurs->ID ); ?>" class="tgs-kurs-name"><?php echo esc_html( $kurs->post_title ); ?></a></td>
+                    <td><a href="<?php echo get_permalink( $kurs->ID ); ?>" class="tgs-kurs-name"><?php echo esc_html( $kurs->post_title ); ?></a><?php if ( function_exists( 'tgs_kurs_meldung_badge' ) ) echo ' ' . tgs_kurs_meldung_badge( $kurs->ID ); ?></td>
                     <td class="tgs-kurs-meta"><?php echo esc_html( $tag ); ?></td>
                     <td class="tgs-kurs-meta"><?php echo esc_html( $zeit ); ?></td>
                     <td class="tgs-kurs-meta"><?php echo esc_html( $ort ); ?></td>
@@ -316,6 +316,7 @@ function tgs_shortcode_kurs_detail() {
 
     <div class="tgs-kd-body">
         <div class="tgs-kd-content">
+            <?php if ( function_exists( 'tgs_render_kurs_meldungen' ) ) echo tgs_render_kurs_meldungen( $post_id ); ?>
             <?php the_content(); ?>
 
             <?php if ( $ap_name ) : ?>

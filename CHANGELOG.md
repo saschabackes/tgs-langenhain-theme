@@ -2,6 +2,14 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.6.0] — 2026-07-12
+
+### Hinzugefügt — Ausfälle, Pausen & Mitteilungen pro Kurs
+- Neue Box „Ausfälle & Mitteilungen" im Kurs-Editor → Seite zum Anlegen von: **Ausfall** (einzelner Termin, Datum + Grund), **Pause** (Zeitraum von–bis) oder **Mitteilung** (Freitext, optional „sichtbar bis").
+- Optional **Benachrichtigung aller bestätigten Teilnehmer per E-Mail** (Häkchen).
+- **Anzeige überall**: Banner auf der Kursseite (Ausfall/Pause gelb, Info grün) und **Badge in der Kursübersicht** („Fällt aus" / „Pause"). Vergangene Ausfälle/beendete Pausen werden automatisch ausgeblendet.
+- Neues Modul inc/kurs-meldungen.php, CPT `tgs_meldung` (intern), Shortcode `[tgs_kurs_meldungen]`.
+
 ## [0.5.0] — 2026-07-12
 
 ### Hinzugefügt — Kurs-Bewertungen (optional, moderiert)

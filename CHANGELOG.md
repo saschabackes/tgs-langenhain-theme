@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.2] — 2026-07-12
+
+### Geändert
+- **Abteilungs-Hero kompakter**: Icon-Badge jetzt neben Titel + Untertitel (statt darüber gestapelt), weniger Padding, kleinere Schrift — deutlich weniger Höhe bei wenig Inhalt.
+- Radsport-Inhalt: redundante `[tgs_chips]`-Zeile entfernt (Treffpunkt-Box zeigt Zeit/Ort bereits).
+
 ## [0.3.1] — 2026-07-12
 
 ### Hinzugefügt

@@ -226,11 +226,12 @@ img { max-width: 100%; height: auto; }
 .tgs-ss-liste-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
 
 /* ============ ABTEILUNG DETAIL (Hero hell, ohne Logo) ============ */
-.tgs-abt-hero { background: var(--tgs-creme); padding-block: 2.4rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
-.tgs-abt-hero-badge { width: 54px; height: 54px; border-radius: 14px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 27px; margin-bottom: .9rem; }
+.tgs-abt-hero { background: var(--tgs-creme); padding-block: 1.5rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
+.tgs-abt-hero-inner { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; }
+.tgs-abt-hero-badge { grid-row: 1 / span 2; width: 50px; height: 50px; border-radius: 13px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 25px; }
 .tgs-abt-hero-icon { font-size: 44px; margin-bottom: .5rem; }
-.tgs-abt-hero-h1 { font-family: 'Libre Baskerville', serif; font-size: 36px; color: var(--tgs-ink); margin: 0 0 .35rem 0; font-weight: 700; }
-.tgs-abt-hero-sub { font-size: 16px; color: #5f5a4d; line-height: 1.55; max-width: 60ch; margin: 0; }
+.tgs-abt-hero-h1 { grid-column: 2; font-family: 'Libre Baskerville', serif; font-size: 30px; color: var(--tgs-ink); margin: 0; font-weight: 700; line-height: 1.1; }
+.tgs-abt-hero-sub { grid-column: 2; font-size: 15px; color: #5f5a4d; line-height: 1.5; max-width: 70ch; margin: .2rem 0 0; }
 .tgs-abt-detail-layout { display: grid; grid-template-columns: 1fr 300px; gap: 2.5rem; align-items: start; padding: 2.25rem max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); background: #fff; border-bottom: 1px solid var(--tgs-border); }
 .tgs-abt-detail-content { font-size: 16px; color: #44433b; line-height: 1.75; }
 .tgs-abt-detail-content > p { margin-bottom: .9rem; }

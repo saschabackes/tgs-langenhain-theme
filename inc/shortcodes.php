@@ -327,6 +327,7 @@ function tgs_shortcode_kurs_detail() {
             </div>
             <?php endif; ?>
 
+            <?php if ( function_exists( 'tgs_render_kurs_bewertungen' ) ) echo tgs_render_kurs_bewertungen( $post_id ); ?>
             <div class="tgs-kd-anmeldung"><?php echo do_shortcode( '[tgs_anmeldung]' ); ?></div>
         </div>
 

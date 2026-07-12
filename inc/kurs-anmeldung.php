@@ -296,6 +296,10 @@ function tgs_kurs_status_shortcode() {
         tgs_send_access_link( sanitize_email( wp_unslash( $_POST['tgs_meine_email'] ) ) );
         $notice = '<span class="tgs-status-ok">Wenn zu dieser Adresse Anmeldungen bestehen, haben wir dir gerade einen Link geschickt. Bitte schau in dein E-Mail-Postfach.</span>';
     }
+    // Bewertung absenden (POST)
+    if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tgs_bew_nonce'] ) && function_exists( 'tgs_process_bewertung' ) ) {
+        $notice = tgs_process_bewertung();
+    }
 
     // E-Mail der Person bestimmen (aus Anmeldungs-Token, Zugangs-Token oder Abmelde-POST)
     $email = '';
@@ -304,9 +308,21 @@ function tgs_kurs_status_shortcode() {
         if ( $a ) $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
     } elseif ( isset( $_GET['zugang'] ) ) {
         $email = tgs_resolve_access_token( sanitize_text_field( wp_unslash( $_GET['zugang'] ) ) );
-    } elseif ( isset( $_POST['tgs_cancel_token'] ) ) {
-        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_POST['tgs_cancel_token'] ) ) );
+    } elseif ( isset( $_GET['bewerten'] ) ) {
+        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_GET['bewerten'] ) ) );
         if ( $a ) $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+    } elseif ( isset( $_POST['tgs_bew_token'] ) ) {
+        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_POST['tgs_bew_token'] ) ) );
+        if ( $a ) $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+    }
+
+    // Bewertungs-Formular (verifiziert über Anmeldungs-Token)
+    if ( isset( $_GET['bewerten'] ) && function_exists( 'tgs_render_bewertung_form' ) ) {
+        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_GET['bewerten'] ) ) );
+        if ( $a && get_post_meta( $a->ID, '_tgs_anm_status', true ) === 'bestaetigt' ) {
+            $pre = $notice ? '<div class="tgs-status-card" style="margin-bottom:1rem;"><div class="tgs-status-notice">' . wp_kses_post( $notice ) . '</div></div>' : '';
+            return $pre . tgs_render_bewertung_form( $a );
+        }
     }
 
     ob_start();
@@ -335,6 +351,8 @@ function tgs_render_person_overview( $email ) {
             array( 'key' => '_tgs_anm_status', 'value' => array( 'unbestaetigt', 'bestaetigt', 'warteliste' ), 'compare' => 'IN' ),
         ),
     ) );
+    $page     = get_option( 'tgs_status_page_id' );
+    $page_url = $page ? get_permalink( $page ) : home_url( '/' );
     ob_start();
     echo '<div class="tgs-status-card">';
     echo '<h2 class="tgs-status-h">Meine Kurse</h2>';
@@ -355,6 +373,10 @@ function tgs_render_person_overview( $email ) {
             wp_nonce_field( 'tgs_cancel', 'tgs_cancel_nonce' );
             echo '<input type="hidden" name="tgs_cancel_token" value="' . esc_attr( $tok ) . '">';
             echo '<button type="submit" class="tgs-mk-cancel-btn">Abmelden</button></form>';
+            if ( $status === 'bestaetigt' && function_exists( 'tgs_bewertung_aktiv' ) && tgs_bewertung_aktiv( $kurs_id ) ) {
+                $rated = function_exists( 'tgs_user_bewertung' ) && tgs_user_bewertung( $a->ID );
+                echo '<a class="tgs-mk-bew" href="' . esc_url( add_query_arg( 'bewerten', $tok, $page_url ) ) . '">★ ' . ( $rated ? 'Bewertung ansehen' : 'Kurs bewerten' ) . '</a>';
+            }
             echo '</div>';
         }
         echo '</div>';

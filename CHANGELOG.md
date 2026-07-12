@@ -2,6 +2,15 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.5.0] — 2026-07-12
+
+### Hinzugefügt — Kurs-Bewertungen (optional, moderiert)
+- Neue Kursdetails-Schalter: „Bewertungen" (an/aus) und „Bewertungen öffentlich zeigen" (ja/nein).
+- **Bewerten nur für verifizierte Teilnehmer** (bestätigte Anmeldung): Zugang über „Meine Kurse"/persönlichen Link (Anmeldungs-Token = Nachweis). Sterne 1–5 + optionaler Kommentar, **Name optional (leer = Anonym)**, eine Bewertung pro Teilnehmer & Kurs.
+- **Moderation**: Jede Bewertung ist zunächst unsichtbar; Freigabe/Verbergen/Löschen über die Box „Bewertungen zu diesem Kurs" im Kurs-Editor.
+- **Öffentliche Anzeige** auf der Kursseite (wenn aktiv + freigegeben): Ø-Sterne, Anzahl, freigegebene Bewertungen (Name/„Anonym" + Kommentar).
+- Neues Modul inc/kurs-bewertung.php, CPT `tgs_bewertung` (intern), Shortcode `[tgs_kurs_bewertungen]`.
+
 ## [0.4.4] — 2026-07-12
 
 ### Hinzugefügt — Offene Kurse (ohne Anmeldung)

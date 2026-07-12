@@ -221,10 +221,32 @@ img { max-width: 100%; height: auto; }
 .tgs-mk-kurs { font-family: 'Libre Baskerville', serif; font-size: 17px; font-weight: 700; color: var(--tgs-ink); text-decoration: none; }
 .tgs-mk-kurs:hover { color: var(--tgs-green); }
 .tgs-mk-meta { font-size: 13px; color: var(--tgs-muted); margin-top: .25rem; }
-.tgs-mk-cancel { margin-top: .7rem; }
+.tgs-mk-cancel { display: inline-block; margin-top: .7rem; vertical-align: middle; }
 .tgs-mk-cancel-btn { background: #fff; border: 1px solid var(--tgs-border); color: #a3453a; font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 7px; cursor: pointer; }
 .tgs-mk-cancel-btn:hover { border-color: #a3453a; }
+.tgs-mk-bew { display: inline-block; margin: .7rem 0 0 .7rem; vertical-align: middle; font-size: 13px; font-weight: 600; color: var(--tgs-green); text-decoration: none; }
+.tgs-mk-bew:hover { text-decoration: underline; }
 .tgs-meine-form { margin-top: 1rem; max-width: 400px; }
+
+/* ---- Kurs-Bewertungen ---- */
+.tgs-stars { color: #e0a94a; letter-spacing: 1px; white-space: nowrap; }
+.tgs-stars span { color: #dcd6c8; }
+.tgs-stars span.on { color: #e0a94a; }
+.tgs-bew-block { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--tgs-border); }
+.tgs-bew-h { font-family: 'Libre Baskerville', serif; font-size: 20px; color: var(--tgs-ink); margin: 0 0 .5rem; }
+.tgs-bew-summary { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+.tgs-bew-summary .tgs-stars { font-size: 20px; }
+.tgs-bew-summary strong { color: var(--tgs-ink); font-size: 17px; }
+.tgs-bew-summary span { color: var(--tgs-muted); font-size: 14px; }
+.tgs-bew-item { padding: .8rem 0; border-bottom: 1px solid var(--tgs-border-l); }
+.tgs-bew-item:last-child { border-bottom: none; }
+.tgs-bew-item-top { display: flex; align-items: center; gap: 10px; }
+.tgs-bew-name { font-size: 14px; font-weight: 600; color: var(--tgs-ink); }
+.tgs-bew-komm { font-size: 14.5px; color: #44433b; line-height: 1.6; margin: .35rem 0 0; }
+.tgs-stars-input { display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; }
+.tgs-stars-input input { position: absolute; opacity: 0; width: 0; height: 0; }
+.tgs-stars-input label { font-size: 30px; line-height: 1; color: #dcd6c8; cursor: pointer; padding: 0 3px; transition: color .1s ease; }
+.tgs-stars-input label:hover, .tgs-stars-input label:hover ~ label, .tgs-stars-input input:checked ~ label { color: #e0a94a; }
 
 /* ============ SPORTSTÄTTE DETAIL ============ */
 .tgs-ss-hero { display: grid; grid-template-columns: 1fr 300px; background: #fff; border-bottom: 1px solid var(--tgs-border); }

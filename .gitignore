@@ -19,6 +19,7 @@ node_modules/
 package-lock.json
 yarn.lock
 
-# Build artifacts
+# Secrets
+.env
 *.zip
 dist/

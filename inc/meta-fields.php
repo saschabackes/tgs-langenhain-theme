@@ -9,6 +9,44 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Standardisierte Zielgruppen (Slug => Label).
+ * Mehrfachauswahl je Kurs; wird auch für den Besucher-Filter genutzt.
+ */
+function tgs_zielgruppen() {
+    return array(
+        'kinder'      => 'Kinder',
+        'jugendliche' => 'Jugendliche',
+        'erwachsene'  => 'Erwachsene',
+        'senioren'    => 'Senioren',
+        'frauen'      => 'Frauen',
+        'maenner'     => 'Männer',
+    );
+}
+
+/**
+ * Zielgruppen-Slugs eines Kurses als Array (robust gegenüber Altdaten-Freitext).
+ */
+function tgs_kurs_zielgruppen( $post_id ) {
+    $val = get_post_meta( $post_id, '_tgs_zielgruppe', true );
+    if ( is_array( $val ) ) {
+        return array_values( array_intersect( array_keys( tgs_zielgruppen() ), $val ) );
+    }
+    return array();
+}
+
+/**
+ * Zielgruppen eines Kurses als lesbare Labels.
+ */
+function tgs_kurs_zielgruppen_labels( $post_id ) {
+    $map = tgs_zielgruppen();
+    $out = array();
+    foreach ( tgs_kurs_zielgruppen( $post_id ) as $slug ) {
+        if ( isset( $map[ $slug ] ) ) $out[] = $map[ $slug ];
+    }
+    return $out;
+}
+
+/**
  * Register meta fields for REST API / Block Editor access
  */
 function tgs_register_meta_fields() {
@@ -25,7 +63,6 @@ function tgs_register_meta_fields() {
         '_tgs_bewertung_aktiv'    => 'string', // '1' = an
         '_tgs_bewertung_anzeigen' => 'string', // '1' = öffentlich zeigen
         '_tgs_kurs_kinder'        => 'string', // '1' = Kinderkurs (Kind + Elternkontakt)
-        '_tgs_zielgruppe'      => 'string',
         '_tgs_ansprechpartner' => 'string',
         '_tgs_ansprechpartner_email' => 'string',
         '_tgs_ansprechpartner_tel'   => 'string',
@@ -40,6 +77,16 @@ function tgs_register_meta_fields() {
             'auth_callback' => function () { return current_user_can( 'edit_posts' ); },
         ) );
     }
+
+    // Zielgruppe als Mehrfachauswahl (Array von Slugs)
+    register_post_meta( 'tgs_kurs', '_tgs_zielgruppe', array(
+        'show_in_rest'  => array(
+            'schema' => array( 'type' => 'array', 'items' => array( 'type' => 'string' ) ),
+        ),
+        'single'        => true,
+        'type'          => 'array',
+        'auth_callback' => function () { return current_user_can( 'edit_posts' ); },
+    ) );
 
     // Sportstätte meta fields
     $ss_fields = array(
@@ -107,7 +154,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_kurs_kinder'     => array( 'label' => 'Kurs für Kinder', 'type' => 'select', 'options' => array( '1' => 'Ja – Anmeldung mit Kind + Elternkontakt', '0' => 'Nein' ) ),
         '_tgs_bewertung_aktiv'    => array( 'label' => 'Bewertungen', 'type' => 'select', 'options' => array( '1' => 'Aktiviert (Teilnehmer können bewerten)', '0' => 'Aus' ) ),
         '_tgs_bewertung_anzeigen' => array( 'label' => 'Bewertungen öffentlich zeigen', 'type' => 'select', 'options' => array( '1' => 'Ja – auf der Kursseite anzeigen', '0' => 'Nein – nur intern' ) ),
-        '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'text', 'placeholder' => 'z.B. Erwachsene, Kinder 3-6 J.' ),
+        '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'checkboxes', 'options' => tgs_zielgruppen() ),
         '_tgs_ansprechpartner' => array( 'label' => 'Ansprechpartner (Name)', 'type' => 'text' ),
         '_tgs_ansprechpartner_email' => array( 'label' => 'E-Mail Ansprechpartner', 'type' => 'email' ),
         '_tgs_ansprechpartner_tel'   => array( 'label' => 'Telefon Ansprechpartner', 'type' => 'tel' ),
@@ -119,7 +166,25 @@ function tgs_kurs_meta_box_html( $post ) {
         $value = get_post_meta( $post->ID, $key, true );
         echo '<tr><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
 
-        if ( $field['type'] === 'select' ) {
+        if ( $field['type'] === 'checkboxes' ) {
+            $selected = is_array( $value ) ? $value : array();
+            echo '<fieldset>';
+            foreach ( $field['options'] as $opt_val => $opt_label ) {
+                printf(
+                    '<label style="display:inline-block;margin:0 16px 6px 0;"><input type="checkbox" name="%s[]" value="%s"%s> %s</label>',
+                    esc_attr( $key ),
+                    esc_attr( $opt_val ),
+                    checked( in_array( $opt_val, $selected, true ), true, false ),
+                    esc_html( $opt_label )
+                );
+            }
+            echo '</fieldset>';
+            if ( is_string( $value ) && $value !== '' ) {
+                echo '<p class="description">Bisheriger Freitext: <em>' . esc_html( $value ) . '</em> — bitte oben passend ankreuzen und speichern.</p>';
+            } else {
+                echo '<p class="description">Mehrfachauswahl möglich. Diese Auswahl können Besucher zum Filtern der Kursübersicht nutzen.</p>';
+            }
+        } elseif ( $field['type'] === 'select' ) {
             echo '<select id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '">';
             echo '<option value="">— auswählen —</option>';
             foreach ( $field['options'] as $opt_val => $opt_label ) {
@@ -151,7 +216,7 @@ function tgs_save_kurs_meta( $post_id ) {
     $fields = array(
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
         '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
-        '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder', '_tgs_zielgruppe',
+        '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder',
         '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel',
         '_tgs_mitbringen',
     );
@@ -161,5 +226,11 @@ function tgs_save_kurs_meta( $post_id ) {
             update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
         }
     }
+
+    // Zielgruppe (Mehrfach-Checkboxen) — nur gültige Slugs speichern
+    $valid_zg = array_keys( tgs_zielgruppen() );
+    $posted   = isset( $_POST['_tgs_zielgruppe'] ) && is_array( $_POST['_tgs_zielgruppe'] ) ? $_POST['_tgs_zielgruppe'] : array();
+    $clean_zg = array_values( array_intersect( $valid_zg, array_map( 'sanitize_key', $posted ) ) );
+    update_post_meta( $post_id, '_tgs_zielgruppe', $clean_zg );
 }
 add_action( 'save_post_tgs_kurs', 'tgs_save_kurs_meta' );

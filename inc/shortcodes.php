@@ -57,14 +57,35 @@ function tgs_shortcode_kurstabelle( $atts ) {
 
     $is_kompakt = $atts['kompakt'] === 'ja';
 
+    // Vorhandene Zielgruppen über alle angezeigten Kurse sammeln (für Filterchips)
+    $zg_map  = function_exists( 'tgs_zielgruppen' ) ? tgs_zielgruppen() : array();
+    $zg_used = array();
+    if ( ! $is_kompakt && $zg_map ) {
+        foreach ( $kurse as $k ) {
+            foreach ( tgs_kurs_zielgruppen( $k->ID ) as $slug ) {
+                $zg_used[ $slug ] = true;
+            }
+        }
+    }
+
     ob_start();
     ?>
     <div class="tgs-kurstabelle-wrap">
         <?php if ( ! $is_kompakt && ! empty( $kategorien ) ) : ?>
-        <div class="tgs-chip-row">
+        <div class="tgs-chip-row" data-filter-group="kategorie">
             <span class="tgs-chip active" data-filter="alle">Alle</span>
             <?php foreach ( $kategorien as $kat ) : ?>
                 <span class="tgs-chip" data-filter="<?php echo esc_attr( $kat->slug ); ?>"><?php echo esc_html( $kat->name ); ?></span>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if ( ! $is_kompakt && ! empty( $zg_used ) ) : ?>
+        <div class="tgs-chip-row tgs-chip-row--zielgruppe" data-filter-group="zielgruppe">
+            <span class="tgs-chip-label">Für wen?</span>
+            <span class="tgs-chip active" data-filter="alle">Alle</span>
+            <?php foreach ( $zg_map as $slug => $label ) : if ( empty( $zg_used[ $slug ] ) ) continue; ?>
+                <span class="tgs-chip" data-filter="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $label ); ?></span>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
@@ -90,6 +111,7 @@ function tgs_shortcode_kurstabelle( $atts ) {
                     $terms  = get_the_terms( $kurs->ID, 'tgs_kurs_kategorie' );
                     $kat_name = $terms ? $terms[0]->name : '';
                     $kat_slug = $terms ? $terms[0]->slug : '';
+                    $zg_slugs = implode( ' ', tgs_kurs_zielgruppen( $kurs->ID ) );
                     $status_class = $status === 'warteliste' ? 'tgs-status-warteliste' : 'tgs-status-frei';
                     $status_label = $status === 'warteliste' ? '⚠ Warteliste' : '✓ Freie Plätze';
                     $link_label   = $status === 'warteliste' ? 'Warteliste →' : 'Details →';
@@ -97,7 +119,7 @@ function tgs_shortcode_kurstabelle( $atts ) {
                         $status_class = 'tgs-status-frei'; $status_label = '✓ Offen'; $link_label = 'Details →';
                     }
                 ?>
-                <tr class="tgs-kurs-row" data-kategorie="<?php echo esc_attr( $kat_slug ); ?>">
+                <tr class="tgs-kurs-row" data-kategorie="<?php echo esc_attr( $kat_slug ); ?>" data-zielgruppe="<?php echo esc_attr( $zg_slugs ); ?>">
                     <?php if ( ! $is_kompakt ) : ?>
                     <td><span class="tgs-kurs-kategorie"><?php echo esc_html( $kat_name ); ?></span></td>
                     <?php endif; ?>
@@ -281,7 +303,7 @@ function tgs_shortcode_kurs_detail() {
     $ort       = get_post_meta( $post_id, '_tgs_ort', true );
     $status    = get_post_meta( $post_id, '_tgs_status', true );
     $max_tn    = get_post_meta( $post_id, '_tgs_max_teilnehmer', true );
-    $zielgr    = get_post_meta( $post_id, '_tgs_zielgruppe', true );
+    $zielgr    = function_exists( 'tgs_kurs_zielgruppen_labels' ) ? implode( ', ', tgs_kurs_zielgruppen_labels( $post_id ) ) : '';
     $mitbr     = get_post_meta( $post_id, '_tgs_mitbringen', true );
     $ap_name   = get_post_meta( $post_id, '_tgs_ansprechpartner', true );
     $ap_email  = get_post_meta( $post_id, '_tgs_ansprechpartner_email', true );

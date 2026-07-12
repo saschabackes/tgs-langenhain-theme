@@ -2,6 +2,13 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.6.2] — 2026-07-12
+
+### Geändert — Zielgruppen standardisiert & filterbar
+- Kursfeld **Zielgruppe** ist nicht mehr Freitext, sondern eine **Mehrfachauswahl** aus festen Standards: Kinder, Jugendliche, Erwachsene, Senioren, Frauen, Männer. Ein Kurs kann mehrere Zielgruppen haben. Alter Freitext bleibt als Hinweis im Backend sichtbar, bis er einmal neu angekreuzt wird.
+- Neue **Filterreihe „Für wen?"** in der Kursübersicht (`[tgs_kurstabelle]`), zeigt nur tatsächlich vorkommende Zielgruppen und lässt sich **mit dem Kategorie-Filter kombinieren** (UND-Verknüpfung).
+- Kurs-Detailseite zeigt die Zielgruppen als lesbare Labels.
+
 ## [0.6.1] — 2026-07-12
 
 ### Hinzugefügt — Kinderkurse

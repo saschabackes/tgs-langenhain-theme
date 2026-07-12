@@ -656,6 +656,31 @@ function tgs_shortcode_sportstaetten_liste() {
 add_shortcode( 'tgs_sportstaetten_liste', 'tgs_shortcode_sportstaetten_liste' );
 
 /**
+ * [tgs_breadcrumb] — dynamische Brotkrumen mit echtem Seitentitel
+ */
+function tgs_shortcode_breadcrumb() {
+    $post_id = get_the_ID();
+    if ( ! $post_id ) return '';
+
+    $items = array( '<a href="' . esc_url( home_url( '/' ) ) . '">Startseite</a>' );
+
+    $map = array(
+        'tgs_sportstaette' => array( 'Sportstätten', '/sportstaetten' ),
+        'tgs_abteilung'    => array( 'Abteilungen', '/abteilungen' ),
+        'tgs_kurs'         => array( 'Kurse', '/kurse' ),
+    );
+    $pt = get_post_type( $post_id );
+    if ( isset( $map[ $pt ] ) ) {
+        $items[] = '<a href="' . esc_url( home_url( $map[ $pt ][1] ) ) . '">' . esc_html( $map[ $pt ][0] ) . '</a>';
+    }
+
+    $items[] = '<span class="tgs-bc-current">' . esc_html( get_the_title( $post_id ) ) . '</span>';
+
+    return '<nav class="tgs-breadcrumb" aria-label="Brotkrumen"><p>' . implode( ' › ', $items ) . '</p></nav>';
+}
+add_shortcode( 'tgs_breadcrumb', 'tgs_shortcode_breadcrumb' );
+
+/**
  * [tgs_abteilung_detail] — Abteilungs-Detailseite
  */
 function tgs_shortcode_abteilung_detail() {

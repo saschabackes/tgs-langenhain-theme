@@ -82,9 +82,15 @@ img { max-width: 100%; height: auto; }
 .tgs-section-more a { color: var(--tgs-green); }
 
 /* ============ BREADCRUMB ============ */
-.tgs-breadcrumb { font-size: 12px; color: var(--tgs-muted); margin-bottom: 1rem; }
+.tgs-breadcrumb { font-size: 13px; color: var(--tgs-muted); }
 .tgs-breadcrumb p { margin: 0; }
 .tgs-breadcrumb a { color: var(--tgs-green); font-weight: 600; }
+.tgs-breadcrumb .tgs-bc-current { color: var(--tgs-muted); }
+/* Brotkrumen als schmale Leiste statt großem Section-Block (spart vertikalen Platz).
+   Fallback via :has() nur auf CPT-Detailseiten, damit Blog-Artikel-Sections unberührt bleiben. */
+.tgs-breadcrumb-bar,
+.single-tgs_sportstaette .tgs-section:has(> .tgs-breadcrumb),
+.single-tgs_abteilung .tgs-section:has(> .tgs-breadcrumb) { padding-top: .8rem !important; padding-bottom: .8rem !important; }
 
 /* ============ CHIPS ============ */
 .tgs-chip-row { display: flex; gap: 8px; margin-bottom: 1.1rem; flex-wrap: wrap; }

@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.7.3] — 2026-07-12
+
+### Behoben / Verbessert — Brotkrumen
+- Die Brotkrumen-Leiste war ein großer Block mit 40px Padding oben/unten für eine 12px-Zeile — jetzt eine schmale Leiste (spart ~80px verschenkten Platz).
+- Neuer dynamischer `[tgs_breadcrumb]`: die letzte Krume zeigt den **echten Seitentitel** (z.B. „Calisthenics- & Fitnessfläche") statt des generischen „Sportstätte"/„Abteilung". Umgesetzt auf den Sportstätten- und Abteilungs-Detailseiten.
+
 ## [0.7.2] — 2026-07-12
 
 ### Hinzugefügt — Trainings-App verlinken

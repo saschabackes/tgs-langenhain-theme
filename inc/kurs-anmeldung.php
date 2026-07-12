@@ -496,6 +496,68 @@ function tgs_notify_leader( $anm_id, $art ) {
 }
 
 /* =========================================================================
+ * Backend: Anmeldungs-Übersicht direkt am Kurs
+ * ========================================================================= */
+function tgs_add_kurs_anmeldungen_metabox() {
+    add_meta_box( 'tgs_kurs_anmeldungen', 'Anmeldungen zu diesem Kurs', 'tgs_kurs_anmeldungen_metabox_html', 'tgs_kurs', 'normal', 'default' );
+}
+add_action( 'add_meta_boxes', 'tgs_add_kurs_anmeldungen_metabox' );
+
+function tgs_kurs_anm_list( $kurs_id, $status ) {
+    return get_posts( array(
+        'post_type' => 'tgs_anmeldung', 'post_status' => 'publish', 'numberposts' => -1,
+        'orderby' => 'date', 'order' => 'ASC',
+        'meta_query' => array( 'relation' => 'AND',
+            array( 'key' => '_tgs_anm_kurs_id', 'value' => $kurs_id ),
+            array( 'key' => '_tgs_anm_status', 'value' => $status ),
+        ),
+    ) );
+}
+
+function tgs_render_anm_table( $title, $list, $numbered ) {
+    if ( empty( $list ) ) return;
+    echo '<h4 style="margin:1.2em 0 .3em;">' . esc_html( $title ) . ' (' . count( $list ) . ')</h4>';
+    echo '<table class="widefat striped" style="margin-bottom:.5em;"><thead><tr>';
+    if ( $numbered ) echo '<th style="width:34px;">#</th>';
+    echo '<th>Name</th><th>E-Mail</th><th>Telefon</th><th>Datum</th></tr></thead><tbody>';
+    $i = 0;
+    foreach ( $list as $a ) {
+        $i++;
+        $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+        echo '<tr>';
+        if ( $numbered ) echo '<td>' . $i . '</td>';
+        echo '<td><strong>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_name', true ) ) . '</strong></td>';
+        echo '<td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td>';
+        echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_telefon', true ) ) . '</td>';
+        echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_datum', true ) ) . '</td>';
+        echo '</tr>';
+    }
+    echo '</tbody></table>';
+}
+
+function tgs_kurs_anmeldungen_metabox_html( $post ) {
+    $kurs_id = $post->ID;
+    $cap  = tgs_kurs_capacity( $kurs_id );
+    $conf = tgs_kurs_anm_list( $kurs_id, 'bestaetigt' );
+    $wait = tgs_kurs_anm_list( $kurs_id, 'warteliste' );
+    $pend = tgs_count_anmeldungen( $kurs_id, 'unbestaetigt' );
+
+    $belegt = $cap['unlimited'] ? count( $conf ) . ' (unbegrenzt)' : count( $conf ) . ' / ' . $cap['max'];
+    echo '<p style="font-size:14px;margin:.2em 0 .8em;"><strong>Angemeldet:</strong> ' . esc_html( $belegt )
+        . ' &nbsp;·&nbsp; <strong>Warteliste:</strong> ' . count( $wait );
+    if ( $pend ) echo ' &nbsp;·&nbsp; <span style="color:#999;">Unbestätigt: ' . intval( $pend ) . '</span>';
+    echo '</p>';
+    echo '<p style="color:#999;font-size:12px;margin:0 0 .5em;">Die max. Teilnehmerzahl stellst du oben in „Kursdetails" ein (leer = unbegrenzt). Status wird automatisch berechnet.</p>';
+
+    if ( empty( $conf ) && empty( $wait ) ) {
+        echo '<p style="color:#999;">Noch keine bestätigten Anmeldungen.</p>';
+        return;
+    }
+    tgs_render_anm_table( 'Angemeldet', $conf, false );
+    tgs_render_anm_table( 'Warteliste', $wait, true );
+}
+
+/* =========================================================================
  * Backend-Spalten
  * ========================================================================= */
 function tgs_anmeldung_admin_columns( $columns ) {

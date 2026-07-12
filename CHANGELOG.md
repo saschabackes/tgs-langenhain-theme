@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.4.1] — 2026-07-12
+
+### Hinzugefügt / Geändert — Backend-Verwaltung
+- **Anmeldungs-Übersicht direkt am Kurs**: Neue Meta-Box „Anmeldungen zu diesem Kurs" im Kurs-Editor — zeigt Belegung (X / Max), die Angemeldeten und die Warteliste (in Reihenfolge, nummeriert) mit Name/E-Mail/Telefon/Datum.
+- Manuelles „Status"-Feld aus den Kursdetails entfernt (wird jetzt automatisch aus der Kapazität berechnet). „Max. Teilnehmer" mit Hinweis „leer = unbegrenzt".
+
 ## [0.4.0] — 2026-07-12
 
 ### Hinzugefügt — Kursanmeldung Phase 1 (Teilnehmer-Kern)

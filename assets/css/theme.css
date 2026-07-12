@@ -318,7 +318,10 @@ a.tgs-chip:hover { color: #fff; }
 /* .tgs-mw ist der EINE zentrierende Container (wie .tgs-section). Die umgebende
    Seiten-Section wird entrahmt, damit sich die Zentrierung nicht verdoppelt,
    und der doppelte Seitentitel wird ausgeblendet. */
-.tgs-mw, .tgs-gs, .tgs-sk { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
+.tgs-mw, .tgs-gs, .tgs-sk { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; font-family: 'Inter', -apple-system, system-ui, sans-serif; }
+/* Schutz: Wird der Shortcode versehentlich als Inline-Code eingefügt, erbt der
+   Block sonst monospace. Ein <code> um unseren Inhalt herum neutralisieren. */
+.tgs-mw code, .tgs-gs code, .tgs-sk code { font: inherit; background: none; padding: 0; }
 .tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw),
 .tgs-section:has(.tgs-gs), .wp-block-post-content:has(.tgs-gs),
 .tgs-section:has(.tgs-sk), .wp-block-post-content:has(.tgs-sk) { padding: 0 !important; border-bottom: none; background: transparent; }

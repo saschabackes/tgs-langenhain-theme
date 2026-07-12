@@ -1,3 +1,8 @@
+## [0.12.1] — 2026-07-12
+
+### Behoben
+- Shortcode-Seiten (Mitglied werden, Gaststätte, Speisekarte): Falls der Shortcode versehentlich als Inline-Code eingefügt wurde, erbte der gesamte Block die monospace-Schrift. Ein umschließendes <code> wird jetzt neutralisiert, sodass wieder die richtigen Schriften (Inter / Libre Baskerville) greifen.
+
 ## [0.12.0] — 2026-07-12
 
 ### Hinzugefügt / Verbessert — Gaststätte & Speisekarte

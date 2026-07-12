@@ -146,7 +146,11 @@ img { max-width: 100%; height: auto; }
 .tgs-footer img { height: 30px !important; width: auto; }
 
 /* ============ KURS-DETAIL ============ */
+/* Bugfix: wpautop schleust ein leeres <p></p> ein — im Header schob es (via space-between)
+   den CTA in die Mitte, im Body erzeugte es eine Geister-Grid-Zelle. Beide ausblenden. */
+.tgs-kd-header > p:empty, .tgs-kd-body > p:empty { display: none; }
 .tgs-kd-header { padding-block: 2.25rem; background: #fff; border-bottom: 1px solid var(--tgs-border); display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+.tgs-kd-header-l { flex: 1 1 auto; min-width: 0; }
 .tgs-kd-tag { display: inline-block; background: #E8F3E8; color: var(--tgs-green); font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 5px; margin-bottom: .6rem; }
 .tgs-kd-h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .5rem 0; font-weight: 700; }
 .tgs-kd-meta-row { display: flex; gap: 1.5rem; font-size: 14px; color: #77736a; flex-wrap: wrap; }
@@ -154,7 +158,8 @@ img { max-width: 100%; height: auto; }
 .tgs-kd-cta { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
 .tgs-kd-btn { background: var(--tgs-green); color: #fff !important; border: none; padding: 12px 26px; font-size: 15px; font-weight: 700; cursor: pointer; border-radius: 8px; display: inline-block; }
 .tgs-kd-btn:hover { background: var(--tgs-green-d); text-decoration: none; }
-.tgs-kd-body { display: grid; grid-template-columns: 1fr 260px; gap: 2rem; padding-block: 2.25rem; background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-kd-body { display: grid; grid-template-columns: 1fr 280px; gap: 2.5rem; padding-block: 2.25rem; background: #fff; border-bottom: 1px solid var(--tgs-border); align-items: start; }
+.tgs-kd-sidebar { position: sticky; top: 1.25rem; align-self: start; }
 .tgs-kd-content { font-size: 16px; color: #44433b; line-height: 1.75; }
 .tgs-kd-content p { margin-bottom: .9rem; }
 .tgs-kd-ap { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border); font-size: 15px; }
@@ -169,6 +174,14 @@ img { max-width: 100%; height: auto; }
 
 /* ============ ANMELDEFORMULAR ============ */
 .tgs-anmeldung-form { max-width: 520px; padding: 1.5rem; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; margin: 1.25rem 0; }
+/* Formular in die Kurs-Content-Spalte integriert: volle Breite, 2-spaltige Felder */
+.tgs-kd-anmeldung { margin-top: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--tgs-border); }
+.tgs-kd-anmeldung .tgs-anmeldung-form { max-width: none; margin: 0; }
+.tgs-kd-anmeldung .tgs-anmeldung-form form { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; }
+.tgs-kd-anmeldung .tgs-anm-field { grid-column: 1 / -1; }
+.tgs-kd-anmeldung .tgs-anm-field:nth-of-type(2) { grid-column: 1; }
+.tgs-kd-anmeldung .tgs-anm-field:nth-of-type(3) { grid-column: 2; }
+.tgs-kd-anmeldung .tgs-anm-submit { grid-column: 1 / -1; width: auto; justify-self: start; padding-inline: 34px; }
 .tgs-anm-title { font-family: 'Libre Baskerville', serif; font-size: 20px; margin: 0 0 .6rem 0; }
 .tgs-anm-info { font-size: 14px; color: #77736a; margin-bottom: 1.1rem; line-height: 1.55; }
 .tgs-anm-info--wait { color: #C07020; background: #FEF5EC; padding: .7rem .9rem; border-radius: 6px; border-left: 3px solid #C07020; }
@@ -270,6 +283,10 @@ img { max-width: 100%; height: auto; }
   .tgs-kd-cta { align-items: stretch; width: 100%; }
   .tgs-kd-btn { text-align: center; }
   .tgs-kd-body { grid-template-columns: 1fr; }
+  .tgs-kd-sidebar { position: static; }
+  .tgs-kd-anmeldung .tgs-anmeldung-form form { grid-template-columns: 1fr; }
+  .tgs-kd-anmeldung .tgs-anm-field { grid-column: 1 / -1 !important; }
+  .tgs-kd-anmeldung .tgs-anm-submit { width: 100%; }
   .tgs-ss-hero { grid-template-columns: 1fr; }
   .tgs-ss-hero-l { padding: 1.5rem; }
   .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid var(--tgs-border); }

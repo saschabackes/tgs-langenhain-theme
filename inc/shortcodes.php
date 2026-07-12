@@ -321,6 +321,8 @@ function tgs_shortcode_kurs_detail() {
                 <?php if ( $ap_tel ) : ?> · <?php echo esc_html( $ap_tel ); ?><?php endif; ?>
             </div>
             <?php endif; ?>
+
+            <div class="tgs-kd-anmeldung"><?php echo do_shortcode( '[tgs_anmeldung]' ); ?></div>
         </div>
 
         <div class="tgs-kd-sidebar">

@@ -57,6 +57,14 @@ add_action( 'init', 'tgs_register_cpt_anmeldung' );
  * Shortcode: [tgs_anmeldung kurs_id="123"]
  */
 function tgs_anmeldung_shortcode( $atts ) {
+    // Nur einmal pro Seitenaufruf rendern (Formular ist in [tgs_kurs_detail] integriert).
+    // Schützt vor Doppel-Ausgabe, falls die Vorlage das Shortcode zusätzlich enthält.
+    static $rendered = false;
+    if ( $rendered ) {
+        return '';
+    }
+    $rendered = true;
+
     $atts = shortcode_atts( array(
         'kurs_id' => get_the_ID(),
     ), $atts );

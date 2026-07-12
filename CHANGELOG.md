@@ -2,6 +2,13 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.2.5] — 2026-07-12
+
+### Geändert — Kurs-Detailseite (Layout „Option C")
+- **Ausrichtungs-Bug behoben**: leeres `<p></p>` von wpautop im Kopf und Body ausgeblendet — der „Jetzt anmelden"-Button fluchtet jetzt sauber rechts mit der Sidebar (vorher in die Mitte geschoben).
+- **Anmeldeformular in die Content-Spalte integriert** statt als schmale, linksbündige Insel unten: `[tgs_anmeldung]` wird jetzt aus `[tgs_kurs_detail]` in der Content-Spalte gerendert (volle Breite, 2-spaltige Felder). `static`-Guard im Anmelde-Shortcode verhindert Doppel-Ausgabe; `[tgs_anmeldung]`-Sektion aus `single-tgs_kurs.html` entfernt.
+- **Sidebar sticky** (bleibt beim Scrollen sichtbar), Body-Spalten leicht großzügiger (280px, 2.5rem gap).
+
 ## [0.2.4] — 2026-07-12
 
 ### Geändert

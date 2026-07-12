@@ -146,8 +146,7 @@ img { max-width: 100%; height: auto; }
 .tgs-anm-error { background: #FEE; color: #C33; padding: .75rem 1rem; border-radius: 4px; font-size: 13px; border-left: 3px solid #C33; margin-bottom: 1rem; }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
-    .tgs-hero { flex-direction: column; text-align: center; gap: 1.5rem; }
+
     .tgs-hero p { max-width: none; }
     .tgs-hero-btns { justify-content: center; }
     .tgs-abt-grid { grid-template-columns: repeat(2, 1fr); }
@@ -157,8 +156,7 @@ img { max-width: 100%; height: auto; }
     .tgs-kd-body { grid-template-columns: 1fr; }
     .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: .75rem; }
 }
-@media (max-width: 480px) {
-    .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: 1fr; }
+
     .tgs-hero-logo-wrap .wp-block-site-logo img { height: 90px !important; }
     .tgs-hero h1 { font-size: 22px; }
 }
@@ -229,8 +227,7 @@ img { max-width: 100%; height: auto; }
 .tgs-abt-liste-arrow { font-size: 18px; color: #3D5A40; font-weight: 700; flex-shrink: 0; }
 
 /* RESPONSIVE ADDITIONS */
-@media (max-width: 768px) {
-    .tgs-ss-hero { grid-template-columns: 1fr; }
+
     .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid #E4DDD0; }
     .tgs-ss-info-grid { grid-template-columns: 1fr; }
     .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
@@ -244,3 +241,151 @@ img { max-width: 100%; height: auto; }
 .tgs-abt-icon, .tgs-abt-name, .tgs-abt-desc { display: block; }
 .tgs-abt-liste-icon, .tgs-abt-liste-body, .tgs-abt-liste-name, 
 .tgs-abt-liste-desc, .tgs-abt-liste-contact { display: block; }
+
+
+/* ============================================
+   RESPONSIVE — Mobile First Fixes
+   ============================================ */
+
+/* === TABLET (max 768px) === */
+@media (max-width: 768px) {
+    /* TOPBAR */
+    .tgs-topbar { padding: 0 1rem; font-size: 9px; }
+
+    /* NAV */
+    .tgs-nav { padding: 0 1rem; min-height: 56px; flex-wrap: wrap; gap: .5rem; }
+    .tgs-nav-left { gap: 8px; }
+    .tgs-nav-left img { height: 36px !important; }
+    .tgs-club-info .wp-block-site-title { font-size: 13px !important; }
+    .tgs-nav-divider { height: 28px; }
+    .tgs-main-nav { order: 4; width: 100%; border-top: 1px solid #E4DDD0; padding-top: .5rem; margin-top: .25rem; }
+    .tgs-nav-list { gap: .75rem; justify-content: center; flex-wrap: wrap; }
+    .tgs-cta-nav-wrap { order: 3; }
+
+    /* HERO */
+    .tgs-hero { flex-direction: column; text-align: center; gap: 1.25rem; padding: 1.25rem 1rem; }
+    .tgs-hero p { max-width: none; }
+    .tgs-hero-btns { justify-content: center; flex-wrap: wrap; }
+    .tgs-hero h1, .tgs-hero h2 { font-size: 24px; }
+    .tgs-hero-logo-wrap img, .tgs-hero-logo { height: 100px !important; }
+
+    /* PAGE HERO */
+    .tgs-page-hero { padding: 1rem; flex-direction: column; gap: .75rem; text-align: center; }
+    .tgs-page-hero h1 { font-size: 20px; }
+    .tgs-page-hero .wp-block-site-logo img,
+    .tgs-page-hero img { height: 40px !important; }
+
+    /* SECTIONS */
+    .tgs-section, .tgs-section-alt { padding: 1rem; }
+    .tgs-section-hd { flex-direction: column; gap: .25rem; }
+
+    /* KURS-TABELLE: horizontal scrollbar */
+    .tgs-kurstabelle-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tgs-kurs-tabelle { min-width: 600px; }
+    .tgs-chip-row { gap: 4px; }
+    .tgs-chip { font-size: 9px; padding: 3px 8px; }
+
+    /* ABTEILUNGEN */
+    .tgs-abt-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+
+    /* NEWS */
+    .tgs-news-grid, .wp-block-latest-posts { display: block !important; }
+    .tgs-news-grid > *, .wp-block-latest-posts > li { margin-bottom: 8px; }
+
+    /* KONTAKT */
+    .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+
+    /* MITGLIED CTA */
+    .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: .75rem; padding: 1rem; }
+
+    /* SPONSOREN */
+    .tgs-sponsor-section { padding: .75rem 1rem; }
+    .tgs-sponsor-row { gap: 6px; }
+    .tgs-sponsor { padding: 6px 12px; font-size: 9px; }
+
+    /* KURS DETAIL */
+    .tgs-kd-header { flex-direction: column; gap: .75rem; padding: 1rem; }
+    .tgs-kd-cta { align-items: stretch; width: 100%; }
+    .tgs-kd-btn { text-align: center; }
+    .tgs-kd-body { grid-template-columns: 1fr; padding: 1rem; }
+    .tgs-kd-meta-row { flex-wrap: wrap; gap: .5rem; }
+
+    /* SPORTSTÄTTE */
+    .tgs-ss-hero { grid-template-columns: 1fr; }
+    .tgs-ss-hero-l { padding: 1rem; }
+    .tgs-ss-hero-map { height: 100px; border-left: none; border-top: 1px solid #E4DDD0; }
+    .tgs-ss-info-grid { grid-template-columns: 1fr; padding: 1rem; gap: 6px; }
+    .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
+
+    /* ABTEILUNG DETAIL */
+    .tgs-abt-hero { flex-direction: column; text-align: center; padding: 1.25rem 1rem; gap: 1rem; }
+    .tgs-abt-hero-h1 { font-size: 22px; }
+    .tgs-abt-detail-layout { grid-template-columns: 1fr; padding: 1rem; }
+
+    /* ABTEILUNG LISTE */
+    .tgs-abt-liste-card { padding: .8rem 1rem; }
+
+    /* FOOTER */
+    .tgs-footer { flex-direction: column; gap: .5rem; text-align: center; padding: .75rem 1rem; }
+
+    /* ANMELDUNG */
+    .tgs-anmeldung-form { max-width: none; margin: 1rem 0; }
+}
+
+/* === MOBILE (max 480px) === */
+@media (max-width: 480px) {
+    /* NAV: kompakter */
+    .tgs-nav { padding: 0 .75rem; min-height: 50px; }
+    .tgs-nav-left img { height: 30px !important; }
+    .tgs-club-info .wp-block-site-title { font-size: 12px !important; }
+    .tgs-club-info .tgs-since { display: none; }
+    .tgs-nav-divider { display: none; }
+    .tgs-cta-nav-wrap .wp-block-button__link { padding: 5px 10px !important; font-size: 10px !important; }
+    .tgs-nav-list a { font-size: 11px; }
+
+    /* HERO */
+    .tgs-hero h1, .tgs-hero h2 { font-size: 20px; }
+    .tgs-hero p { font-size: 12px; }
+    .tgs-hero-logo-wrap img, .tgs-hero-logo { height: 80px !important; }
+    .tgs-hero-btn-w .wp-block-button__link,
+    .tgs-hero-btn-g .wp-block-button__link { font-size: 11px !important; padding: 8px 14px !important; }
+
+    /* GRIDS einspaltog */
+    .tgs-abt-grid { grid-template-columns: 1fr; }
+    .tgs-kontakt-grid { grid-template-columns: 1fr; }
+
+    /* BREADCRUMB */
+    .tgs-breadcrumb { padding: .5rem .75rem; }
+
+    /* KURS DETAIL */
+    .tgs-kd-h1 { font-size: 20px; }
+    .tgs-kd-info-row { font-size: 11px; }
+
+    /* SPORTSTÄTTE */
+    .tgs-ss-h1 { font-size: 20px; }
+
+    /* TOPBAR: verstecken auf ganz kleinen Screens */
+    .tgs-topbar { display: none; }
+}
+
+/* === Kurstabelle Mobil-Alternative: Kartenansicht === */
+@media (max-width: 600px) {
+    .tgs-kurstabelle-wrap { overflow-x: visible; }
+    .tgs-kurs-tabelle { min-width: 0; }
+    .tgs-kurs-tabelle thead { display: none; }
+    .tgs-kurs-tabelle tbody tr {
+        display: block; padding: .75rem; margin-bottom: 6px;
+        background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px;
+    }
+    .tgs-kurs-tabelle tbody tr:hover { background: #F0EDE4; }
+    .tgs-kurs-tabelle td {
+        display: inline; border: none; padding: 0; font-size: 12px;
+    }
+    .tgs-kurs-tabelle td.tgs-kurs-kategorie::after,
+    .tgs-kurs-tabelle td.tgs-kurs-meta::after { content: ' · '; color: #CCC; }
+    .tgs-kurs-tabelle td:last-child::after { content: ''; }
+    .tgs-kurs-tabelle .tgs-kurs-name { display: block; font-size: 13px; margin-bottom: 2px; }
+    .tgs-kurs-tabelle .tgs-status-frei,
+    .tgs-kurs-tabelle .tgs-status-warteliste { display: block; margin-top: 4px; }
+    .tgs-kurs-tabelle .tgs-kurs-link { display: block; margin-top: 4px; }
+}

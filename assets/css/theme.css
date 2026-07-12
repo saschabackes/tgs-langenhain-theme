@@ -263,19 +263,37 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kurs-badge--warn { background: #FBEEDA; color: #9a6116; }
 
 /* ============ SPORTSTÄTTE DETAIL ============ */
-.tgs-ss-hero { display: grid; grid-template-columns: 1fr 300px; background: #fff; border-bottom: 1px solid var(--tgs-border); }
-.tgs-ss-hero-l { padding: 2rem; }
-.tgs-ss-h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .6rem 0; font-weight: 700; }
-.tgs-ss-addr { font-size: 15px; color: #77736a; line-height: 1.55; margin-bottom: .9rem; }
-.tgs-ss-maps-link { font-size: 14px; color: var(--tgs-green); font-weight: 600; }
-.tgs-ss-hero-map { background: #D4E8D4; display: flex; align-items: center; justify-content: center; border-left: 1px solid var(--tgs-border); font-size: 14px; color: #5A8A5A; font-weight: 600; }
-.tgs-ss-hero-map a { color: var(--tgs-green); font-weight: 700; font-size: 15px; }
-.tgs-ss-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 2rem; background: var(--tgs-creme); border-bottom: 1px solid var(--tgs-border); }
-.tgs-ss-info-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; text-align: center; }
-.tgs-ss-info-icon { font-size: 26px; margin-bottom: .4rem; }
-.tgs-ss-info-title { font-size: 14px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .2rem; }
-.tgs-ss-info-desc { font-size: 13px; color: #77736a; line-height: 1.5; }
+/* Hero — Standard (ohne Foto) */
+.tgs-ss-hero { background: var(--tgs-green); border-bottom: 1px solid var(--tgs-border); }
+.tgs-ss-hero-inner { padding: 2.4rem 2rem; }
+.tgs-ss-hero .tgs-ss-typ { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #fff; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); padding: 4px 12px; border-radius: 999px; margin-bottom: .8rem; }
+.tgs-ss-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; color: #fff; margin: 0 0 .55rem 0; font-weight: 700; line-height: 1.15; }
+.tgs-ss-addr { font-size: 15px; color: rgba(255,255,255,.82); line-height: 1.55; margin-bottom: 1.1rem; }
+.tgs-ss-maps-btn { display: inline-block; font-size: 14px; font-weight: 700; color: var(--tgs-green); background: #fff; padding: 9px 18px; border-radius: 999px; }
+.tgs-ss-maps-btn:hover { text-decoration: none; opacity: .92; }
+/* Hero — mit Foto (Beitragsbild als Hintergrund) */
+.tgs-ss-hero--photo { background-size: cover; background-position: center; border-bottom: none; }
+.tgs-ss-hero--photo .tgs-ss-hero-inner { padding: 4.5rem 2rem 2.2rem; display: flex; flex-direction: column; align-items: flex-start; min-height: 300px; justify-content: flex-end; }
+
+/* Fakten-Leiste */
+.tgs-ss-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--tgs-border); border-bottom: 1px solid var(--tgs-border); }
+.tgs-ss-fact { background: var(--tgs-creme); padding: 1.15rem 1.4rem; display: flex; flex-direction: column; gap: 2px; }
+.tgs-ss-fact-ic { font-size: 18px; }
+.tgs-ss-fact-k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; }
+.tgs-ss-fact-v { font-size: 14px; font-weight: 600; color: var(--tgs-ink); line-height: 1.4; }
+
+/* Body: Inhalt + Ausstattungs-Sidebar */
+.tgs-ss-body { display: grid; grid-template-columns: 1fr 300px; gap: 2.4rem; align-items: start; }
+.tgs-ss-body--single { grid-template-columns: 1fr; }
 .tgs-ss-content { font-size: 16px; color: #44433b; line-height: 1.75; }
+.tgs-ss-content .wp-block-gallery { margin: 1.6rem 0; }
+.tgs-ss-content img { border-radius: 10px; }
+.tgs-ss-ausst { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.3rem 1.4rem; position: sticky; top: 1rem; }
+.tgs-ss-ausst-title { font-size: 15px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .8rem; }
+.tgs-ss-ausst-list { list-style: none; margin: 0; padding: 0; }
+.tgs-ss-ausst-list li { font-size: 14px; color: #55524a; line-height: 1.5; padding: .45rem 0 .45rem 1.4rem; position: relative; border-top: 1px solid var(--tgs-border); }
+.tgs-ss-ausst-list li:first-child { border-top: none; }
+.tgs-ss-ausst-list li::before { content: '✓'; position: absolute; left: 0; color: var(--tgs-green); font-weight: 700; }
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
@@ -287,6 +305,7 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-liste-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .tgs-ss-liste-card { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.3rem; display: block; color: inherit; }
 .tgs-ss-liste-card:hover { border-color: var(--tgs-green); text-decoration: none; }
+.tgs-ss-liste-typ { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--tgs-green); background: #e6efe6; border-radius: 999px; padding: 3px 10px; margin-bottom: .55rem; }
 .tgs-ss-liste-name { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .35rem; }
 .tgs-ss-liste-addr { font-size: 13px; color: #77736a; line-height: 1.55; margin-bottom: .35rem; }
 .tgs-ss-liste-desc { font-size: 14px; color: #66625a; margin-bottom: .45rem; }
@@ -407,10 +426,9 @@ a.tgs-chip:hover { color: #fff; }
   .tgs-kd-anmeldung .tgs-anmeldung-form form { grid-template-columns: 1fr; }
   .tgs-kd-anmeldung .tgs-anm-field { grid-column: 1 / -1 !important; }
   .tgs-kd-anmeldung .tgs-anm-submit { width: 100%; }
-  .tgs-ss-hero { grid-template-columns: 1fr; }
-  .tgs-ss-hero-l { padding: 1.5rem; }
-  .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid var(--tgs-border); }
-  .tgs-ss-info-grid { grid-template-columns: 1fr; padding: 1.5rem; }
+  .tgs-ss-hero-inner { padding: 1.6rem 1.4rem; }
+  .tgs-ss-body { grid-template-columns: 1fr; gap: 1.4rem; }
+  .tgs-ss-ausst { position: static; }
   .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
   .tgs-abt-hero { text-align: left; }
   .tgs-abt-detail-layout { grid-template-columns: 1fr; }

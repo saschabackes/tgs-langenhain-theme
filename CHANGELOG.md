@@ -2,6 +2,15 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.7.0] — 2026-07-12
+
+### Hinzugefügt — Sportstätten für Außenanlagen ausgebaut
+- **Backend-Metabox „Standort & Details"** für Sportstätten (bisher nur über rohe Benutzerdefinierte Felder pflegbar). Neue Felder: **Art der Sportstätte**, **Zugang / Öffnung**, **Kosten / Nutzung**; Ausstattung jetzt als mehrzeiliges Feld (eine Zeile = ein Listenpunkt).
+- **Foto-Hero:** Ist ein Beitragsbild gesetzt, wird es als großes Titelbild mit Verlauf und Typ-Badge genutzt (statt der leeren grünen Box). Ohne Bild grüner Standard-Hero.
+- **Fakten-Leiste** (Zugang, Kosten, Parkplätze, Barrierefreiheit) und **Ausstattungs-Liste** als sticky Sidebar; Fotos lassen sich als Galerie in den Textbereich einfügen.
+- Der Abschnitt „Kurse & Trainings" erscheint nur noch, wenn dort tatsächlich Kurse stattfinden — passend für frei zugängliche Anlagen ohne feste Kurszeiten.
+- Sportstätten-Übersichtskarten zeigen Typ-Badge und Öffnung.
+
 ## [0.6.3] — 2026-07-12
 
 ### Behoben — Zielgruppen-Filter auch von der Startseite

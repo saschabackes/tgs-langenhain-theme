@@ -472,77 +472,100 @@ function tgs_shortcode_sportstaette_detail() {
     $post_id = get_the_ID();
     if ( get_post_type( $post_id ) !== 'tgs_sportstaette' ) return '';
 
+    $typ      = get_post_meta( $post_id, '_tgs_ss_typ', true );
     $adresse  = get_post_meta( $post_id, '_tgs_adresse', true );
     $plz_ort  = get_post_meta( $post_id, '_tgs_plz_ort', true );
     $maps     = get_post_meta( $post_id, '_tgs_maps_link', true );
+    $zugang   = get_post_meta( $post_id, '_tgs_ss_zugang', true );
+    $kosten   = get_post_meta( $post_id, '_tgs_ss_kosten', true );
     $ausst    = get_post_meta( $post_id, '_tgs_ausstattung', true );
     $barr     = get_post_meta( $post_id, '_tgs_barrierefreiheit', true );
     $park     = get_post_meta( $post_id, '_tgs_parkplaetze', true );
     $ort_name = get_the_title( $post_id );
+    $bild      = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail_url( $post_id, 'large' ) : '';
+
+    // Ausstattung in Listenpunkte zerlegen (Zeilenweise; Altdaten mit Kommas werden gesplittet)
+    $ausst_items = array();
+    foreach ( preg_split( '/\r\n|\r|\n/', (string) $ausst ) as $line ) {
+        $line = trim( $line );
+        if ( $line !== '' ) $ausst_items[] = $line;
+    }
+    if ( count( $ausst_items ) === 1 && strpos( $ausst_items[0], ',' ) !== false ) {
+        $ausst_items = array_filter( array_map( 'trim', explode( ',', $ausst_items[0] ) ) );
+    }
+
+    // Kurse an diesem Ort vorhanden?
+    $kurse_hier = get_posts( array(
+        'post_type'      => 'tgs_kurs',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'meta_query'     => array( array( 'key' => '_tgs_ort', 'value' => $ort_name, 'compare' => 'LIKE' ) ),
+    ) );
+    $hat_kurse = ! empty( $kurse_hier );
 
     ob_start();
     ?>
-    <div class="tgs-ss-hero">
-        <div class="tgs-ss-hero-l">
+    <div class="tgs-ss-hero<?php echo $bild ? ' tgs-ss-hero--photo' : ''; ?>"<?php if ( $bild ) echo ' style="background-image:linear-gradient(rgba(20,32,22,.15),rgba(20,32,22,.72)),url(' . esc_url( $bild ) . ');"'; ?>>
+        <div class="tgs-ss-hero-inner">
+            <?php if ( $typ ) : ?><span class="tgs-ss-typ"><?php echo esc_html( $typ ); ?></span><?php endif; ?>
             <h1 class="tgs-ss-h1"><?php echo esc_html( $ort_name ); ?></h1>
             <div class="tgs-ss-addr">
-                <?php if ( $adresse ) echo esc_html( $adresse ) . '<br>'; ?>
+                <?php if ( $adresse ) echo esc_html( $adresse ) . ' · '; ?>
                 <?php if ( $plz_ort ) echo esc_html( $plz_ort ); ?>
             </div>
             <?php if ( $maps ) : ?>
-                <a href="<?php echo esc_url( $maps ); ?>" class="tgs-ss-maps-link" target="_blank" rel="noopener">📍 Anfahrt in Google Maps öffnen →</a>
-            <?php endif; ?>
-        </div>
-        <div class="tgs-ss-hero-map">
-            <?php if ( $maps ) : ?>
-                <a href="<?php echo esc_url( $maps ); ?>" target="_blank" rel="noopener">📍 Karte öffnen</a>
-            <?php else : ?>
-                <span>Kartenansicht</span>
+                <a href="<?php echo esc_url( $maps ); ?>" class="tgs-ss-maps-btn" target="_blank" rel="noopener">📍 Anfahrt in Google Maps öffnen →</a>
             <?php endif; ?>
         </div>
     </div>
 
-    <?php if ( $ausst || $park || $barr ) : ?>
-    <div class="tgs-ss-info-grid">
-        <?php if ( $ausst ) : ?>
-        <div class="tgs-ss-info-card">
-            <div class="tgs-ss-info-icon">🏋️</div>
-            <div class="tgs-ss-info-title">Ausstattung</div>
-            <div class="tgs-ss-info-desc"><?php echo esc_html( $ausst ); ?></div>
-        </div>
+    <?php if ( $zugang || $kosten || $park || $barr ) : ?>
+    <div class="tgs-ss-facts">
+        <?php if ( $zugang ) : ?>
+        <div class="tgs-ss-fact"><span class="tgs-ss-fact-ic">🕐</span><span class="tgs-ss-fact-k">Zugang</span><span class="tgs-ss-fact-v"><?php echo esc_html( $zugang ); ?></span></div>
+        <?php endif; ?>
+        <?php if ( $kosten ) : ?>
+        <div class="tgs-ss-fact"><span class="tgs-ss-fact-ic">✓</span><span class="tgs-ss-fact-k">Kosten</span><span class="tgs-ss-fact-v"><?php echo esc_html( $kosten ); ?></span></div>
         <?php endif; ?>
         <?php if ( $park ) : ?>
-        <div class="tgs-ss-info-card">
-            <div class="tgs-ss-info-icon">🅿️</div>
-            <div class="tgs-ss-info-title">Parkplätze</div>
-            <div class="tgs-ss-info-desc"><?php echo esc_html( $park ); ?></div>
-        </div>
+        <div class="tgs-ss-fact"><span class="tgs-ss-fact-ic">🅿️</span><span class="tgs-ss-fact-k">Parkplätze</span><span class="tgs-ss-fact-v"><?php echo esc_html( $park ); ?></span></div>
         <?php endif; ?>
         <?php if ( $barr ) : ?>
-        <div class="tgs-ss-info-card">
-            <div class="tgs-ss-info-icon">♿</div>
-            <div class="tgs-ss-info-title">Barrierefreiheit</div>
-            <div class="tgs-ss-info-desc"><?php echo esc_html( $barr ); ?></div>
-        </div>
+        <div class="tgs-ss-fact"><span class="tgs-ss-fact-ic">♿</span><span class="tgs-ss-fact-k">Barrierefreiheit</span><span class="tgs-ss-fact-v"><?php echo esc_html( $barr ); ?></span></div>
         <?php endif; ?>
     </div>
     <?php endif; ?>
 
+    <?php
+    // Content (Freitext + Galerie) und Ausstattung nebeneinander
+    $content = get_the_content();
+    $two_col = $content && $ausst_items;
+    if ( $content || $ausst_items ) :
+    ?>
+    <div class="tgs-section tgs-ss-body<?php echo $two_col ? '' : ' tgs-ss-body--single'; ?>">
+        <?php if ( $content ) : ?>
+        <div class="tgs-ss-content"><?php echo apply_filters( 'the_content', $content ); ?></div>
+        <?php endif; ?>
+        <?php if ( $ausst_items ) : ?>
+        <aside class="tgs-ss-ausst">
+            <div class="tgs-ss-ausst-title">🏋️ Ausstattung & Möglichkeiten</div>
+            <ul class="tgs-ss-ausst-list">
+                <?php foreach ( $ausst_items as $item ) : ?>
+                    <li><?php echo esc_html( $item ); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </aside>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if ( $hat_kurse ) : ?>
     <div class="tgs-section">
         <div class="tgs-section-hd">
             <p class="tgs-section-title"><strong>Kurse & Trainings <?php echo $ort_name !== 'Wilhelm-Busch-Halle' ? 'am ' : 'in der '; echo esc_html( $ort_name ); ?></strong></p>
             <p class="tgs-section-more"><a href="/kurse">Alle Kurse →</a></p>
         </div>
         <?php echo do_shortcode( '[tgs_kurse_in_ort ort="' . esc_attr( $ort_name ) . '"]' ); ?>
-    </div>
-
-    <?php
-    // Content (Freitext)
-    $content = get_the_content();
-    if ( $content ) :
-    ?>
-    <div class="tgs-section">
-        <div class="tgs-ss-content"><?php echo apply_filters( 'the_content', $content ); ?></div>
     </div>
     <?php endif; ?>
 
@@ -593,15 +616,17 @@ function tgs_shortcode_sportstaetten_liste() {
         <?php foreach ( $orte as $ort ) :
             $adresse = get_post_meta( $ort->ID, '_tgs_adresse', true );
             $plz     = get_post_meta( $ort->ID, '_tgs_plz_ort', true );
-            $ausst   = get_post_meta( $ort->ID, '_tgs_ausstattung', true );
+            $typ     = get_post_meta( $ort->ID, '_tgs_ss_typ', true );
+            $zugang  = get_post_meta( $ort->ID, '_tgs_ss_zugang', true );
         ?>
         <a href="<?php echo get_permalink( $ort->ID ); ?>" class="tgs-ss-liste-card">
+            <?php if ( $typ ) : ?><span class="tgs-ss-liste-typ"><?php echo esc_html( $typ ); ?></span><?php endif; ?>
             <div class="tgs-ss-liste-name"><?php echo esc_html( $ort->post_title ); ?></div>
             <div class="tgs-ss-liste-addr"><?php echo esc_html( $adresse ); ?><?php if ($plz) echo '<br>' . esc_html($plz); ?></div>
-            <?php if ( $ausst ) : ?>
-                <div class="tgs-ss-liste-desc"><?php echo esc_html( $ausst ); ?></div>
+            <?php if ( $zugang ) : ?>
+                <div class="tgs-ss-liste-desc">🕐 <?php echo esc_html( $zugang ); ?></div>
             <?php endif; ?>
-            <span class="tgs-ss-liste-link">Details & Belegungsplan →</span>
+            <span class="tgs-ss-liste-link">Details ansehen →</span>
         </a>
         <?php endforeach; ?>
     </div>

@@ -90,9 +90,12 @@ function tgs_register_meta_fields() {
 
     // Sportstätte meta fields
     $ss_fields = array(
+        '_tgs_ss_typ'       => 'string',   // z.B. Außenanlage / Fitnessplatz, Sporthalle
         '_tgs_adresse'      => 'string',
         '_tgs_plz_ort'      => 'string',
         '_tgs_maps_link'    => 'string',
+        '_tgs_ss_zugang'    => 'string',   // z.B. 24/7 frei zugänglich
+        '_tgs_ss_kosten'    => 'string',   // z.B. Kostenlos – keine Mitgliedschaft nötig
         '_tgs_ausstattung'  => 'string',
         '_tgs_barrierefreiheit' => 'string',
         '_tgs_parkplaetze'  => 'string',
@@ -234,3 +237,74 @@ function tgs_save_kurs_meta( $post_id ) {
     update_post_meta( $post_id, '_tgs_zielgruppe', $clean_zg );
 }
 add_action( 'save_post_tgs_kurs', 'tgs_save_kurs_meta' );
+
+/**
+ * Meta box for Sportstätte editing
+ */
+function tgs_add_sportstaette_meta_boxes() {
+    add_meta_box(
+        'tgs_ss_details',
+        'Standort & Details',
+        'tgs_sportstaette_meta_box_html',
+        'tgs_sportstaette',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'tgs_add_sportstaette_meta_boxes' );
+
+function tgs_sportstaette_meta_box_html( $post ) {
+    wp_nonce_field( 'tgs_ss_meta', 'tgs_ss_meta_nonce' );
+
+    $fields = array(
+        '_tgs_ss_typ'           => array( 'label' => 'Art der Sportstätte', 'type' => 'text', 'placeholder' => 'z.B. Außenanlage / Fitnessplatz, Sporthalle' ),
+        '_tgs_adresse'          => array( 'label' => 'Adresse (Straße)', 'type' => 'text', 'placeholder' => 'z.B. Sportplatzstraße 15' ),
+        '_tgs_plz_ort'          => array( 'label' => 'PLZ & Ort', 'type' => 'text', 'placeholder' => 'z.B. 65719 Hofheim-Langenhain' ),
+        '_tgs_maps_link'        => array( 'label' => 'Google-Maps-Link', 'type' => 'url', 'placeholder' => 'https://maps.app.goo.gl/…' ),
+        '_tgs_ss_zugang'        => array( 'label' => 'Zugang / Öffnung', 'type' => 'text', 'placeholder' => 'z.B. 24/7 frei zugänglich' ),
+        '_tgs_ss_kosten'        => array( 'label' => 'Kosten / Nutzung', 'type' => 'text', 'placeholder' => 'z.B. Kostenlos – keine Mitgliedschaft nötig' ),
+        '_tgs_ausstattung'      => array( 'label' => 'Ausstattung', 'type' => 'textarea', 'placeholder' => "Ein Punkt pro Zeile, z.B.:\nReck & Barren\nKlimmzugstangen\nLeitern zum Hangeln\nFreifläche für Yoga & Gymnastik" ),
+        '_tgs_parkplaetze'      => array( 'label' => 'Parkplätze', 'type' => 'text', 'placeholder' => 'z.B. Parkplätze am Sportplatz' ),
+        '_tgs_barrierefreiheit' => array( 'label' => 'Barrierefreiheit', 'type' => 'text', 'placeholder' => 'z.B. Ebenerdig zugänglich' ),
+    );
+
+    echo '<table class="form-table"><tbody>';
+    foreach ( $fields as $key => $field ) {
+        $value = get_post_meta( $post->ID, $key, true );
+        echo '<tr><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
+
+        if ( $field['type'] === 'textarea' ) {
+            printf(
+                '<textarea id="%s" name="%s" rows="5" class="large-text" placeholder="%s">%s</textarea>',
+                esc_attr( $key ), esc_attr( $key ), esc_attr( $field['placeholder'] ), esc_textarea( $value )
+            );
+            echo '<p class="description">Eine Zeile = ein Listenpunkt auf der Seite.</p>';
+        } else {
+            printf(
+                '<input type="%s" id="%s" name="%s" value="%s" class="regular-text" placeholder="%s">',
+                esc_attr( $field['type'] ), esc_attr( $key ), esc_attr( $key ),
+                esc_attr( $value ), esc_attr( $field['placeholder'] )
+            );
+        }
+        echo '</td></tr>';
+    }
+    echo '</tbody></table>';
+    echo '<p class="description">Tipp: Ein <strong>Beitragsbild</strong> (rechts) wird als großes Titelbild oben genutzt. Weitere Fotos als <strong>Galerie</strong> direkt in den Textbereich einfügen.</p>';
+}
+
+function tgs_save_sportstaette_meta( $post_id ) {
+    if ( ! isset( $_POST['tgs_ss_meta_nonce'] ) || ! wp_verify_nonce( $_POST['tgs_ss_meta_nonce'], 'tgs_ss_meta' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+    $text_fields = array( '_tgs_ss_typ', '_tgs_adresse', '_tgs_plz_ort', '_tgs_maps_link', '_tgs_ss_zugang', '_tgs_ss_kosten', '_tgs_parkplaetze', '_tgs_barrierefreiheit' );
+    foreach ( $text_fields as $key ) {
+        if ( isset( $_POST[ $key ] ) ) {
+            update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
+        }
+    }
+    if ( isset( $_POST['_tgs_ausstattung'] ) ) {
+        update_post_meta( $post_id, '_tgs_ausstattung', sanitize_textarea_field( $_POST['_tgs_ausstattung'] ) );
+    }
+}
+add_action( 'save_post_tgs_sportstaette', 'tgs_save_sportstaette_meta' );

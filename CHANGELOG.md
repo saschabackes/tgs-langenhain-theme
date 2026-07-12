@@ -1,3 +1,10 @@
+## [0.10.1] — 2026-07-12
+
+### Behoben — Gaststätten-Seite
+- **Anruf-Rückfrage:** Klick auf eine Telefonnummer startet nicht mehr sofort den Anruf, sondern fragt vorher nach (Bestätigungsdialog).
+- **Leerer Block unter dem Hero** entfernt: Die Schnell-Fakten-Leiste brach in der zentrierten Breite auf zwei Zeilen um — jetzt feste 4 Spalten (mobil 2).
+- **Kein externer Speisekarten-Link mehr.** Speisekarte optional als eigenes PDF (Mediathek-URL in inc/gaststaette.php); ohne Eintrag erscheint statt Button ein Hinweis.
+
 ## [0.10.0] — 2026-07-12
 
 ### Hinzugefügt — Seite „Vereinsgaststätte" (Zu den Eichen – Da Luca)

@@ -69,8 +69,25 @@
         }
     }
 
+    /**
+     * Telefon-Links auf der Gaststätten-Seite: vor dem Wählen kurz nachfragen,
+     * damit ein Klick nicht sofort den Anruf startet.
+     */
+    function initCallConfirm() {
+        var links = document.querySelectorAll('.tgs-gs a[href^="tel:"]');
+        links.forEach(function (a) {
+            a.addEventListener('click', function (e) {
+                var num = a.getAttribute('href').replace('tel:', '').replace(/^\+49/, '0');
+                if (!window.confirm('Möchtest du die Gaststätte anrufen?\n' + num)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
+        initCallConfirm();
     });
 })();

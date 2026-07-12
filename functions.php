@@ -183,3 +183,28 @@ function tgs_shortcode_logo( $atts ) {
     );
 }
 add_shortcode( 'tgs_logo', 'tgs_shortcode_logo' );
+
+/**
+ * Prevent wpautop from breaking shortcode output
+ */
+function tgs_fix_shortcode_wpautop( $content ) {
+    $shortcodes = array(
+        'tgs_kurstabelle', 'tgs_abteilungen', 'tgs_ansprechpartner', 
+        'tgs_sponsoren', 'tgs_kurs_detail', 'tgs_kurse_in_ort',
+        'tgs_navigation', 'tgs_logo', 'tgs_anmeldung',
+        'tgs_sportstaette_detail', 'tgs_sportstaetten_liste',
+        'tgs_abteilung_detail', 'tgs_abteilungen_detail_liste',
+    );
+    
+    foreach ( $shortcodes as $sc ) {
+        $content = str_replace( 
+            array( '<p>[' . $sc, $sc . ']</p>' ),
+            array( '[' . $sc, $sc . ']' ),
+            $content
+        );
+    }
+    
+    return $content;
+}
+add_filter( 'the_content', 'tgs_fix_shortcode_wpautop', 9 );
+add_filter( 'widget_text_content', 'tgs_fix_shortcode_wpautop', 9 );

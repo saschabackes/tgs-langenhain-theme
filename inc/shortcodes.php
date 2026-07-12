@@ -127,22 +127,19 @@ function tgs_shortcode_abteilungen() {
 
     if ( empty( $abteilungen ) ) return '';
 
-    ob_start();
-    ?>
-    <div class="tgs-abt-grid">
-        <?php foreach ( $abteilungen as $abt ) :
-            $icon  = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
-            $excerpt = get_the_excerpt( $abt->ID );
-        ?>
-        <a href="<?php echo get_permalink( $abt->ID ); ?>" class="tgs-abt-card">
-            <div class="tgs-abt-icon"><?php echo esc_html( $icon ); ?></div>
-            <div class="tgs-abt-name"><?php echo esc_html( $abt->post_title ); ?></div>
-            <div class="tgs-abt-desc"><?php echo esc_html( $excerpt ); ?></div>
-        </a>
-        <?php endforeach; ?>
-    </div>
-    <?php
-    return ob_get_clean();
+    $html = '<div class="tgs-abt-grid">';
+    foreach ( $abteilungen as $abt ) {
+        $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
+        $excerpt = get_the_excerpt( $abt->ID );
+        $url     = get_permalink( $abt->ID );
+        $html .= '<a href="' . esc_url( $url ) . '" class="tgs-abt-card">';
+        $html .= '<div class="tgs-abt-icon">' . esc_html( $icon ) . '</div>';
+        $html .= '<div class="tgs-abt-name">' . esc_html( $abt->post_title ) . '</div>';
+        $html .= '<div class="tgs-abt-desc">' . esc_html( $excerpt ) . '</div>';
+        $html .= '</a>';
+    }
+    $html .= '</div>';
+    return $html;
 }
 add_shortcode( 'tgs_abteilungen', 'tgs_shortcode_abteilungen' );
 
@@ -161,25 +158,21 @@ function tgs_shortcode_ansprechpartner() {
 
     if ( empty( $abteilungen ) ) return '';
 
-    ob_start();
-    ?>
-    <div class="tgs-kontakt-grid">
-        <?php foreach ( $abteilungen as $abt ) :
-            $name  = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
-            $email = get_post_meta( $abt->ID, '_tgs_abt_email', true );
-            if ( ! $name ) continue;
-        ?>
-        <div class="tgs-kontakt-card">
-            <div class="tgs-kontakt-role"><?php echo esc_html( $abt->post_title ); ?></div>
-            <div class="tgs-kontakt-name"><?php echo esc_html( $name ); ?></div>
-            <?php if ( $email ) : ?>
-                <a href="mailto:<?php echo esc_attr( $email ); ?>" class="tgs-kontakt-mail"><?php echo esc_html( $email ); ?></a>
-            <?php endif; ?>
-        </div>
-        <?php endforeach; ?>
-    </div>
-    <?php
-    return ob_get_clean();
+    $html = '<div class="tgs-kontakt-grid">';
+    foreach ( $abteilungen as $abt ) {
+        $name  = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
+        $email = get_post_meta( $abt->ID, '_tgs_abt_email', true );
+        if ( ! $name ) continue;
+        $html .= '<div class="tgs-kontakt-card">';
+        $html .= '<div class="tgs-kontakt-role">' . esc_html( $abt->post_title ) . '</div>';
+        $html .= '<div class="tgs-kontakt-name">' . esc_html( $name ) . '</div>';
+        if ( $email ) {
+            $html .= '<a href="mailto:' . esc_attr( $email ) . '" class="tgs-kontakt-mail">' . esc_html( $email ) . '</a>';
+        }
+        $html .= '</div>';
+    }
+    $html .= '</div>';
+    return $html;
 }
 add_shortcode( 'tgs_ansprechpartner', 'tgs_shortcode_ansprechpartner' );
 
@@ -189,28 +182,23 @@ add_shortcode( 'tgs_ansprechpartner', 'tgs_shortcode_ansprechpartner' );
  * Erstmal statisch, kann später als eigener CPT oder Widget umgebaut werden.
  */
 function tgs_shortcode_sponsoren() {
-    // TODO: Später als CPT oder Options-Page. Erstmal hardcoded.
     $sponsoren = array(
         array( 'name' => 'Mobau Braun', 'url' => 'https://mobau-braun.de' ),
         array( 'name' => 'KP International', 'url' => 'https://www.kp-international.de' ),
         array( 'name' => 'Domotec', 'url' => 'http://www.hm-domotec.de' ),
-        array( 'name' => 'Dörr & Neumann', 'url' => 'https://www.doerrundneumann.de' ),
+        array( 'name' => 'Dörr &amp; Neumann', 'url' => 'https://www.doerrundneumann.de' ),
         array( 'name' => 'Optik Waller', 'url' => 'https://www.optik-waller.de' ),
         array( 'name' => 'Simon Haustechnik', 'url' => 'https://www.haustechnik-simon.de' ),
     );
 
-    ob_start();
-    ?>
-    <div class="tgs-sponsor-section">
-        <div class="tgs-sponsor-hd">Unsere Partner &amp; Sponsoren</div>
-        <div class="tgs-sponsor-row">
-            <?php foreach ( $sponsoren as $s ) : ?>
-                <a href="<?php echo esc_url( $s['url'] ); ?>" class="tgs-sponsor" target="_blank" rel="noopener"><?php echo esc_html( $s['name'] ); ?></a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <?php
-    return ob_get_clean();
+    $html = '<div class="tgs-sponsor-section">';
+    $html .= '<div class="tgs-sponsor-hd">Unsere Partner &amp; Sponsoren</div>';
+    $html .= '<div class="tgs-sponsor-row">';
+    foreach ( $sponsoren as $s ) {
+        $html .= '<a href="' . esc_url( $s['url'] ) . '" class="tgs-sponsor" target="_blank" rel="noopener">' . $s['name'] . '</a>';
+    }
+    $html .= '</div></div>';
+    return $html;
 }
 add_shortcode( 'tgs_sponsoren', 'tgs_shortcode_sponsoren' );
 
@@ -657,29 +645,26 @@ function tgs_shortcode_abteilungen_detail_liste() {
     ) );
     if ( empty( $abteilungen ) ) return '<p>Keine Abteilungen vorhanden.</p>';
 
-    ob_start();
-    ?>
-    <div class="tgs-abt-liste">
-        <?php foreach ( $abteilungen as $abt ) :
-            $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
-            $leitung = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
-            $email   = get_post_meta( $abt->ID, '_tgs_abt_email', true );
-            $excerpt = get_the_excerpt( $abt->ID );
-        ?>
-        <a href="<?php echo get_permalink( $abt->ID ); ?>" class="tgs-abt-liste-card">
-            <div class="tgs-abt-liste-icon"><?php echo esc_html( $icon ); ?></div>
-            <div class="tgs-abt-liste-body">
-                <div class="tgs-abt-liste-name"><?php echo esc_html( $abt->post_title ); ?></div>
-                <div class="tgs-abt-liste-desc"><?php echo esc_html( $excerpt ); ?></div>
-                <?php if ( $leitung ) : ?>
-                    <div class="tgs-abt-liste-contact">Ansprechpartner: <?php echo esc_html( $leitung ); ?></div>
-                <?php endif; ?>
-            </div>
-            <span class="tgs-abt-liste-arrow">→</span>
-        </a>
-        <?php endforeach; ?>
-    </div>
-    <?php
-    return ob_get_clean();
+    $html = '<div class="tgs-abt-liste">';
+    foreach ( $abteilungen as $abt ) {
+        $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
+        $leitung = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
+        $excerpt = get_the_excerpt( $abt->ID );
+        $url     = get_permalink( $abt->ID );
+
+        $html .= '<a href="' . esc_url( $url ) . '" class="tgs-abt-liste-card">';
+        $html .= '<div class="tgs-abt-liste-icon">' . esc_html( $icon ) . '</div>';
+        $html .= '<div class="tgs-abt-liste-body">';
+        $html .= '<div class="tgs-abt-liste-name">' . esc_html( $abt->post_title ) . '</div>';
+        $html .= '<div class="tgs-abt-liste-desc">' . esc_html( $excerpt ) . '</div>';
+        if ( $leitung ) {
+            $html .= '<div class="tgs-abt-liste-contact">Ansprechpartner: ' . esc_html( $leitung ) . '</div>';
+        }
+        $html .= '</div>';
+        $html .= '<span class="tgs-abt-liste-arrow">→</span>';
+        $html .= '</a>';
+    }
+    $html .= '</div>';
+    return $html;
 }
 add_shortcode( 'tgs_abteilungen_detail_liste', 'tgs_shortcode_abteilungen_detail_liste' );

@@ -2,6 +2,19 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.4.0] — 2026-07-12
+
+### Hinzugefügt — Kursanmeldung Phase 1 (Teilnehmer-Kern)
+- **Double-Opt-In**: Anmeldung wird erst nach Klick auf den Bestätigungslink in der E-Mail gültig; Platz zählt erst ab Bestätigung. Zustände: unbestaetigt → bestaetigt | warteliste → storniert.
+- **Warteliste mit Auto-Nachrücken**: Wird ein bestätigter Platz frei (Abmeldung), rückt automatisch die erste Person der Warteliste nach und wird benachrichtigt.
+- **Status-/Abmelde-Link ohne Login**: Jede Anmeldung enthält einen persönlichen Link (Seite „Kurs-Status", Shortcode `[tgs_kurs_status]`) — Status (angemeldet / Warteliste + Position) jederzeit einsehbar, Selbst-Abmeldung möglich.
+- **E-Mails**: Opt-in-Bestätigung, Anmelde-/Wartelisten-Bestätigung, Nachrück-Info an Teilnehmer; Benachrichtigungen an den Kursleiter (`_tgs_ansprechpartner_email`).
+- Unbegrenzte Kurse (max leer/0): keine Warteliste, direkt angemeldet. Kurs-Meta `_tgs_status` wird automatisch synchronisiert.
+- Seite „Kurs-Status" wird automatisch angelegt (beim nächsten Backend-Aufruf).
+
+### Ausstehend
+- Phase 2: Kursleiter-Rolle mit eingeschränktem Backend (nur eigene Kurse/Anmeldungen).
+
 ## [0.3.5] — 2026-07-12
 
 ### Geändert

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.3.5' );
+define( 'TGS_VERSION', '0.4.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -193,7 +193,7 @@ function tgs_fix_shortcode_wpautop( $content ) {
     $shortcodes = array(
         'tgs_kurstabelle', 'tgs_abteilungen', 'tgs_ansprechpartner', 
         'tgs_sponsoren', 'tgs_kurs_detail', 'tgs_kurse_in_ort',
-        'tgs_navigation', 'tgs_logo', 'tgs_anmeldung',
+        'tgs_navigation', 'tgs_logo', 'tgs_anmeldung', 'tgs_kurs_status',
         'tgs_sportstaette_detail', 'tgs_sportstaetten_liste',
         'tgs_abteilung_detail', 'tgs_abteilungen_detail_liste',
         'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box', 'tgs_whatsapp',

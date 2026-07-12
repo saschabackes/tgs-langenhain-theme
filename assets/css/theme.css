@@ -88,7 +88,8 @@ img { max-width: 100%; height: auto; }
 
 /* ============ CHIPS ============ */
 .tgs-chip-row { display: flex; gap: 8px; margin-bottom: 1.1rem; flex-wrap: wrap; }
-.tgs-chip { display: inline-block; border: 1px solid var(--tgs-border); background: var(--tgs-creme); color: #6b665a; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; transition: all .15s ease; }
+.tgs-chip { display: inline-block; border: 1px solid var(--tgs-border); background: var(--tgs-creme); color: #6b665a; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; transition: all .15s ease; text-decoration: none; }
+a.tgs-chip:hover { color: #fff; }
 .tgs-chip:hover, .tgs-chip.active { background: var(--tgs-green); color: #fff; border-color: var(--tgs-green); }
 .tgs-chip-row--zielgruppe { align-items: center; margin-top: -.4rem; }
 .tgs-chip-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #9a9488; margin-right: 4px; }

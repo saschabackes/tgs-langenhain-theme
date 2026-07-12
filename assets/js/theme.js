@@ -48,6 +48,25 @@
                 });
             });
         });
+
+        // Deep-Link: Filter aus URL-Hash übernehmen (#zielgruppe=frauen / #kategorie=fitness),
+        // damit z.B. der Teaser auf der Startseite hierher vorgefiltert verlinken kann.
+        const hash = location.hash.replace(/^#/, '');
+        if (hash) {
+            hash.split('&').forEach(function (pair) {
+                const eq = pair.indexOf('=');
+                if (eq < 0) return;
+                const g = pair.slice(0, eq);
+                const v = pair.slice(eq + 1);
+                if (!active.hasOwnProperty(g)) return;
+                const row = document.querySelector('.tgs-chip-row[data-filter-group="' + g + '"]');
+                if (!row) return;
+                const chip = [].find.call(row.querySelectorAll('.tgs-chip'), function (c) {
+                    return c.dataset.filter === v;
+                });
+                if (chip) chip.click();
+            });
+        }
     }
 
     // Init on DOM ready

@@ -2,6 +2,13 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.6.3] — 2026-07-12
+
+### Behoben — Zielgruppen-Filter auch von der Startseite
+- Der Kurs-Teaser auf der Startseite (begrenzte Tabelle) zeigt die Filter-Chips „Kategorie" und „Für wen?" jetzt als **Links auf die volle Kursseite mit vorausgewähltem Filter**. So findet man z.B. „Frauen"-Kurse direkt von der Startseite — mit vollständigem Ergebnis, nicht nur innerhalb der ersten Teaser-Zeilen.
+- Zielgruppen-Chips im Teaser werden über **alle** Kurse gebildet (vorher nur über die angezeigten), sodass keine Zielgruppe fehlt.
+- Die Kursübersicht übernimmt einen Filter aus dem URL-Hash (`#zielgruppe=frauen`, `#kategorie=fitness`) und wendet ihn beim Laden an.
+
 ## [0.6.2] — 2026-07-12
 
 ### Geändert — Zielgruppen standardisiert & filterbar

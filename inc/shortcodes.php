@@ -21,11 +21,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *   kategorie — Nur bestimmte Kategorie (Slug)
  *   kompakt   — "ja" für Startseiten-Variante ohne Kategorie-Spalte
  */
+/**
+ * Rendert einen Filter-Chip — im Teaser-Modus als Deep-Link zur vollen
+ * Kursseite (#gruppe=slug), sonst als In-Place-Filter-Span für theme.js.
+ */
+function tgs_kurs_filter_chip( $label, $filter, $active, $teaser, $ziel, $group ) {
+    $cls = 'tgs-chip' . ( $active ? ' active' : '' );
+    if ( $teaser ) {
+        $href = ( $filter === 'alle' ) ? $ziel : $ziel . '#' . $group . '=' . $filter;
+        return sprintf( '<a class="%s" href="%s">%s</a>', esc_attr( $cls ), esc_url( $href ), esc_html( $label ) );
+    }
+    return sprintf( '<span class="%s" data-filter="%s">%s</span>', esc_attr( $cls ), esc_attr( $filter ), esc_html( $label ) );
+}
+
 function tgs_shortcode_kurstabelle( $atts ) {
     $atts = shortcode_atts( array(
         'limit'     => -1,
         'kategorie' => '',
         'kompakt'   => 'nein',
+        'ziel_url'  => '',   // Ziel der Filter-Links im Teaser-Modus
     ), $atts );
 
     $args = array(
@@ -57,13 +71,27 @@ function tgs_shortcode_kurstabelle( $atts ) {
 
     $is_kompakt = $atts['kompakt'] === 'ja';
 
-    // Vorhandene Zielgruppen über alle angezeigten Kurse sammeln (für Filterchips)
+    // Teaser (begrenzte Tabelle): Filter-Chips verlinken auf die volle Kursseite.
+    $is_teaser = intval( $atts['limit'] ) > 0;
+    $ziel_url  = $atts['ziel_url'];
+    if ( $is_teaser && ! $ziel_url ) {
+        $ziel_url = get_post_type_archive_link( 'tgs_kurs' );
+        if ( ! $ziel_url ) $ziel_url = '/kurse';
+    }
+
+    // Vorhandene Zielgruppen sammeln (Teaser: über ALLE Kurse, damit z.B.
+    // "Frauen" auch als Link erscheint, wenn nicht unter den ersten Zeilen).
     $zg_map  = function_exists( 'tgs_zielgruppen' ) ? tgs_zielgruppen() : array();
     $zg_used = array();
     if ( ! $is_kompakt && $zg_map ) {
-        foreach ( $kurse as $k ) {
-            foreach ( tgs_kurs_zielgruppen( $k->ID ) as $slug ) {
-                $zg_used[ $slug ] = true;
+        if ( $is_teaser ) {
+            $all_ids = get_posts( array( 'post_type' => 'tgs_kurs', 'posts_per_page' => -1, 'fields' => 'ids' ) );
+            foreach ( $all_ids as $iid ) {
+                foreach ( tgs_kurs_zielgruppen( $iid ) as $slug ) $zg_used[ $slug ] = true;
+            }
+        } else {
+            foreach ( $kurse as $k ) {
+                foreach ( tgs_kurs_zielgruppen( $k->ID ) as $slug ) $zg_used[ $slug ] = true;
             }
         }
     }
@@ -72,20 +100,20 @@ function tgs_shortcode_kurstabelle( $atts ) {
     ?>
     <div class="tgs-kurstabelle-wrap">
         <?php if ( ! $is_kompakt && ! empty( $kategorien ) ) : ?>
-        <div class="tgs-chip-row" data-filter-group="kategorie">
-            <span class="tgs-chip active" data-filter="alle">Alle</span>
+        <div class="tgs-chip-row"<?php echo $is_teaser ? '' : ' data-filter-group="kategorie"'; ?>>
+            <?php echo tgs_kurs_filter_chip( 'Alle', 'alle', true, $is_teaser, $ziel_url, 'kategorie' ); ?>
             <?php foreach ( $kategorien as $kat ) : ?>
-                <span class="tgs-chip" data-filter="<?php echo esc_attr( $kat->slug ); ?>"><?php echo esc_html( $kat->name ); ?></span>
+                <?php echo tgs_kurs_filter_chip( $kat->name, $kat->slug, false, $is_teaser, $ziel_url, 'kategorie' ); ?>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
 
         <?php if ( ! $is_kompakt && ! empty( $zg_used ) ) : ?>
-        <div class="tgs-chip-row tgs-chip-row--zielgruppe" data-filter-group="zielgruppe">
+        <div class="tgs-chip-row tgs-chip-row--zielgruppe"<?php echo $is_teaser ? '' : ' data-filter-group="zielgruppe"'; ?>>
             <span class="tgs-chip-label">Für wen?</span>
-            <span class="tgs-chip active" data-filter="alle">Alle</span>
+            <?php echo tgs_kurs_filter_chip( 'Alle', 'alle', true, $is_teaser, $ziel_url, 'zielgruppe' ); ?>
             <?php foreach ( $zg_map as $slug => $label ) : if ( empty( $zg_used[ $slug ] ) ) continue; ?>
-                <span class="tgs-chip" data-filter="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $label ); ?></span>
+                <?php echo tgs_kurs_filter_chip( $label, $slug, false, $is_teaser, $ziel_url, 'zielgruppe' ); ?>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>

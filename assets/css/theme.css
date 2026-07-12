@@ -109,7 +109,9 @@ img { max-width: 100%; height: auto; }
 .tgs-abt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .tgs-abt-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.2rem; cursor: pointer; color: inherit; display: block; transition: border-color .15s ease, transform .15s ease; }
 .tgs-abt-card:hover { border-color: var(--tgs-green); text-decoration: none; transform: translateY(-2px); }
-.tgs-abt-icon { font-size: 26px; margin-bottom: .5rem; display: block; }
+.tgs-abt-icon { display: inline-flex; width: 46px; height: 46px; border-radius: 12px; background: #EAF1EA; color: var(--tgs-green); align-items: center; justify-content: center; margin-bottom: .6rem; }
+.tgs-abt-icon .tgs-sport-icon { width: 25px; height: 25px; }
+.tgs-abt-icon .tgs-sport-emoji { font-size: 24px; }
 .tgs-abt-name { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .3rem; display: block; }
 .tgs-abt-desc { font-size: 13px; color: #77736a; line-height: 1.5; display: block; }
 
@@ -228,7 +230,13 @@ img { max-width: 100%; height: auto; }
 /* ============ ABTEILUNG DETAIL (Hero hell, ohne Logo) ============ */
 .tgs-abt-hero { background: var(--tgs-creme); padding-block: 1.5rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
 .tgs-abt-hero-inner { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; }
-.tgs-abt-hero-badge { grid-row: 1 / span 2; width: 50px; height: 50px; border-radius: 13px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 25px; }
+.tgs-abt-hero-badge { grid-row: 1 / span 2; width: 50px; height: 50px; border-radius: 13px; background: #EAF1EA; color: var(--tgs-green); display: flex; align-items: center; justify-content: center; font-size: 25px; }
+/* Sport-Icons (Inline-SVG-Set) */
+.tgs-sport-icon { width: 26px; height: 26px; display: block; }
+.tgs-sport-emoji { font-size: 25px; line-height: 1; }
+.tgs-rel-label { display: inline-flex; align-items: center; gap: 9px; min-width: 0; }
+.tgs-rel-label .tgs-sport-icon { width: 18px; height: 18px; color: var(--tgs-green); flex-shrink: 0; }
+.tgs-rel-label .tgs-sport-emoji { font-size: 15px; }
 .tgs-abt-hero-icon { font-size: 44px; margin-bottom: .5rem; }
 .tgs-abt-hero-h1 { grid-column: 2; font-family: 'Libre Baskerville', serif; font-size: 30px; color: var(--tgs-ink); margin: 0; font-weight: 700; line-height: 1.1; }
 .tgs-abt-hero-sub { grid-column: 2; font-size: 15px; color: #5f5a4d; line-height: 1.5; max-width: 70ch; margin: .2rem 0 0; }
@@ -287,7 +295,7 @@ img { max-width: 100%; height: auto; }
 .tgs-abt2-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 14px; padding: 1.6rem 1.7rem; display: flex; flex-direction: column; color: inherit; cursor: pointer; transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
 .tgs-abt2-card:hover { border-color: var(--tgs-green); transform: translateY(-3px); box-shadow: 0 16px 32px -22px rgba(26,42,30,.5); text-decoration: none; }
 .tgs-abt2-top { display: flex; align-items: center; gap: 14px; margin-bottom: 1rem; }
-.tgs-abt2-badge { width: 54px; height: 54px; border-radius: 14px; background: #EAF1EA; display: flex; align-items: center; justify-content: center; font-size: 27px; flex-shrink: 0; }
+.tgs-abt2-badge { width: 54px; height: 54px; border-radius: 14px; background: #EAF1EA; color: var(--tgs-green); display: flex; align-items: center; justify-content: center; font-size: 27px; flex-shrink: 0; }
 .tgs-abt2-name { font-family: 'Libre Baskerville', serif; font-size: 21px; font-weight: 700; color: var(--tgs-ink); line-height: 1.15; display: block; }
 .tgs-abt2-desc { font-size: 15px; color: #5f5a4d; line-height: 1.55; margin: 0 0 1.2rem; display: block; }
 .tgs-abt2-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border-l); }

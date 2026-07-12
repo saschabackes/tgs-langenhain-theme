@@ -133,7 +133,7 @@ function tgs_shortcode_abteilungen() {
         $excerpt = get_the_excerpt( $abt->ID );
         $url     = get_permalink( $abt->ID );
         $html .= '<div class="tgs-abt-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
-        $html .= '<span class="tgs-abt-icon">' . esc_html( $icon ) . '</span>';
+        $html .= '<span class="tgs-abt-icon">' . tgs_abteilung_icon_html( $abt->ID ) . '</span>';
         $html .= '<span class="tgs-abt-name">' . esc_html( $abt->post_title ) . '</span>';
         $html .= '<span class="tgs-abt-desc">' . esc_html( $excerpt ) . '</span>';
         $html .= '</div>';
@@ -578,7 +578,7 @@ function tgs_shortcode_abteilung_detail() {
     ?>
     <div class="tgs-abt-hero">
         <div class="tgs-abt-hero-inner">
-            <div class="tgs-abt-hero-badge"><?php echo esc_html( $icon ); ?></div>
+            <div class="tgs-abt-hero-badge"><?php echo tgs_abteilung_icon_html( $post_id ); ?></div>
             <h1 class="tgs-abt-hero-h1"><?php echo esc_html( $abt_name ); ?></h1>
             <p class="tgs-abt-hero-sub"><?php echo esc_html( get_the_excerpt() ); ?></p>
         </div>
@@ -616,11 +616,9 @@ function tgs_shortcode_abteilung_detail() {
                     'orderby'        => 'menu_order',
                     'order'          => 'ASC',
                 ) );
-                foreach ( $andere as $a ) :
-                    $a_icon = get_post_meta( $a->ID, '_tgs_abt_icon', true ) ?: '🏅';
-                ?>
+                foreach ( $andere as $a ) : ?>
                     <a href="<?php echo get_permalink( $a->ID ); ?>" class="tgs-kd-related-item">
-                        <?php echo esc_html( $a_icon . ' ' . $a->post_title ); ?>
+                        <span class="tgs-rel-label"><?php echo tgs_abteilung_icon_html( $a->ID ); ?><?php echo esc_html( $a->post_title ); ?></span>
                         <span>→</span>
                     </a>
                 <?php endforeach; ?>
@@ -653,7 +651,7 @@ function tgs_shortcode_abteilungen_detail_liste() {
 
         $html .= '<div class="tgs-abt2-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
         $html .= '<span class="tgs-abt2-top">';
-        $html .= '<span class="tgs-abt2-badge">' . esc_html( $icon ) . '</span>';
+        $html .= '<span class="tgs-abt2-badge">' . tgs_abteilung_icon_html( $abt->ID ) . '</span>';
         $html .= '<span class="tgs-abt2-name">' . esc_html( $abt->post_title ) . '</span>';
         $html .= '</span>';
         if ( $excerpt ) {

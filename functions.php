@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.3.2' );
+define( 'TGS_VERSION', '0.3.3' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -79,6 +79,7 @@ require_once TGS_DIR . '/inc/cpt-sportstaetten.php';
 require_once TGS_DIR . '/inc/cpt-abteilungen.php';
 require_once TGS_DIR . '/inc/meta-fields.php';
 require_once TGS_DIR . '/inc/kurs-anmeldung.php';
+require_once TGS_DIR . '/inc/sport-icons.php';
 require_once TGS_DIR . '/inc/shortcodes.php';
 require_once TGS_DIR . '/inc/content-blocks.php';
 

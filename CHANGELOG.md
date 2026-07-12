@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.3] — 2026-07-12
+
+### Geändert — Vereinseigenes Sport-Icon-Set statt Emojis
+- Neues Inline-SVG-Icon-Set (inc/sport-icons.php): Hantel (Fitness), Hand+Ball (Handball), Schläger+Ball (Tischtennis), Fahrrad (Radsport) — einheitlicher Linienstil in TGS-Grün, im grün getönten Badge.
+- Ersetzt die generischen Emojis überall: Abteilungs-Hero, Startseiten-Grid (jetzt mit Badge), Archiv-Karten und „Weitere Abteilungen"-Listen. Auto-Zuordnung per Slug/Titel; Emoji bleibt Fallback für unbekannte Abteilungen.
+
 ## [0.3.2] — 2026-07-12
 
 ### Geändert

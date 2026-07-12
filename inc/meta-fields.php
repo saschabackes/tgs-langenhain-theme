@@ -24,6 +24,7 @@ function tgs_register_meta_fields() {
         '_tgs_kurs_anmeldung'  => 'string',   // '' / 'pflicht' or 'offen'
         '_tgs_bewertung_aktiv'    => 'string', // '1' = an
         '_tgs_bewertung_anzeigen' => 'string', // '1' = öffentlich zeigen
+        '_tgs_kurs_kinder'        => 'string', // '1' = Kinderkurs (Kind + Elternkontakt)
         '_tgs_zielgruppe'      => 'string',
         '_tgs_ansprechpartner' => 'string',
         '_tgs_ansprechpartner_email' => 'string',
@@ -103,6 +104,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_ort'             => array( 'label' => 'Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle' ),
         '_tgs_max_teilnehmer'  => array( 'label' => 'Max. Teilnehmer', 'type' => 'number', 'placeholder' => 'leer = unbegrenzt' ),
         '_tgs_kurs_anmeldung'  => array( 'label' => 'Anmeldung', 'type' => 'select', 'options' => array( 'pflicht' => 'Anmeldung erforderlich (mit Warteliste)', 'offen' => 'Offener Kurs – keine Anmeldung nötig' ) ),
+        '_tgs_kurs_kinder'     => array( 'label' => 'Kurs für Kinder', 'type' => 'select', 'options' => array( '1' => 'Ja – Anmeldung mit Kind + Elternkontakt', '0' => 'Nein' ) ),
         '_tgs_bewertung_aktiv'    => array( 'label' => 'Bewertungen', 'type' => 'select', 'options' => array( '1' => 'Aktiviert (Teilnehmer können bewerten)', '0' => 'Aus' ) ),
         '_tgs_bewertung_anzeigen' => array( 'label' => 'Bewertungen öffentlich zeigen', 'type' => 'select', 'options' => array( '1' => 'Ja – auf der Kursseite anzeigen', '0' => 'Nein – nur intern' ) ),
         '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'text', 'placeholder' => 'z.B. Erwachsene, Kinder 3-6 J.' ),
@@ -149,7 +151,7 @@ function tgs_save_kurs_meta( $post_id ) {
     $fields = array(
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
         '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
-        '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_zielgruppe',
+        '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder', '_tgs_zielgruppe',
         '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel',
         '_tgs_mitbringen',
     );

@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.6.1] — 2026-07-12
+
+### Hinzugefügt — Kinderkurse
+- Neuer Kursdetails-Schalter „Kurs für Kinder". Bei aktivem Kinderkurs ändert sich das Anmeldeformular: **Name des Kindes** (= Teilnehmer) + **Ansprechpartner (Elternteil)** mit Name/E-Mail (Pflicht) und Telefon, plus **zweiter Ansprechpartner** (optional).
+- Alle Benachrichtigungen gehen an die **Eltern-E-Mail**; Anrede/Texte nennen das Kind („die Anmeldung von … ist bestätigt"). Backend-Roster zeigt Kind + Elternkontakt(e). Doppel-Check jetzt auf E-Mail + Name (ein Elternteil kann mehrere Kinder anmelden).
+
 ## [0.6.0] — 2026-07-12
 
 ### Hinzugefügt — Ausfälle, Pausen & Mitteilungen pro Kurs

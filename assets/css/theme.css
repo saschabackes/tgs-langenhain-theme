@@ -185,6 +185,7 @@ img { max-width: 100%; height: auto; }
 .tgs-kd-anmeldung .tgs-anm-field:nth-of-type(3) { grid-column: 2; }
 .tgs-kd-anmeldung .tgs-anm-submit { grid-column: 1 / -1; width: auto; justify-self: start; padding-inline: 34px; }
 .tgs-anm-title { font-family: 'Libre Baskerville', serif; font-size: 20px; margin: 0 0 .6rem 0; }
+.tgs-anm-section { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 1.3rem 0 .5rem; padding-top: .9rem; border-top: 1px solid var(--tgs-border); }
 .tgs-anm-info { font-size: 14px; color: #77736a; margin-bottom: 1.1rem; line-height: 1.55; }
 .tgs-anm-info--wait { color: #C07020; background: #FEF5EC; padding: .7rem .9rem; border-radius: 6px; border-left: 3px solid #C07020; }
 .tgs-anm-field { margin-bottom: .9rem; }

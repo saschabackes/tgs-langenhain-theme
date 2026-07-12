@@ -89,6 +89,25 @@ function tgs_kurs_ist_offen( $kurs_id ) {
     return get_post_meta( $kurs_id, '_tgs_kurs_anmeldung', true ) === 'offen';
 }
 
+/** Kinderkurs (Anmeldung mit Kind + Elternkontakt)? */
+function tgs_kurs_ist_kinderkurs( $kurs_id ) {
+    return get_post_meta( $kurs_id, '_tgs_kurs_kinder', true ) === '1';
+}
+
+/** Anrede für E-Mails (bei Kinderkursen der Elternkontakt). */
+function tgs_anm_greet( $anm_id ) {
+    $k = get_post_meta( $anm_id, '_tgs_anm_kontakt_name', true );
+    return $k !== '' ? $k : get_post_meta( $anm_id, '_tgs_anm_name', true );
+}
+
+/** Bezug für E-Mail-Texte: „die Anmeldung von Max" (Kind) bzw. „deine Anmeldung". */
+function tgs_anm_bezug( $anm_id ) {
+    if ( get_post_meta( $anm_id, '_tgs_anm_kind', true ) ) {
+        return 'die Anmeldung von ' . get_post_meta( $anm_id, '_tgs_anm_name', true );
+    }
+    return 'deine Anmeldung';
+}
+
 /** Kurs-Meta _tgs_status (frei|warteliste) an die Kapazität angleichen (für die Kurstabelle). */
 function tgs_sync_kurs_status( $kurs_id ) {
     $cap = tgs_kurs_capacity( $kurs_id );
@@ -176,6 +195,7 @@ function tgs_anmeldung_shortcode( $atts ) {
 
     $cap     = tgs_kurs_capacity( $kurs_id );
     $is_full = $cap['is_full'];
+    $kinder  = tgs_kurs_ist_kinderkurs( $kurs_id );
 
     ob_start();
     ?>
@@ -196,12 +216,31 @@ function tgs_anmeldung_shortcode( $atts ) {
         <form method="post" action="#tgs-anmeldung">
             <?php wp_nonce_field( 'tgs_anmeldung', 'tgs_anm_nonce' ); ?>
             <input type="hidden" name="tgs_anm_kurs_id" value="<?php echo esc_attr( $kurs_id ); ?>">
+            <?php if ( $kinder ) : ?>
+            <div class="tgs-anm-field"><label for="tgs_anm_kind">Name des Kindes *</label>
+                <input type="text" id="tgs_anm_kind" name="tgs_anm_kind" required placeholder="Vor- und Nachname des Kindes"></div>
+            <p class="tgs-anm-section">Ansprechpartner (Elternteil) *</p>
+            <div class="tgs-anm-field"><label for="tgs_anm_k1_name">Name *</label>
+                <input type="text" id="tgs_anm_k1_name" name="tgs_anm_k1_name" required placeholder="Vor- und Nachname"></div>
+            <div class="tgs-anm-field"><label for="tgs_anm_k1_email">E-Mail *</label>
+                <input type="email" id="tgs_anm_k1_email" name="tgs_anm_k1_email" required placeholder="eltern@email.de"></div>
+            <div class="tgs-anm-field"><label for="tgs_anm_k1_tel">Telefon (optional)</label>
+                <input type="tel" id="tgs_anm_k1_tel" name="tgs_anm_k1_tel" placeholder="0173 ..."></div>
+            <p class="tgs-anm-section">Zweiter Ansprechpartner (optional)</p>
+            <div class="tgs-anm-field"><label for="tgs_anm_k2_name">Name</label>
+                <input type="text" id="tgs_anm_k2_name" name="tgs_anm_k2_name" placeholder="Vor- und Nachname"></div>
+            <div class="tgs-anm-field"><label for="tgs_anm_k2_tel">Telefon</label>
+                <input type="tel" id="tgs_anm_k2_tel" name="tgs_anm_k2_tel" placeholder="0173 ..."></div>
+            <div class="tgs-anm-field"><label for="tgs_anm_k2_email">E-Mail</label>
+                <input type="email" id="tgs_anm_k2_email" name="tgs_anm_k2_email" placeholder="optional"></div>
+            <?php else : ?>
             <div class="tgs-anm-field"><label for="tgs_anm_name">Name *</label>
                 <input type="text" id="tgs_anm_name" name="tgs_anm_name" required placeholder="Vor- und Nachname"></div>
             <div class="tgs-anm-field"><label for="tgs_anm_email">E-Mail *</label>
                 <input type="email" id="tgs_anm_email" name="tgs_anm_email" required placeholder="deine@email.de"></div>
             <div class="tgs-anm-field"><label for="tgs_anm_telefon">Telefon (optional)</label>
                 <input type="tel" id="tgs_anm_telefon" name="tgs_anm_telefon" placeholder="0173 ..."></div>
+            <?php endif; ?>
             <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht (optional)</label>
                 <textarea id="tgs_anm_nachricht" name="tgs_anm_nachricht" rows="3" placeholder="Fragen, Anmerkungen..."></textarea></div>
             <div class="tgs-anm-field"><label>
@@ -220,13 +259,28 @@ add_shortcode( 'tgs_anmeldung', 'tgs_anmeldung_shortcode' );
  * Gibt die HTML-Statusmeldung fürs Formular zurück.
  */
 function tgs_create_anmeldung( $kurs_id ) {
-    $name  = sanitize_text_field( $_POST['tgs_anm_name'] ?? '' );
-    $email = sanitize_email( $_POST['tgs_anm_email'] ?? '' );
-    $tel   = sanitize_text_field( $_POST['tgs_anm_telefon'] ?? '' );
-    $msg   = sanitize_textarea_field( $_POST['tgs_anm_nachricht'] ?? '' );
+    $kinder = tgs_kurs_ist_kinderkurs( $kurs_id );
+    $msg    = sanitize_textarea_field( $_POST['tgs_anm_nachricht'] ?? '' );
+    $k1_name = $k2_name = $k2_tel = $k2_email = '';
 
-    if ( empty( $name ) || empty( $email ) || ! is_email( $email ) ) {
-        return '<p class="tgs-anm-error">Bitte gib deinen Namen und eine gültige E-Mail-Adresse an.</p>';
+    if ( $kinder ) {
+        $name     = sanitize_text_field( $_POST['tgs_anm_kind'] ?? '' );   // Teilnehmer = Kind
+        $k1_name  = sanitize_text_field( $_POST['tgs_anm_k1_name'] ?? '' ); // Elternkontakt
+        $email    = sanitize_email( $_POST['tgs_anm_k1_email'] ?? '' );
+        $tel      = sanitize_text_field( $_POST['tgs_anm_k1_tel'] ?? '' );
+        $k2_name  = sanitize_text_field( $_POST['tgs_anm_k2_name'] ?? '' );
+        $k2_tel   = sanitize_text_field( $_POST['tgs_anm_k2_tel'] ?? '' );
+        $k2_email = sanitize_email( $_POST['tgs_anm_k2_email'] ?? '' );
+        if ( empty( $name ) || empty( $k1_name ) || empty( $email ) || ! is_email( $email ) ) {
+            return '<p class="tgs-anm-error">Bitte gib den Namen des Kindes sowie Name und eine gültige E-Mail-Adresse eines Elternteils an.</p>';
+        }
+    } else {
+        $name  = sanitize_text_field( $_POST['tgs_anm_name'] ?? '' );
+        $email = sanitize_email( $_POST['tgs_anm_email'] ?? '' );
+        $tel   = sanitize_text_field( $_POST['tgs_anm_telefon'] ?? '' );
+        if ( empty( $name ) || empty( $email ) || ! is_email( $email ) ) {
+            return '<p class="tgs-anm-error">Bitte gib deinen Namen und eine gültige E-Mail-Adresse an.</p>';
+        }
     }
     if ( empty( $_POST['tgs_anm_dsgvo'] ) ) {
         return '<p class="tgs-anm-error">Bitte stimme der Datenschutzerklärung zu.</p>';
@@ -238,6 +292,7 @@ function tgs_create_anmeldung( $kurs_id ) {
         'meta_query' => array( 'relation' => 'AND',
             array( 'key' => '_tgs_anm_kurs_id', 'value' => $kurs_id ),
             array( 'key' => '_tgs_anm_email', 'value' => $email ),
+            array( 'key' => '_tgs_anm_name', 'value' => $name ),
             array( 'key' => '_tgs_anm_status', 'value' => array( 'unbestaetigt', 'bestaetigt', 'warteliste' ), 'compare' => 'IN' ),
         ),
     ) );
@@ -267,6 +322,13 @@ function tgs_create_anmeldung( $kurs_id ) {
     update_post_meta( $anm_id, '_tgs_anm_status', 'unbestaetigt' );
     update_post_meta( $anm_id, '_tgs_anm_token', $token );
     update_post_meta( $anm_id, '_tgs_anm_datum', current_time( 'Y-m-d H:i:s' ) );
+    if ( $kinder ) {
+        update_post_meta( $anm_id, '_tgs_anm_kind', '1' );
+        update_post_meta( $anm_id, '_tgs_anm_kontakt_name', $k1_name );
+        if ( $k2_name )  update_post_meta( $anm_id, '_tgs_anm_kontakt2_name', $k2_name );
+        if ( $k2_tel )   update_post_meta( $anm_id, '_tgs_anm_kontakt2_tel', $k2_tel );
+        if ( $k2_email ) update_post_meta( $anm_id, '_tgs_anm_kontakt2_email', $k2_email );
+    }
 
     tgs_mail_optin( $anm_id );
 
@@ -521,8 +583,8 @@ function tgs_mail_optin( $anm_id ) {
     $link    = tgs_status_url( $token, 'confirm' );
 
     $body = tgs_mail_wrap(
-        '<h2>Hallo ' . esc_html( $name ) . ',</h2>'
-        . '<p>fast geschafft! Bitte bestätige deine Anmeldung für <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ').</p>'
+        '<h2>Hallo ' . esc_html( tgs_anm_greet( $anm_id ) ) . ',</h2>'
+        . '<p>fast geschafft! Bitte bestätige ' . esc_html( tgs_anm_bezug( $anm_id ) ) . ' für <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ').</p>'
         . '<p><a href="' . esc_url( $link ) . '" style="display:inline-block;background:#3D5A40;color:#fff;font-weight:bold;text-decoration:none;padding:12px 24px;border-radius:8px;">Anmeldung bestätigen</a></p>'
         . '<p style="color:#8a8577;font-size:13px;">Falls du dich nicht angemeldet hast, ignoriere diese E-Mail einfach.</p>'
     );
@@ -537,15 +599,16 @@ function tgs_mail_confirmed( $anm_id, $status ) {
     $kurs    = get_the_title( $kurs_id );
     $link    = tgs_status_url( $token );
 
+    $bezug = tgs_anm_bezug( $anm_id );
     if ( $status === 'bestaetigt' ) {
         $subject = 'Anmeldung bestätigt: ' . $kurs;
-        $intro   = '<p>deine Anmeldung für <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ') ist bestätigt. Du hast einen Platz!</p>';
+        $intro   = '<p>' . esc_html( ucfirst( $bezug ) ) . ' für <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ') ist bestätigt — der Platz ist reserviert!</p>';
     } else {
         $subject = 'Warteliste: ' . $kurs;
-        $intro   = '<p>der Kurs <strong>' . esc_html( $kurs ) . '</strong> ist aktuell voll — du stehst jetzt auf der <strong>Warteliste</strong>. Sobald ein Platz frei wird, rücken wir dich automatisch nach und melden uns.</p>';
+        $intro   = '<p>der Kurs <strong>' . esc_html( $kurs ) . '</strong> ist aktuell voll — ' . esc_html( $bezug ) . ' steht jetzt auf der <strong>Warteliste</strong>. Sobald ein Platz frei wird, rücken wir automatisch nach und melden uns.</p>';
     }
     $body = tgs_mail_wrap(
-        '<h2>Hallo ' . esc_html( $name ) . ',</h2>' . $intro
+        '<h2>Hallo ' . esc_html( tgs_anm_greet( $anm_id ) ) . ',</h2>' . $intro
         . '<p>Status ansehen oder abmelden:</p>'
         . '<p><a href="' . esc_url( $link ) . '" style="display:inline-block;background:#3D5A40;color:#fff;font-weight:bold;text-decoration:none;padding:10px 20px;border-radius:8px;">Meine Anmeldung</a></p>'
     );
@@ -562,8 +625,8 @@ function tgs_mail_promoted( $anm_id ) {
     $link    = tgs_status_url( $token );
 
     $body = tgs_mail_wrap(
-        '<h2>Gute Nachricht, ' . esc_html( $name ) . '!</h2>'
-        . '<p>Ein Platz in <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ') ist frei geworden — du bist <strong>nachgerückt und jetzt angemeldet</strong>.</p>'
+        '<h2>Gute Nachricht, ' . esc_html( tgs_anm_greet( $anm_id ) ) . '!</h2>'
+        . '<p>Ein Platz in <strong>' . esc_html( $kurs ) . '</strong> (' . tgs_kurs_infozeile( $kurs_id ) . ') ist frei geworden — ' . esc_html( tgs_anm_bezug( $anm_id ) ) . ' ist jetzt <strong>angemeldet</strong>.</p>'
         . '<p><a href="' . esc_url( $link ) . '" style="display:inline-block;background:#3D5A40;color:#fff;font-weight:bold;text-decoration:none;padding:10px 20px;border-radius:8px;">Meine Anmeldung</a></p>'
     );
     wp_mail( $email, 'Ein Platz ist frei — du bist dabei: ' . $kurs, $body, tgs_mail_headers() );
@@ -632,9 +695,19 @@ function tgs_render_anm_table( $title, $list, $numbered, $ops = array() ) {
         $i++;
         $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
         $name  = get_post_meta( $a->ID, '_tgs_anm_name', true );
+        $namecell = '<strong>' . esc_html( $name ) . '</strong>';
+        if ( get_post_meta( $a->ID, '_tgs_anm_kind', true ) ) {
+            $sub = 'Kind · Kontakt: ' . esc_html( get_post_meta( $a->ID, '_tgs_anm_kontakt_name', true ) );
+            $k2  = get_post_meta( $a->ID, '_tgs_anm_kontakt2_name', true );
+            if ( $k2 ) {
+                $k2t = get_post_meta( $a->ID, '_tgs_anm_kontakt2_tel', true );
+                $sub .= ' · ' . esc_html( $k2 ) . ( $k2t ? ' (' . esc_html( $k2t ) . ')' : '' );
+            }
+            $namecell .= '<br><small style="color:#888;">' . $sub . '</small>';
+        }
         echo '<tr>';
         if ( $numbered ) echo '<td>' . $i . '</td>';
-        echo '<td><strong>' . esc_html( $name ) . '</strong></td>';
+        echo '<td>' . $namecell . '</td>';
         echo '<td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td>';
         echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_telefon', true ) ) . '</td>';
         echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_datum', true ) ) . '</td>';

@@ -103,12 +103,12 @@ function tgs_shortcode_mitglied_werden() {
             <p class="tgs-mw-lead">Mit deiner Mitgliedschaft trainierst du in allen Kursen und Abteilungen mit – vom Turnen über Fitness bis Handball und Radsport. Ein Beitrag, das ganze Angebot. Hier findest du die aktuellen Kosten und wie du in wenigen Minuten dabei bist.</p>
         </div>
 
-        <div class="tgs-section">
+        <div class="tgs-mw-block">
             <div class="tgs-section-hd"><p class="tgs-section-title"><strong>Was kostet die Mitgliedschaft?</strong></p></div>
             <?php echo do_shortcode( '[tgs_beitraege]' ); ?>
         </div>
 
-        <div class="tgs-section tgs-mw-steps-wrap">
+        <div class="tgs-mw-block tgs-mw-steps-wrap">
             <div class="tgs-section-hd"><p class="tgs-section-title"><strong>So wirst du Mitglied</strong></p></div>
             <div class="tgs-mw-steps">
                 <div class="tgs-mw-step">
@@ -126,7 +126,7 @@ function tgs_shortcode_mitglied_werden() {
             </div>
         </div>
 
-        <div class="tgs-section">
+        <div class="tgs-mw-block">
             <div class="tgs-mw-cta">
                 <div class="tgs-mw-cta-tx">
                     <div class="tgs-mw-cta-h">Bereit? Hier geht's zum Mitgliedsantrag</div>
@@ -136,7 +136,7 @@ function tgs_shortcode_mitglied_werden() {
             </div>
         </div>
 
-        <div class="tgs-section tgs-mw-faq">
+        <div class="tgs-mw-block tgs-mw-faq">
             <div class="tgs-section-hd"><p class="tgs-section-title"><strong>Gut zu wissen</strong></p></div>
             <div class="tgs-mw-faq-grid">
                 <div class="tgs-mw-faq-item"><strong>Alle Kurse inklusive</strong><span>Kursangebote der TGS sind über die Mitgliedschaft abgedeckt – es fällt keine gesonderte Kursgebühr an.</span></div>

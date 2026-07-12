@@ -314,7 +314,14 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-app-btn:hover { text-decoration: none; opacity: .9; }
 
 /* ============ MITGLIED WERDEN / BEITRÄGE ============ */
-.tgs-mw-intro { padding: 2.6rem 2rem 1rem; max-width: 760px; }
+/* .tgs-mw ist der EINE zentrierende Container (wie .tgs-section). Die umgebende
+   Seiten-Section wird entrahmt, damit sich die Zentrierung nicht verdoppelt,
+   und der doppelte Seitentitel wird ausgeblendet. */
+.tgs-mw { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
+.tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw) { padding: 0 !important; border-bottom: none; background: transparent; }
+body:has(.tgs-mw) .wp-block-post-title { display: none; }
+.tgs-mw-block { margin-top: 2.6rem; }
+.tgs-mw-intro { max-width: 760px; }
 .tgs-mw-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .5rem; }
 .tgs-mw-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; line-height: 1.15; color: var(--tgs-ink); margin: 0 0 .8rem; font-weight: 700; }
 .tgs-mw-lead { font-size: 17px; line-height: 1.65; color: #55524a; margin: 0; }
@@ -490,7 +497,7 @@ a.tgs-chip:hover { color: #fff; }
   .tgs-ss-hero-inner { padding: 1.6rem 1.4rem; }
   .tgs-ss-body { grid-template-columns: 1fr; gap: 1.4rem; }
   .tgs-ss-ausst { position: static; }
-  .tgs-mw-intro { padding: 1.8rem 1.4rem .5rem; }
+  .tgs-mw { padding-block: 1.6rem; }
   .tgs-mw-h1 { font-size: 26px; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }

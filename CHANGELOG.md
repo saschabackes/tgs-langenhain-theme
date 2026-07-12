@@ -1,3 +1,8 @@
+## [0.8.1] — 2026-07-12
+
+### Behoben — Mitglied-werden-Seite
+- Doppelten Seitentitel ausgeblendet (Template-Titel + Hero-Titel) und doppelte Section-Zentrierung/Padding behoben: `.tgs-mw` ist jetzt der einzige zentrierende Container, die umgebende Seiten-Section wird entrahmt.
+
 # Changelog
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.

@@ -417,3 +417,269 @@ function tgs_shortcode_navigation() {
     </ul></nav>';
 }
 add_shortcode( 'tgs_navigation', 'tgs_shortcode_navigation' );
+
+/**
+ * [tgs_sportstaette_detail] — Sportstätten-Detailseite
+ */
+function tgs_shortcode_sportstaette_detail() {
+    $post_id = get_the_ID();
+    if ( get_post_type( $post_id ) !== 'tgs_sportstaette' ) return '';
+
+    $adresse  = get_post_meta( $post_id, '_tgs_adresse', true );
+    $plz_ort  = get_post_meta( $post_id, '_tgs_plz_ort', true );
+    $maps     = get_post_meta( $post_id, '_tgs_maps_link', true );
+    $ausst    = get_post_meta( $post_id, '_tgs_ausstattung', true );
+    $barr     = get_post_meta( $post_id, '_tgs_barrierefreiheit', true );
+    $park     = get_post_meta( $post_id, '_tgs_parkplaetze', true );
+    $ort_name = get_the_title( $post_id );
+
+    ob_start();
+    ?>
+    <div class="tgs-ss-hero">
+        <div class="tgs-ss-hero-l">
+            <h1 class="tgs-ss-h1"><?php echo esc_html( $ort_name ); ?></h1>
+            <div class="tgs-ss-addr">
+                <?php if ( $adresse ) echo esc_html( $adresse ) . '<br>'; ?>
+                <?php if ( $plz_ort ) echo esc_html( $plz_ort ); ?>
+            </div>
+            <?php if ( $maps ) : ?>
+                <a href="<?php echo esc_url( $maps ); ?>" class="tgs-ss-maps-link" target="_blank" rel="noopener">📍 Anfahrt in Google Maps öffnen →</a>
+            <?php endif; ?>
+        </div>
+        <div class="tgs-ss-hero-map">
+            <?php if ( $maps ) : ?>
+                <a href="<?php echo esc_url( $maps ); ?>" target="_blank" rel="noopener">📍 Karte öffnen</a>
+            <?php else : ?>
+                <span>Kartenansicht</span>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if ( $ausst || $park || $barr ) : ?>
+    <div class="tgs-ss-info-grid">
+        <?php if ( $ausst ) : ?>
+        <div class="tgs-ss-info-card">
+            <div class="tgs-ss-info-icon">🏋️</div>
+            <div class="tgs-ss-info-title">Ausstattung</div>
+            <div class="tgs-ss-info-desc"><?php echo esc_html( $ausst ); ?></div>
+        </div>
+        <?php endif; ?>
+        <?php if ( $park ) : ?>
+        <div class="tgs-ss-info-card">
+            <div class="tgs-ss-info-icon">🅿️</div>
+            <div class="tgs-ss-info-title">Parkplätze</div>
+            <div class="tgs-ss-info-desc"><?php echo esc_html( $park ); ?></div>
+        </div>
+        <?php endif; ?>
+        <?php if ( $barr ) : ?>
+        <div class="tgs-ss-info-card">
+            <div class="tgs-ss-info-icon">♿</div>
+            <div class="tgs-ss-info-title">Barrierefreiheit</div>
+            <div class="tgs-ss-info-desc"><?php echo esc_html( $barr ); ?></div>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="tgs-section">
+        <div class="tgs-section-hd">
+            <p class="tgs-section-title"><strong>Kurse & Trainings <?php echo $ort_name !== 'Wilhelm-Busch-Halle' ? 'am ' : 'in der '; echo esc_html( $ort_name ); ?></strong></p>
+            <p class="tgs-section-more"><a href="/kurse">Alle Kurse →</a></p>
+        </div>
+        <?php echo do_shortcode( '[tgs_kurse_in_ort ort="' . esc_attr( $ort_name ) . '"]' ); ?>
+    </div>
+
+    <?php
+    // Content (Freitext)
+    $content = get_the_content();
+    if ( $content ) :
+    ?>
+    <div class="tgs-section">
+        <div class="tgs-ss-content"><?php echo apply_filters( 'the_content', $content ); ?></div>
+    </div>
+    <?php endif; ?>
+
+    <?php
+    // Weitere Sportstätten
+    $andere = get_posts( array(
+        'post_type'      => 'tgs_sportstaette',
+        'posts_per_page' => -1,
+        'post__not_in'   => array( $post_id ),
+    ) );
+    if ( $andere ) :
+    ?>
+    <div class="tgs-section-alt">
+        <div class="tgs-section-hd">
+            <p class="tgs-section-title"><strong>Weitere Sportstätten</strong></p>
+        </div>
+        <div class="tgs-ss-andere-grid">
+            <?php foreach ( $andere as $a ) : ?>
+            <a href="<?php echo get_permalink( $a->ID ); ?>" class="tgs-ss-andere-card">
+                <div class="tgs-ss-andere-name"><?php echo esc_html( $a->post_title ); ?></div>
+                <div class="tgs-ss-andere-addr"><?php echo esc_html( get_post_meta( $a->ID, '_tgs_adresse', true ) ); ?></div>
+                <span class="tgs-ss-andere-link">Zur Sportstätte →</span>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'tgs_sportstaette_detail', 'tgs_shortcode_sportstaette_detail' );
+
+/**
+ * [tgs_sportstaetten_liste] — Alle Sportstätten als Karten
+ */
+function tgs_shortcode_sportstaetten_liste() {
+    $orte = get_posts( array(
+        'post_type'      => 'tgs_sportstaette',
+        'posts_per_page' => -1,
+        'orderby'        => 'title',
+        'order'          => 'ASC',
+    ) );
+    if ( empty( $orte ) ) return '<p>Keine Sportstätten vorhanden.</p>';
+
+    ob_start();
+    ?>
+    <div class="tgs-ss-liste-grid">
+        <?php foreach ( $orte as $ort ) :
+            $adresse = get_post_meta( $ort->ID, '_tgs_adresse', true );
+            $plz     = get_post_meta( $ort->ID, '_tgs_plz_ort', true );
+            $ausst   = get_post_meta( $ort->ID, '_tgs_ausstattung', true );
+        ?>
+        <a href="<?php echo get_permalink( $ort->ID ); ?>" class="tgs-ss-liste-card">
+            <div class="tgs-ss-liste-name"><?php echo esc_html( $ort->post_title ); ?></div>
+            <div class="tgs-ss-liste-addr"><?php echo esc_html( $adresse ); ?><?php if ($plz) echo '<br>' . esc_html($plz); ?></div>
+            <?php if ( $ausst ) : ?>
+                <div class="tgs-ss-liste-desc"><?php echo esc_html( $ausst ); ?></div>
+            <?php endif; ?>
+            <span class="tgs-ss-liste-link">Details & Belegungsplan →</span>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'tgs_sportstaetten_liste', 'tgs_shortcode_sportstaetten_liste' );
+
+/**
+ * [tgs_abteilung_detail] — Abteilungs-Detailseite
+ */
+function tgs_shortcode_abteilung_detail() {
+    $post_id = get_the_ID();
+    if ( get_post_type( $post_id ) !== 'tgs_abteilung' ) return '';
+
+    $icon     = get_post_meta( $post_id, '_tgs_abt_icon', true ) ?: '🏅';
+    $leitung  = get_post_meta( $post_id, '_tgs_abt_leitung', true );
+    $email    = get_post_meta( $post_id, '_tgs_abt_email', true );
+    $stv      = get_post_meta( $post_id, '_tgs_abt_stv', true );
+    $abt_name = get_the_title( $post_id );
+
+    // Kurse dieser Abteilung finden (über Kategorie-Matching)
+    $slug_map = array(
+        'Fitness & Turnen' => array( 'fitness-kurse', 'fitness-training' ),
+        'Handball'         => array(),
+        'Tischtennis'      => array(),
+        'Radsport'         => array( 'radsport', 'kinder-jugend' ),
+    );
+
+    ob_start();
+    ?>
+    <div class="tgs-abt-hero">
+        <div>
+            <div class="tgs-abt-hero-icon"><?php echo esc_html( $icon ); ?></div>
+            <h1 class="tgs-abt-hero-h1"><?php echo esc_html( $abt_name ); ?></h1>
+            <p class="tgs-abt-hero-sub"><?php echo esc_html( get_the_excerpt() ); ?></p>
+        </div>
+        <div class="tgs-abt-hero-logo">
+            <?php echo do_shortcode( '[tgs_logo color="white" height="90"]' ); ?>
+        </div>
+    </div>
+
+    <div class="tgs-abt-detail-layout">
+        <div class="tgs-abt-detail-content">
+            <?php the_content(); ?>
+        </div>
+        <div class="tgs-abt-detail-sidebar">
+            <?php if ( $leitung ) : ?>
+            <div class="tgs-kd-info-box">
+                <div class="tgs-kd-info-title">Ansprechpartner</div>
+                <div style="font-size:13px;font-weight:700;color:#1A2A1E;margin-bottom:.2rem;"><?php echo esc_html( $leitung ); ?></div>
+                <div style="font-size:11px;color:#999;margin-bottom:.3rem;">Abteilungsleitung</div>
+                <?php if ( $email ) : ?>
+                    <a href="mailto:<?php echo esc_attr( $email ); ?>" style="font-size:11px;color:#3D5A40;font-weight:600;">✉️ <?php echo esc_html( $email ); ?></a>
+                <?php endif; ?>
+                <?php if ( $stv ) : ?>
+                    <div style="margin-top:.6rem;padding-top:.5rem;border-top:1px solid #E4DDD0;">
+                        <div style="font-size:12px;font-weight:600;color:#1A2A1E;"><?php echo esc_html( $stv ); ?></div>
+                        <div style="font-size:10px;color:#999;">Stellvertreter</div>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <div class="tgs-kd-info-box">
+                <div class="tgs-kd-info-title">Weitere Abteilungen</div>
+                <?php
+                $andere = get_posts( array(
+                    'post_type'      => 'tgs_abteilung',
+                    'posts_per_page' => -1,
+                    'post__not_in'   => array( $post_id ),
+                    'orderby'        => 'menu_order',
+                    'order'          => 'ASC',
+                ) );
+                foreach ( $andere as $a ) :
+                    $a_icon = get_post_meta( $a->ID, '_tgs_abt_icon', true ) ?: '🏅';
+                ?>
+                    <a href="<?php echo get_permalink( $a->ID ); ?>" class="tgs-kd-related-item">
+                        <?php echo esc_html( $a_icon . ' ' . $a->post_title ); ?>
+                        <span>→</span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'tgs_abteilung_detail', 'tgs_shortcode_abteilung_detail' );
+
+/**
+ * [tgs_abteilungen_detail_liste] — Alle Abteilungen als ausführliche Karten
+ */
+function tgs_shortcode_abteilungen_detail_liste() {
+    $abteilungen = get_posts( array(
+        'post_type'      => 'tgs_abteilung',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ) );
+    if ( empty( $abteilungen ) ) return '<p>Keine Abteilungen vorhanden.</p>';
+
+    ob_start();
+    ?>
+    <div class="tgs-abt-liste">
+        <?php foreach ( $abteilungen as $abt ) :
+            $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
+            $leitung = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
+            $email   = get_post_meta( $abt->ID, '_tgs_abt_email', true );
+            $excerpt = get_the_excerpt( $abt->ID );
+        ?>
+        <a href="<?php echo get_permalink( $abt->ID ); ?>" class="tgs-abt-liste-card">
+            <div class="tgs-abt-liste-icon"><?php echo esc_html( $icon ); ?></div>
+            <div class="tgs-abt-liste-body">
+                <div class="tgs-abt-liste-name"><?php echo esc_html( $abt->post_title ); ?></div>
+                <div class="tgs-abt-liste-desc"><?php echo esc_html( $excerpt ); ?></div>
+                <?php if ( $leitung ) : ?>
+                    <div class="tgs-abt-liste-contact">Ansprechpartner: <?php echo esc_html( $leitung ); ?></div>
+                <?php endif; ?>
+            </div>
+            <span class="tgs-abt-liste-arrow">→</span>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'tgs_abteilungen_detail_liste', 'tgs_shortcode_abteilungen_detail_liste' );

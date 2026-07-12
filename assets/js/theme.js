@@ -85,9 +85,37 @@
         });
     }
 
+    /**
+     * Imagefilm: lädt YouTube (nocookie) erst beim Klick – vorher keine
+     * Datenübertragung an YouTube.
+     */
+    function initVideoFacade() {
+        var boxes = document.querySelectorAll('.tgs-gs-video[data-video]');
+        boxes.forEach(function (box) {
+            function load() {
+                var id = box.getAttribute('data-video');
+                if (!id) return;
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+                iframe.title = 'Imagefilm';
+                iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                iframe.setAttribute('frameborder', '0');
+                box.innerHTML = '';
+                box.appendChild(iframe);
+                box.classList.add('is-playing');
+            }
+            box.addEventListener('click', load);
+            box.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); }
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
         initCallConfirm();
+        initVideoFacade();
     });
 })();

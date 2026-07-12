@@ -12,6 +12,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/** URL der Gaststätten-Seite (für Rücklinks). Per Filter überschreibbar. */
+function tgs_gaststaette_url() {
+    return apply_filters( 'tgs_gaststaette_url', home_url( '/gaststaette' ) );
+}
+
 /**
  * Stammdaten der Gaststätte. Zum Aktualisieren einfach hier anpassen.
  * Öffnungszeiten: je Wochentag (1=Mo … 7=So) => [ Label, Anzeige-Text, Zeitfenster in Minuten ].
@@ -32,6 +37,11 @@ function tgs_gaststaette_daten() {
         'speisekarte' => '/speisekarte',
         'rating'      => '4,6',
         'rating_link' => 'https://www.google.com/maps/search/?api=1&query=Zu%20den%20Eichen%20Da%20Luca%20Sportplatzstra%C3%9Fe%2013%20Hofheim',
+        'imagefilm'   => 'y1_fysKGo00', // YouTube-Video-ID; leer = kein Film-Abschnitt
+        'zahlung'     => array(
+            array( '💶', 'Barzahlung' ),
+            array( '💳', 'Kartenzahlung' ),
+        ),
         'zeiten'      => array(
             1 => array( 'Montag',     '17:00–24:00 Uhr',              array( array( 1020, 1440 ) ) ),
             2 => array( 'Dienstag',   'Ruhetag',                      array() ),
@@ -122,6 +132,15 @@ function tgs_shortcode_gaststaette() {
             </div>
         </div>
 
+        <?php if ( ! empty( $d['zahlung'] ) ) : ?>
+        <div class="tgs-gs-pay">
+            <span class="tgs-gs-pay-label">Bezahlung</span>
+            <?php foreach ( $d['zahlung'] as $z ) : ?>
+            <span class="tgs-gs-pay-item"><span class="tgs-gs-pay-ic"><?php echo esc_html( $z[0] ); ?></span><?php echo esc_html( $z[1] ); ?></span>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
         <!-- ÖFFNUNGSZEITEN + SPEISEN -->
         <div class="tgs-gs-grid">
             <div class="tgs-gs-block">
@@ -186,6 +205,20 @@ function tgs_shortcode_gaststaette() {
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <?php if ( ! empty( $d['imagefilm'] ) ) : ?>
+        <!-- IMAGEFILM (datenschutzfreundlich: lädt erst auf Klick) -->
+        <div class="tgs-gs-block">
+            <h2 class="tgs-gs-h2">Unser Imagefilm</h2>
+            <div class="tgs-gs-video" data-video="<?php echo esc_attr( $d['imagefilm'] ); ?>" role="button" tabindex="0" aria-label="Imagefilm abspielen">
+                <div class="tgs-gs-video-inner">
+                    <span class="tgs-gs-video-play" aria-hidden="true">▶</span>
+                    <span class="tgs-gs-video-label">Film ansehen</span>
+                </div>
+            </div>
+            <p class="tgs-gs-note">Der Film wird erst beim Klick von YouTube geladen – so werden vorher keine Daten an YouTube übertragen.</p>
+        </div>
+        <?php endif; ?>
 
         <!-- KONTAKT / CTA -->
         <div class="tgs-gs-contact">

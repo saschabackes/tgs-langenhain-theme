@@ -323,6 +323,7 @@ function tgs_shortcode_speisekarte() {
     ob_start();
     ?>
     <div class="tgs-sk">
+        <a href="<?php echo esc_url( tgs_gaststaette_url() ); ?>" class="tgs-sk-back">← Zurück zur Gaststätte</a>
         <div class="tgs-sk-intro">
             <p class="tgs-sk-kicker">Zu den Eichen – Da Luca</p>
             <h1 class="tgs-sk-h1">Unsere Speisekarte</h1>
@@ -339,6 +340,10 @@ function tgs_shortcode_speisekarte() {
         </div>
 
         <p class="tgs-sk-legend">Preise in Euro, inkl. MwSt. Angaben ohne Gewähr – es gilt die Karte vor Ort. Kennzeichnung von Zusatzstoffen und Allergenen erhalten Sie gern in der Gaststätte.</p>
+
+        <div class="tgs-sk-backbar">
+            <a href="<?php echo esc_url( tgs_gaststaette_url() ); ?>" class="tgs-sk-back">← Zurück zur Gaststätte</a>
+        </div>
     </div>
     <?php
     return ob_get_clean();

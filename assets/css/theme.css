@@ -449,6 +449,27 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-gs-contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 .tgs-gs-contact .tgs-gs-btn--ghost { color: #fff; border-color: rgba(255,255,255,.5); }
 
+/* Zahlungshinweise */
+.tgs-gs-pay { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+.tgs-gs-pay-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; margin-right: 2px; }
+.tgs-gs-pay-item { display: inline-flex; align-items: center; gap: 7px; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 999px; padding: 7px 15px; font-size: 14px; font-weight: 600; color: var(--tgs-ink); }
+.tgs-gs-pay-ic { font-size: 17px; }
+
+/* Imagefilm-Facade */
+.tgs-gs-video { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; cursor: pointer; background: linear-gradient(135deg, #2f4230, var(--tgs-green)); }
+.tgs-gs-video-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; color: #fff; transition: background .15s ease; }
+.tgs-gs-video:hover .tgs-gs-video-inner { background: rgba(0,0,0,.12); }
+.tgs-gs-video-play { width: 74px; height: 74px; border-radius: 50%; background: var(--gs-amber); color: #fff; font-size: 28px; display: flex; align-items: center; justify-content: center; padding-left: 5px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.tgs-gs-video-label { font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+.tgs-gs-video:focus-visible { outline: 3px solid var(--gs-amber); outline-offset: 2px; }
+.tgs-gs-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Speisekarte: Rücklink */
+.tgs-sk-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--tgs-green); margin-bottom: 1.2rem; }
+.tgs-sk-back:hover { text-decoration: underline; }
+.tgs-sk-backbar { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--tgs-border); }
+.tgs-sk-backbar .tgs-sk-back { margin-bottom: 0; }
+
 /* ============ SPEISEKARTE ============ */
 .tgs-sk-intro { max-width: 720px; margin-bottom: 1.4rem; }
 .tgs-sk-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .3rem; }

@@ -1,3 +1,10 @@
+## [0.12.0] — 2026-07-12
+
+### Hinzugefügt / Verbessert — Gaststätte & Speisekarte
+- **Rücknavigation:** Die Speisekarten-Seite hat jetzt oben und unten einen „← Zurück zur Gaststätte"-Link (vorher kein Weg zurück).
+- **Zahlungshinweise** auf der Gaststätten-Seite: „💶 Barzahlung" und „💳 Kartenzahlung" als Icon-Pills.
+- **Imagefilm** (YouTube) datenschutzfreundlich eingebettet: Vorschau mit Play-Button, das Video lädt erst beim Klick über youtube-nocookie (keine Datenübertragung vorher). Video-ID in inc/gaststaette.php pflegbar.
+
 ## [0.11.0] — 2026-07-12
 
 ### Hinzugefügt — Speisekarte auf eigener Seite

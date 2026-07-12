@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.1] — 2026-07-12
+
+### Hinzugefügt
+- `[tgs_whatsapp]` — WhatsApp-Community-Karte mit Ein-Klick-Beitritt (wa.me mit vorformulierter Nachricht oder direktem Gruppenlink) und optionalem QR-Code. Breites Layout mit QR (Content) bzw. kompakt ohne QR (Sidebar). Wiederverwendbar; QR-Bild in assets/images/.
+- QR-Code für Radsport erzeugt (`assets/images/tgs-whatsapp-radsport-qr.png`, wa.me an Olaf Bertko).
+
 ## [0.3.0] — 2026-07-12
 
 ### Hinzugefügt — Wiederverwendbare Content-Bausteine (inc/content-blocks.php)

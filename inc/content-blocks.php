@@ -107,3 +107,70 @@ function tgs_shortcode_cta_box( $atts ) {
     return $html . '</div>';
 }
 add_shortcode( 'tgs_cta_box', 'tgs_shortcode_cta_box' );
+
+/**
+ * [tgs_whatsapp] — WhatsApp-Community-Karte mit Ein-Klick-Beitritt (+ optional QR-Code).
+ *
+ * Attribute:
+ *   titel      — Überschrift (Default: "WhatsApp-Community")
+ *   text       — Kurzbeschreibung; {mitglieder} wird durch die Mitgliederzahl (fett) ersetzt
+ *   mitglieder — z. B. "59 Aktive"
+ *   tel        — Rufnummer international ohne + und Leerzeichen, z. B. 491738966223
+ *   nachricht  — vorbelegter Chat-Text
+ *   link       — alternativ: direkter Gruppenlink (chat.whatsapp.com/…), überschreibt tel
+ *   qr         — Dateiname in assets/images/ ODER volle URL; zeigt QR-Code + breites Layout
+ *   button     — Button-Text (Default: "Per WhatsApp beitreten")
+ */
+function tgs_shortcode_whatsapp( $atts ) {
+    $atts = shortcode_atts( array(
+        'titel'      => 'WhatsApp-Community',
+        'text'       => '',
+        'mitglieder' => '',
+        'tel'        => '',
+        'nachricht'  => '',
+        'link'       => '',
+        'qr'         => '',
+        'button'     => 'Per WhatsApp beitreten',
+    ), $atts );
+
+    if ( $atts['link'] !== '' ) {
+        $url = $atts['link'];
+    } elseif ( $atts['tel'] !== '' ) {
+        $url = 'https://wa.me/' . preg_replace( '/\D/', '', $atts['tel'] );
+        if ( $atts['nachricht'] !== '' ) {
+            $url .= '?text=' . rawurlencode( $atts['nachricht'] );
+        }
+    } else {
+        return '';
+    }
+
+    $qr_url = '';
+    if ( $atts['qr'] !== '' ) {
+        $qr_url = ( strpos( $atts['qr'], 'http' ) === 0 || strpos( $atts['qr'], '/' ) === 0 )
+            ? $atts['qr']
+            : TGS_URI . '/assets/images/' . $atts['qr'];
+    }
+
+    $logo = '<svg class="tgs-wa-logo" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path fill="#25D366" d="M16 3C8.8 3 3 8.8 3 16c0 2.3.6 4.5 1.8 6.5L3 29l6.7-1.8C11.6 28.4 13.8 29 16 29c7.2 0 13-5.8 13-13S23.2 3 16 3z"/><path fill="#fff" d="M22.5 19.3c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1c-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-2-1.8-2.3s0-.5.1-.7c.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5s0-.4 0-.6c-.1-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.1 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg>';
+
+    $has_qr = ( $qr_url !== '' );
+    $cls = 'tgs-wa' . ( $has_qr ? '' : ' tgs-wa--kompakt' );
+
+    $html  = '<div class="' . $cls . '">';
+    $html .= '<div class="tgs-wa-main">';
+    $html .= '<div class="tgs-wa-head">' . $logo . '<span class="tgs-wa-title">' . esc_html( $atts['titel'] ) . '</span></div>';
+    if ( $atts['text'] !== '' ) {
+        $pitch = esc_html( $atts['text'] );
+        if ( $atts['mitglieder'] !== '' ) {
+            $pitch = str_replace( '{mitglieder}', '<b>' . esc_html( $atts['mitglieder'] ) . '</b>', $pitch );
+        }
+        $html .= '<p class="tgs-wa-pitch">' . $pitch . '</p>';
+    }
+    $html .= '<a class="tgs-wa-btn" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . $logo . '<span>' . esc_html( $atts['button'] ) . '</span></a>';
+    $html .= '</div>';
+    if ( $has_qr ) {
+        $html .= '<div class="tgs-wa-qr"><img src="' . esc_url( $qr_url ) . '" alt="QR-Code WhatsApp" loading="lazy"><span>Mit dem Handy scannen</span></div>';
+    }
+    return $html . '</div>';
+}
+add_shortcode( 'tgs_whatsapp', 'tgs_shortcode_whatsapp' );

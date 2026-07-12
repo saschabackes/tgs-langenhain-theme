@@ -581,7 +581,7 @@ function tgs_shortcode_abteilung_detail() {
             <p class="tgs-abt-hero-sub"><?php echo esc_html( get_the_excerpt() ); ?></p>
         </div>
         <div class="tgs-abt-hero-logo">
-            <?php echo do_shortcode( '[tgs_logo color="white" height="90"]' ); ?>
+            <?php echo do_shortcode( '[tgs_logo color="black" height="120"]' ); ?>
         </div>
     </div>
 

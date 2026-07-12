@@ -1,391 +1,309 @@
 /**
- * TGS Langenhain — Theme Styles (Entwurf P)
- * Waldgrün (#3D5A40) + Creme (#F8F6F0)
+ * TGS Langenhain — Theme Styles (Entwurf C — „Emblem")
+ * Waldgrün (#3D5A40) + Creme (#F8F6F0), luftige Typo-Skala.
+ * Dunkelgrüner invertierter Header, helle Hero-Flächen mit Wappen als These.
  */
+:root {
+  --tgs-green:    #3D5A40;
+  --tgs-green-d:  #2A3F2C;
+  --tgs-deep:     #1A2A1E;
+  --tgs-green-l:  #8FBF8F;
+  --tgs-green-ll: #B8DDB8;
+  --tgs-creme:    #F8F6F0;
+  --tgs-border:   #E4DDD0;
+  --tgs-border-l: #F0EDE4;
+  --tgs-ink:      #1A2A1E;
+  --tgs-body:     #33322b;
+  --tgs-muted:    #8a8577;
+  --tgs-wrap:     1180px;
+}
 *, *::before, *::after { box-sizing: border-box; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F8F6F0; color: #1A2A1E; font-size: 14px; line-height: 1.6; margin: 0; }
-a { color: #3D5A40; text-decoration: none; font-weight: 600; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--tgs-creme); color: var(--tgs-body); font-size: 15px; line-height: 1.65; margin: 0; }
+a { color: var(--tgs-green); text-decoration: none; font-weight: 600; }
 a:hover { text-decoration: underline; }
 img { max-width: 100%; height: auto; }
 
-/* TOPBAR */
-.tgs-topbar { background: #3D5A40; padding: 0 1.5rem; height: 32px; display: flex; align-items: center; justify-content: space-between; }
-.tgs-topbar, .tgs-topbar p { margin: 0; color: #A8C8A8; font-size: 10px; font-weight: 600; letter-spacing: .04em; }
-.tgs-topbar a { color: #A8C8A8; font-weight: 600; }
-.tgs-topbar a:hover { color: #fff; text-decoration: none; }
-
-/* NAV */
-.tgs-nav { background: #fff; border-bottom: 2px solid #E4DDD0; padding: 0 1.5rem; min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.tgs-nav .wp-block-site-logo img { height: 44px; width: auto; }
-.tgs-club-info { margin-left: 12px; }
-.tgs-club-info .wp-block-site-title { font-family: 'Libre Baskerville', Georgia, serif; font-size: 15px !important; font-weight: 700; }
-.tgs-club-info .tgs-since { margin-top: -2px; }
-.tgs-nav .wp-block-navigation { font-size: 12px; }
-.tgs-nav .wp-block-navigation a { color: #666; font-weight: 500; }
-.tgs-nav .wp-block-navigation a:hover { color: #3D5A40; text-decoration: none; }
-.tgs-cta-nav .wp-block-button__link { background: #3D5A40 !important; color: #fff !important; font-size: 11px !important; font-weight: 700; padding: 7px 16px !important; border-radius: 3px; }
-.tgs-cta-nav .wp-block-button__link:hover { background: #2A3F2C !important; text-decoration: none; }
-
-/* HERO */
-.tgs-hero { background: #3D5A40; padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-bottom: 2px solid #2A3F2C; }
-.tgs-hero h1, .tgs-hero h2 { font-family: 'Libre Baskerville', Georgia, serif; font-size: 28px; line-height: 1.1; color: #fff; margin: 0 0 .5rem 0; }
-.tgs-hero h1 em, .tgs-hero h2 em { font-style: italic; color: #B8DDB8; }
-.tgs-hero p { font-size: 13px; color: #8FBF8F; line-height: 1.5; max-width: 360px; margin: 0 0 1rem 0; }
-.tgs-hero-btns { display: flex; gap: 8px; }
-.tgs-hero-btn-w .wp-block-button__link { background: #fff !important; color: #3D5A40 !important; font-size: 12px !important; font-weight: 700; padding: 9px 18px !important; border-radius: 3px; }
-.tgs-hero-btn-g .wp-block-button__link { background: rgba(255,255,255,.12) !important; border: 1px solid rgba(255,255,255,.25); color: #fff !important; font-size: 12px !important; padding: 9px 18px !important; border-radius: 3px; }
-.tgs-hero-logo-wrap { flex-shrink: 0; text-align: center; }
-.tgs-hero-logo img, .tgs-hero-logo-wrap .wp-block-site-logo img { height: 130px !important; width: auto !important; filter: drop-shadow(0 2px 12px rgba(0,0,0,.3)); }
-.tgs-hero-since { font-size: 10px; color: #8FBF8F; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; text-align: center; margin: .5rem 0 0 0; }
-
-/* PAGE HERO */
-.tgs-page-hero { background: #3D5A40; padding: 1.25rem 1.5rem; border-bottom: 2px solid #2A3F2C; display: flex; justify-content: space-between; align-items: center; }
-.tgs-page-hero h1 { font-family: 'Libre Baskerville', serif; font-size: 22px; color: #fff; margin: 0 0 .15rem 0; }
-.tgs-page-hero p { font-size: 12px; color: #8FBF8F; margin: 0; }
-.tgs-page-hero .wp-block-site-logo img { height: 60px !important; width: auto !important; opacity: .9; }
-
-/* SECTIONS */
-.tgs-section { padding: 1.25rem 1.5rem; background: #fff; border-bottom: 1px solid #E4DDD0; }
-.tgs-section-alt { padding: 1.25rem 1.5rem; background: #F8F6F0; border-bottom: 1px solid #E4DDD0; }
-.tgs-section-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .75rem; }
-.tgs-section-title { font-size: 13px; font-weight: 700; color: #1A2A1E; margin: 0; }
-.tgs-section-more { font-size: 11px; color: #3D5A40; font-weight: 600; margin: 0; }
-.tgs-section-more a { color: #3D5A40; }
-
-/* BREADCRUMB */
-.tgs-breadcrumb { font-size: 10px; color: #CCC; margin-bottom: .75rem; }
-.tgs-breadcrumb p { margin: 0; }
-.tgs-breadcrumb a { color: #3D5A40; font-weight: 600; }
-
-/* CHIPS */
-.tgs-chip-row { display: flex; gap: 5px; margin-bottom: .75rem; flex-wrap: wrap; }
-.tgs-chip { display: inline-block; border: 1px solid #E4DDD0; background: #F8F6F0; color: #666; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 10px; cursor: pointer; transition: all .15s ease; }
-.tgs-chip:hover, .tgs-chip.active { background: #3D5A40; color: #fff; border-color: #3D5A40; }
-
-/* KURS-TABELLE */
-.tgs-kurs-tabelle { width: 100%; border-collapse: collapse; }
-.tgs-kurs-tabelle th { text-align: left; font-size: 9px; color: #BBB; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 5px 8px; border-bottom: 1px solid #E4DDD0; }
-.tgs-kurs-tabelle td { font-size: 12px; padding: 7px 8px; border-bottom: 1px solid #F0EDE4; }
-.tgs-kurs-tabelle tr:hover td { background: #FAFAF7; }
-.tgs-kurs-kategorie { color: #3D5A40; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
-.tgs-kurs-name { font-weight: 600; color: #1A2A1E; }
-.tgs-kurs-name:hover { color: #3D5A40; text-decoration: none; }
-.tgs-kurs-meta { color: #999; font-size: 11px; }
-.tgs-kurs-link { font-size: 10px; color: #3D5A40; font-weight: 700; }
-.tgs-status-frei { font-size: 10px; font-weight: 600; color: #3D5A40; }
-.tgs-status-warteliste { font-size: 10px; font-weight: 600; color: #C07020; }
-
-/* ABTEILUNGEN */
-.tgs-abt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.tgs-abt-card { background: #fff; border: 1px solid #E4DDD0; border-radius: 4px; padding: .8rem; cursor: pointer; color: inherit; display: block; }
-.tgs-abt-card:hover { border-color: #3D5A40; text-decoration: none; }
-.tgs-abt-icon { font-size: 16px; margin-bottom: .3rem; }
-.tgs-abt-name { font-size: 12px; font-weight: 700; color: #1A2A1E; margin-bottom: .15rem; }
-.tgs-abt-desc { font-size: 10px; color: #999; line-height: 1.4; }
-
-/* KONTAKT */
-.tgs-kontakt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.tgs-kontakt-card { background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px; padding: .8rem; text-align: center; }
-.tgs-kontakt-role { font-size: 9px; color: #3D5A40; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
-.tgs-kontakt-name { font-size: 12px; font-weight: 700; color: #1A2A1E; margin-bottom: .15rem; }
-.tgs-kontakt-mail { font-size: 10px; color: #3D5A40; font-weight: 600; display: block; margin-top: .25rem; }
-
-/* MITGLIED CTA */
-.tgs-mitglied-cta { background: #3D5A40; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid #2A3F2C; }
-.tgs-mitglied-cta h2, .tgs-mitglied-cta h3 { font-family: 'Libre Baskerville', serif; font-size: 15px; color: #fff; margin: 0 0 .15rem 0; }
-.tgs-mitglied-cta p { font-size: 11px; color: #8FBF8F; margin: 0; }
-
-/* SPONSOREN */
-.tgs-sponsor-section { padding: 1rem 1.5rem; background: #F8F6F0; border-bottom: 1px solid #E4DDD0; }
-.tgs-sponsor-hd { font-size: 10px; color: #BBB; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; text-align: center; }
-.tgs-sponsor-row { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
-.tgs-sponsor { background: #fff; border: 1px solid #E4DDD0; border-radius: 4px; padding: 8px 16px; font-size: 10px; color: #AAA; font-weight: 600; display: inline-block; }
-.tgs-sponsor:hover { border-color: #3D5A40; color: #3D5A40; text-decoration: none; }
-
-/* FOOTER */
-.tgs-footer { background: #1A2A1E; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-.tgs-footer, .tgs-footer p, .tgs-footer a { color: #4A6A4A; font-size: 11px; margin: 0; }
-.tgs-footer a:hover { color: #8FBF8F; text-decoration: none; }
-.tgs-footer .wp-block-site-logo img { height: 24px !important; width: auto !important; }
-
-/* KURS-DETAIL */
-.tgs-kd-header { padding: 1.25rem 1.5rem; background: #fff; border-bottom: 1px solid #E4DDD0; display: flex; justify-content: space-between; align-items: flex-start; }
-.tgs-kd-tag { display: inline-block; background: #E8F3E8; color: #3D5A40; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; margin-bottom: .5rem; }
-.tgs-kd-h1 { font-family: 'Libre Baskerville', serif; font-size: 24px; color: #1A2A1E; margin: 0 0 .4rem 0; }
-.tgs-kd-meta-row { display: flex; gap: 1.5rem; font-size: 12px; color: #999; }
-.tgs-kd-meta-row strong { color: #1A2A1E; }
-.tgs-kd-cta { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-.tgs-kd-btn { background: #3D5A40; color: #fff !important; border: none; padding: 10px 22px; font-size: 12px; font-weight: 700; cursor: pointer; border-radius: 3px; display: inline-block; }
-.tgs-kd-btn:hover { background: #2A3F2C; text-decoration: none; }
-.tgs-kd-body { display: grid; grid-template-columns: 1fr 220px; gap: 1.25rem; padding: 1.25rem 1.5rem; background: #fff; border-bottom: 1px solid #E4DDD0; }
-.tgs-kd-content { font-size: 13px; color: #444; line-height: 1.75; }
-.tgs-kd-content p { margin-bottom: .75rem; }
-.tgs-kd-ap { margin-top: 1rem; padding-top: .75rem; border-top: 1px solid #E4DDD0; font-size: 13px; }
-.tgs-kd-info-box { background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px; padding: .9rem; margin-bottom: .6rem; }
-.tgs-kd-info-title { font-size: 10px; font-weight: 700; color: #1A2A1E; text-transform: uppercase; letter-spacing: .07em; margin-bottom: .5rem; }
-.tgs-kd-info-row { font-size: 12px; color: #444; margin-bottom: .35rem; display: flex; justify-content: space-between; }
-.tgs-kd-info-row span { color: #999; }
-.tgs-kd-related { display: flex; flex-direction: column; gap: 4px; }
-.tgs-kd-related-item { display: flex; justify-content: space-between; font-size: 11px; color: #3D5A40; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #E4DDD0; }
-.tgs-kd-related-item:last-child { border-bottom: none; }
-.tgs-kd-related-item span { color: #999; font-weight: 400; }
-
-/* ANMELDEFORMULAR */
-.tgs-anmeldung-form { max-width: 480px; padding: 1.25rem; background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px; margin: 1rem 0; }
-.tgs-anm-title { font-family: 'Libre Baskerville', serif; font-size: 18px; margin: 0 0 .5rem 0; }
-.tgs-anm-info { font-size: 12px; color: #888; margin-bottom: 1rem; line-height: 1.5; }
-.tgs-anm-info--wait { color: #C07020; background: #FEF5EC; padding: .6rem .8rem; border-radius: 4px; border-left: 3px solid #C07020; }
-.tgs-anm-field { margin-bottom: .75rem; }
-.tgs-anm-field label { display: block; font-size: 11px; font-weight: 600; color: #1A2A1E; margin-bottom: .25rem; }
-.tgs-anm-field input[type="text"], .tgs-anm-field input[type="email"], .tgs-anm-field input[type="tel"], .tgs-anm-field textarea { width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid #E4DDD0; border-radius: 3px; background: #fff; font-family: 'Inter', sans-serif; }
-.tgs-anm-field input:focus, .tgs-anm-field textarea:focus { outline: none; border-color: #3D5A40; box-shadow: 0 0 0 2px rgba(61,90,64,.15); }
-.tgs-anm-submit { background: #3D5A40; color: #fff; border: none; padding: 10px 22px; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 3px; width: 100%; margin-top: .5rem; }
-.tgs-anm-submit:hover { background: #2A3F2C; }
-.tgs-anm-success { background: #EEF5EE; color: #3D5A40; padding: .75rem 1rem; border-radius: 4px; font-size: 13px; border-left: 3px solid #3D5A40; margin-bottom: 1rem; }
-.tgs-anm-success--wait { background: #FEF5EC; color: #C07020; border-color: #C07020; }
-.tgs-anm-error { background: #FEE; color: #C33; padding: .75rem 1rem; border-radius: 4px; font-size: 13px; border-left: 3px solid #C33; margin-bottom: 1rem; }
-
-/* RESPONSIVE */
-
-    .tgs-hero p { max-width: none; }
-    .tgs-hero-btns { justify-content: center; }
-    .tgs-abt-grid { grid-template-columns: repeat(2, 1fr); }
-    .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); }
-    .tgs-kd-header { flex-direction: column; gap: 1rem; }
-    .tgs-kd-cta { align-items: flex-start; }
-    .tgs-kd-body { grid-template-columns: 1fr; }
-    .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: .75rem; }
+/* Vollbreite-Bänder auf zentrierte Inhaltsbreite bringen — ohne Wrapper-Div */
+.tgs-nav, .tgs-hero, .tgs-page-hero, .tgs-section, .tgs-section-alt,
+.tgs-mitglied-cta, .tgs-sponsor-section, .tgs-footer,
+.tgs-kd-header, .tgs-kd-body, .tgs-abt-hero {
+  padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2));
 }
 
-    .tgs-hero-logo-wrap .wp-block-site-logo img { height: 90px !important; }
-    .tgs-hero h1 { font-size: 22px; }
-}
-
-/* NAV EXTRAS */
-.tgs-nav-left { gap: 12px; }
-.tgs-nav-divider { width: 1px; height: 32px; background: #E4DDD0; }
-.tgs-hero-logo { filter: drop-shadow(0 2px 12px rgba(0,0,0,.3)); }
-
-/* MAIN NAV (Classic Menu) */
+/* ============ HEADER / NAV (dunkelgrün, invertiert) ============ */
+.tgs-nav { background: var(--tgs-green-d); border-bottom: 1px solid #22331F; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: .85rem; min-height: 74px; }
+.tgs-nav-left { display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; }
+.tgs-nav-left img { height: 48px !important; width: auto; }
+.tgs-nav-divider { width: 1px; height: 34px; background: rgba(255,255,255,.18); }
+.tgs-club-info .wp-block-site-title,
+.tgs-club-info .wp-block-site-title a { font-family: 'Libre Baskerville', Georgia, serif; font-size: 19px !important; font-weight: 700; line-height: 1; color: #fff !important; text-decoration: none; }
+.tgs-since { margin: 5px 0 0 0 !important; font-size: 10px !important; letter-spacing: .2em; color: var(--tgs-green-l); font-weight: 600; }
 .tgs-main-nav { display: flex; align-items: center; }
-.tgs-nav-list { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+.tgs-nav-list { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
 .tgs-nav-list li { margin: 0; }
-.tgs-nav-list li a { font-size: 12px; color: #666; font-weight: 500; text-decoration: none; }
-.tgs-nav-list li a:hover { color: #3D5A40; text-decoration: none; }
+.tgs-nav-list li a { font-size: 16px; color: #d7e5d7; font-weight: 500; text-decoration: none; }
+.tgs-nav-list li a:hover { color: #fff; text-decoration: none; }
 .tgs-nav-list li.current-menu-item a,
-.tgs-nav-list li.current_page_item a { color: #3D5A40; font-weight: 700; }
+.tgs-nav-list li.current_page_item a { color: #fff; font-weight: 700; }
+.tgs-cta-nav .wp-block-button__link,
+.tgs-cta-nav-wrap .wp-block-button__link { background: #fff !important; color: var(--tgs-green-d) !important; font-size: 15px !important; font-weight: 700; padding: 10px 20px !important; border-radius: 7px; }
+.tgs-cta-nav .wp-block-button__link:hover,
+.tgs-cta-nav-wrap .wp-block-button__link:hover { background: var(--tgs-creme) !important; text-decoration: none; }
 
-/* SPORTSTÄTTE DETAIL */
-.tgs-ss-hero { display: grid; grid-template-columns: 1fr 280px; background: #fff; border-bottom: 1px solid #E4DDD0; }
-.tgs-ss-hero-l { padding: 1.5rem; }
-.tgs-ss-h1 { font-family: 'Libre Baskerville', serif; font-size: 24px; color: #1A2A1E; margin: 0 0 .5rem 0; }
-.tgs-ss-addr { font-size: 12px; color: #999; line-height: 1.5; margin-bottom: .75rem; }
-.tgs-ss-maps-link { font-size: 12px; color: #3D5A40; font-weight: 600; }
-.tgs-ss-hero-map { background: #D4E8D4; display: flex; align-items: center; justify-content: center; border-left: 1px solid #E4DDD0; font-size: 12px; color: #5A8A5A; font-weight: 600; }
-.tgs-ss-hero-map a { color: #3D5A40; font-weight: 700; font-size: 13px; }
-.tgs-ss-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 1.25rem 1.5rem; background: #F8F6F0; border-bottom: 1px solid #E4DDD0; }
-.tgs-ss-info-card { background: #fff; border: 1px solid #E4DDD0; border-radius: 4px; padding: .8rem; text-align: center; }
-.tgs-ss-info-icon { font-size: 18px; margin-bottom: .3rem; }
-.tgs-ss-info-title { font-size: 11px; font-weight: 700; color: #1A2A1E; margin-bottom: .15rem; }
-.tgs-ss-info-desc { font-size: 10px; color: #999; line-height: 1.4; }
-.tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.tgs-ss-andere-card { background: #fff; border: 1px solid #E4DDD0; border-radius: 4px; padding: .9rem; display: block; color: inherit; }
-.tgs-ss-andere-card:hover { border-color: #3D5A40; text-decoration: none; }
-.tgs-ss-andere-name { font-size: 13px; font-weight: 700; color: #1A2A1E; margin-bottom: .2rem; }
-.tgs-ss-andere-addr { font-size: 11px; color: #999; margin-bottom: .3rem; }
-.tgs-ss-andere-link { font-size: 11px; color: #3D5A40; font-weight: 600; }
+/* ============ HERO (hell, Wappen als These) ============ */
+.tgs-hero { background: var(--tgs-creme); display: flex; align-items: center; justify-content: flex-start; gap: 3rem; padding-block: 3.5rem; border-bottom: 1px solid var(--tgs-border); }
+.tgs-hero-emblem, .tgs-hero-logo-wrap { flex-shrink: 0; }
+.tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 190px !important; width: auto !important; filter: drop-shadow(0 10px 26px rgba(26,42,30,.20)); }
+.tgs-hero-eye { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--tgs-green); font-weight: 700; margin: 0 0 1rem 0; }
+.tgs-hero h1, .tgs-hero h2 { font-family: 'Libre Baskerville', Georgia, serif; font-size: 46px; line-height: 1.05; color: var(--tgs-ink); margin: 0 0 1rem 0; font-weight: 700; }
+.tgs-hero h1 em, .tgs-hero h2 em { font-style: italic; color: var(--tgs-green); }
+.tgs-hero p { font-size: 17px; color: #5f5a4d; line-height: 1.55; max-width: 42ch; margin: 0 0 1.6rem 0; }
+.tgs-hero-btns { display: flex; gap: .7rem; flex-wrap: wrap; }
+.tgs-hero-btn-primary .wp-block-button__link, .tgs-hero-btn-w .wp-block-button__link { background: var(--tgs-green) !important; color: #fff !important; font-size: 15px !important; font-weight: 700; padding: 12px 26px !important; border-radius: 8px; }
+.tgs-hero-btn-primary .wp-block-button__link:hover, .tgs-hero-btn-w .wp-block-button__link:hover { background: var(--tgs-green-d) !important; text-decoration: none; }
+.tgs-hero-btn-ghost .wp-block-button__link, .tgs-hero-btn-g .wp-block-button__link { background: #fff !important; border: 1px solid var(--tgs-border) !important; color: var(--tgs-green) !important; font-size: 15px !important; font-weight: 600; padding: 12px 26px !important; border-radius: 8px; }
+.tgs-hero-btn-ghost .wp-block-button__link:hover, .tgs-hero-btn-g .wp-block-button__link:hover { border-color: var(--tgs-green) !important; text-decoration: none; }
+.tgs-hero-since { display: none; }
 
-/* SPORTSTÄTTE LISTE */
-.tgs-ss-liste-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.tgs-ss-liste-card { background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px; padding: 1.1rem; display: block; color: inherit; }
-.tgs-ss-liste-card:hover { border-color: #3D5A40; text-decoration: none; }
-.tgs-ss-liste-name { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; color: #1A2A1E; margin-bottom: .3rem; }
-.tgs-ss-liste-addr { font-size: 11px; color: #999; line-height: 1.5; margin-bottom: .3rem; }
-.tgs-ss-liste-desc { font-size: 11px; color: #666; margin-bottom: .4rem; }
-.tgs-ss-liste-link { font-size: 11px; color: #3D5A40; font-weight: 600; }
+/* ============ PAGE HERO (innere Seiten, hell) ============ */
+.tgs-page-hero { background: var(--tgs-creme); padding-block: 2.25rem; border-bottom: 1px solid var(--tgs-border); display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+.tgs-page-hero h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .3rem 0; font-weight: 700; }
+.tgs-page-hero p { font-size: 16px; color: #6b665a; margin: 0; }
+.tgs-page-hero .wp-block-site-logo img { height: 64px !important; width: auto !important; opacity: 1; }
 
-/* ABTEILUNG DETAIL */
-.tgs-abt-hero { background: #3D5A40; padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-bottom: 2px solid #2A3F2C; }
-.tgs-abt-hero-icon { font-size: 36px; margin-bottom: .4rem; }
-.tgs-abt-hero-h1 { font-family: 'Libre Baskerville', serif; font-size: 28px; color: #fff; margin: 0 0 .4rem 0; }
-.tgs-abt-hero-sub { font-size: 13px; color: #8FBF8F; line-height: 1.5; max-width: 400px; margin: 0; }
+/* ============ SECTIONS ============ */
+.tgs-section { padding-block: 2.5rem; background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-section-alt { padding-block: 2.5rem; background: var(--tgs-creme); border-bottom: 1px solid var(--tgs-border); }
+.tgs-section-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; gap: 1rem; }
+.tgs-section-title, .tgs-section-title strong { font-family: 'Libre Baskerville', serif; font-size: 22px; font-weight: 700; color: var(--tgs-ink); margin: 0; }
+.tgs-section-more { font-size: 14px; color: var(--tgs-green); font-weight: 600; margin: 0; white-space: nowrap; }
+.tgs-section-more a { color: var(--tgs-green); }
+
+/* ============ BREADCRUMB ============ */
+.tgs-breadcrumb { font-size: 12px; color: var(--tgs-muted); margin-bottom: 1rem; }
+.tgs-breadcrumb p { margin: 0; }
+.tgs-breadcrumb a { color: var(--tgs-green); font-weight: 600; }
+
+/* ============ CHIPS ============ */
+.tgs-chip-row { display: flex; gap: 8px; margin-bottom: 1.1rem; flex-wrap: wrap; }
+.tgs-chip { display: inline-block; border: 1px solid var(--tgs-border); background: var(--tgs-creme); color: #6b665a; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; transition: all .15s ease; }
+.tgs-chip:hover, .tgs-chip.active { background: var(--tgs-green); color: #fff; border-color: var(--tgs-green); }
+
+/* ============ KURS-TABELLE ============ */
+.tgs-kurs-tabelle { width: 100%; border-collapse: collapse; }
+.tgs-kurs-tabelle th { text-align: left; font-size: 11px; color: var(--tgs-muted); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 6px 12px 10px; border-bottom: 1px solid var(--tgs-border); }
+.tgs-kurs-tabelle td { font-size: 15px; padding: 13px 12px; border-bottom: 1px solid var(--tgs-border-l); }
+.tgs-kurs-tabelle tr:hover td { background: #FAFAF7; }
+.tgs-kurs-kategorie { color: var(--tgs-green); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.tgs-kurs-name { font-weight: 600; color: var(--tgs-ink); font-size: 15px; }
+.tgs-kurs-name:hover { color: var(--tgs-green); text-decoration: none; }
+.tgs-kurs-meta { color: #77736a; font-size: 14px; }
+.tgs-kurs-link { font-size: 13px; color: var(--tgs-green); font-weight: 700; white-space: nowrap; }
+.tgs-status-frei { font-size: 13px; font-weight: 600; color: var(--tgs-green); white-space: nowrap; }
+.tgs-status-warteliste { font-size: 13px; font-weight: 600; color: #C07020; white-space: nowrap; }
+.tgs-no-kurse { font-size: 15px; color: var(--tgs-muted); padding: 1rem 0; }
+
+/* ============ ABTEILUNGEN GRID ============ */
+.tgs-abt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.tgs-abt-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.2rem; cursor: pointer; color: inherit; display: block; transition: border-color .15s ease, transform .15s ease; }
+.tgs-abt-card:hover { border-color: var(--tgs-green); text-decoration: none; transform: translateY(-2px); }
+.tgs-abt-icon { font-size: 26px; margin-bottom: .5rem; display: block; }
+.tgs-abt-name { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .3rem; display: block; }
+.tgs-abt-desc { font-size: 13px; color: #77736a; line-height: 1.5; display: block; }
+
+/* ============ KONTAKT / ANSPRECHPARTNER ============ */
+.tgs-kontakt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.tgs-kontakt-card { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.2rem; text-align: center; }
+.tgs-kontakt-role { font-size: 11px; color: var(--tgs-green); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
+.tgs-kontakt-name { font-size: 15px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .15rem; }
+.tgs-kontakt-mail { font-size: 13px; color: var(--tgs-green); font-weight: 600; display: block; margin-top: .35rem; word-break: break-word; }
+
+/* ============ NEWS / AKTUELLES ============ */
+.tgs-news-grid, .wp-block-latest-posts.tgs-news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; list-style: none; margin: 0; padding: 0; }
+.tgs-news-grid li { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; }
+.tgs-news-grid li a { font-family: 'Libre Baskerville', serif; font-size: 15px; color: var(--tgs-ink); font-weight: 700; }
+.tgs-news-grid .wp-block-latest-posts__post-date { font-size: 12px; color: var(--tgs-muted); margin-top: .3rem; }
+
+/* ============ MITGLIED-CTA (grünes Band) ============ */
+.tgs-mitglied-cta { background: var(--tgs-green) !important; padding-block: 1.8rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--tgs-green-d); }
+.tgs-mitglied-cta h2, .tgs-mitglied-cta h3 { font-family: 'Libre Baskerville', serif; font-size: 22px !important; color: #fff !important; margin: 0 0 .3rem 0 !important; }
+.tgs-mitglied-cta p { font-size: 15px !important; color: var(--tgs-green-ll) !important; margin: 0; }
+.tgs-mitglied-cta .wp-block-button__link { font-size: 15px !important; padding: 12px 26px !important; border-radius: 8px; }
+
+/* ============ SPONSOREN ============ */
+.tgs-sponsor-section { padding-block: 1.6rem; background: var(--tgs-creme); border-bottom: 1px solid var(--tgs-border); }
+.tgs-sponsor-hd { font-size: 12px; color: var(--tgs-muted); font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .9rem; text-align: center; }
+.tgs-sponsor-row { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.tgs-sponsor { background: #fff; border: 1px solid var(--tgs-border); border-radius: 8px; padding: 10px 20px; font-size: 13px; color: #8a8577; font-weight: 600; display: inline-block; }
+.tgs-sponsor:hover { border-color: var(--tgs-green); color: var(--tgs-green); text-decoration: none; }
+
+/* ============ FOOTER ============ */
+.tgs-footer { background: var(--tgs-deep); padding-block: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.tgs-footer, .tgs-footer p, .tgs-footer a { color: #7f9a7f; font-size: 13px; margin: 0; }
+.tgs-footer a:hover { color: var(--tgs-green-ll); text-decoration: none; }
+.tgs-footer img { height: 30px !important; width: auto; }
+
+/* ============ KURS-DETAIL ============ */
+.tgs-kd-header { padding-block: 2.25rem; background: #fff; border-bottom: 1px solid var(--tgs-border); display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+.tgs-kd-tag { display: inline-block; background: #E8F3E8; color: var(--tgs-green); font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 5px; margin-bottom: .6rem; }
+.tgs-kd-h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .5rem 0; font-weight: 700; }
+.tgs-kd-meta-row { display: flex; gap: 1.5rem; font-size: 14px; color: #77736a; flex-wrap: wrap; }
+.tgs-kd-meta-row strong { color: var(--tgs-ink); }
+.tgs-kd-cta { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.tgs-kd-btn { background: var(--tgs-green); color: #fff !important; border: none; padding: 12px 26px; font-size: 15px; font-weight: 700; cursor: pointer; border-radius: 8px; display: inline-block; }
+.tgs-kd-btn:hover { background: var(--tgs-green-d); text-decoration: none; }
+.tgs-kd-body { display: grid; grid-template-columns: 1fr 260px; gap: 2rem; padding-block: 2.25rem; background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-kd-content { font-size: 16px; color: #44433b; line-height: 1.75; }
+.tgs-kd-content p { margin-bottom: .9rem; }
+.tgs-kd-ap { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border); font-size: 15px; }
+.tgs-kd-info-box { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; margin-bottom: .8rem; }
+.tgs-kd-info-title { font-size: 11px; font-weight: 700; color: var(--tgs-ink); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .6rem; }
+.tgs-kd-info-row { font-size: 14px; color: #44433b; margin-bottom: .4rem; display: flex; justify-content: space-between; gap: .5rem; }
+.tgs-kd-info-row span { color: var(--tgs-muted); }
+.tgs-kd-related { display: flex; flex-direction: column; gap: 4px; }
+.tgs-kd-related-item { display: flex; justify-content: space-between; font-size: 13px; color: var(--tgs-green); font-weight: 600; padding: 6px 0; border-bottom: 1px solid var(--tgs-border); gap: .5rem; }
+.tgs-kd-related-item:last-child { border-bottom: none; }
+.tgs-kd-related-item span { color: var(--tgs-muted); font-weight: 400; }
+
+/* ============ ANMELDEFORMULAR ============ */
+.tgs-anmeldung-form { max-width: 520px; padding: 1.5rem; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; margin: 1.25rem 0; }
+.tgs-anm-title { font-family: 'Libre Baskerville', serif; font-size: 20px; margin: 0 0 .6rem 0; }
+.tgs-anm-info { font-size: 14px; color: #77736a; margin-bottom: 1.1rem; line-height: 1.55; }
+.tgs-anm-info--wait { color: #C07020; background: #FEF5EC; padding: .7rem .9rem; border-radius: 6px; border-left: 3px solid #C07020; }
+.tgs-anm-field { margin-bottom: .9rem; }
+.tgs-anm-field label { display: block; font-size: 13px; font-weight: 600; color: var(--tgs-ink); margin-bottom: .3rem; }
+.tgs-anm-field input[type="text"], .tgs-anm-field input[type="email"], .tgs-anm-field input[type="tel"], .tgs-anm-field textarea { width: 100%; padding: 10px 12px; font-size: 15px; border: 1px solid var(--tgs-border); border-radius: 6px; background: #fff; font-family: 'Inter', sans-serif; }
+.tgs-anm-field input:focus, .tgs-anm-field textarea:focus { outline: none; border-color: var(--tgs-green); box-shadow: 0 0 0 3px rgba(61,90,64,.15); }
+.tgs-anm-submit { background: var(--tgs-green); color: #fff; border: none; padding: 12px 26px; font-size: 15px; font-weight: 700; cursor: pointer; border-radius: 8px; width: 100%; margin-top: .6rem; }
+.tgs-anm-submit:hover { background: var(--tgs-green-d); }
+.tgs-anm-success { background: #EEF5EE; color: var(--tgs-green); padding: .9rem 1.1rem; border-radius: 6px; font-size: 15px; border-left: 3px solid var(--tgs-green); margin-bottom: 1.1rem; }
+.tgs-anm-success--wait { background: #FEF5EC; color: #C07020; border-color: #C07020; }
+.tgs-anm-error { background: #FEE; color: #C33; padding: .9rem 1.1rem; border-radius: 6px; font-size: 15px; border-left: 3px solid #C33; margin-bottom: 1.1rem; }
+
+/* ============ SPORTSTÄTTE DETAIL ============ */
+.tgs-ss-hero { display: grid; grid-template-columns: 1fr 300px; background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-ss-hero-l { padding: 2rem; }
+.tgs-ss-h1 { font-family: 'Libre Baskerville', serif; font-size: 32px; color: var(--tgs-ink); margin: 0 0 .6rem 0; font-weight: 700; }
+.tgs-ss-addr { font-size: 15px; color: #77736a; line-height: 1.55; margin-bottom: .9rem; }
+.tgs-ss-maps-link { font-size: 14px; color: var(--tgs-green); font-weight: 600; }
+.tgs-ss-hero-map { background: #D4E8D4; display: flex; align-items: center; justify-content: center; border-left: 1px solid var(--tgs-border); font-size: 14px; color: #5A8A5A; font-weight: 600; }
+.tgs-ss-hero-map a { color: var(--tgs-green); font-weight: 700; font-size: 15px; }
+.tgs-ss-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 2rem; background: var(--tgs-creme); border-bottom: 1px solid var(--tgs-border); }
+.tgs-ss-info-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; text-align: center; }
+.tgs-ss-info-icon { font-size: 26px; margin-bottom: .4rem; }
+.tgs-ss-info-title { font-size: 14px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .2rem; }
+.tgs-ss-info-desc { font-size: 13px; color: #77736a; line-height: 1.5; }
+.tgs-ss-content { font-size: 16px; color: #44433b; line-height: 1.75; }
+.tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
+.tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
+.tgs-ss-andere-name { font-size: 16px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .25rem; }
+.tgs-ss-andere-addr { font-size: 13px; color: #77736a; margin-bottom: .35rem; }
+.tgs-ss-andere-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
+
+/* ============ SPORTSTÄTTE LISTE ============ */
+.tgs-ss-liste-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tgs-ss-liste-card { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.3rem; display: block; color: inherit; }
+.tgs-ss-liste-card:hover { border-color: var(--tgs-green); text-decoration: none; }
+.tgs-ss-liste-name { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .35rem; }
+.tgs-ss-liste-addr { font-size: 13px; color: #77736a; line-height: 1.55; margin-bottom: .35rem; }
+.tgs-ss-liste-desc { font-size: 14px; color: #66625a; margin-bottom: .45rem; }
+.tgs-ss-liste-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
+
+/* ============ ABTEILUNG DETAIL (Hero jetzt hell) ============ */
+.tgs-abt-hero { background: var(--tgs-creme); padding-block: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; border-bottom: 1px solid var(--tgs-border); }
+.tgs-abt-hero-icon { font-size: 44px; margin-bottom: .5rem; }
+.tgs-abt-hero-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; color: var(--tgs-ink); margin: 0 0 .5rem 0; font-weight: 700; }
+.tgs-abt-hero-sub { font-size: 16px; color: #5f5a4d; line-height: 1.55; max-width: 46ch; margin: 0; }
 .tgs-abt-hero-logo { flex-shrink: 0; }
-.tgs-abt-hero-logo img { filter: drop-shadow(0 2px 8px rgba(0,0,0,.25)); }
-.tgs-abt-detail-layout { display: grid; grid-template-columns: 1fr 240px; gap: 1.25rem; padding: 1.25rem 1.5rem; background: #fff; border-bottom: 1px solid #E4DDD0; }
-.tgs-abt-detail-content { font-size: 13px; color: #444; line-height: 1.75; }
-.tgs-abt-detail-content p { margin-bottom: .75rem; }
+.tgs-abt-hero-logo img { filter: drop-shadow(0 8px 20px rgba(26,42,30,.18)); height: 120px !important; width: auto; }
+.tgs-abt-detail-layout { display: grid; grid-template-columns: 1fr 260px; gap: 2rem; padding: 2.25rem max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-abt-detail-content { font-size: 16px; color: #44433b; line-height: 1.75; }
+.tgs-abt-detail-content p { margin-bottom: .9rem; }
 
-/* ABTEILUNG LISTE */
-.tgs-abt-liste { display: flex; flex-direction: column; gap: 8px; }
-.tgs-abt-liste-card { display: flex; align-items: center; gap: 1rem; background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px; padding: 1rem 1.25rem; color: inherit; }
-.tgs-abt-liste-card:hover { border-color: #3D5A40; text-decoration: none; }
-.tgs-abt-liste-icon { font-size: 28px; flex-shrink: 0; }
-.tgs-abt-liste-body { flex: 1; }
-.tgs-abt-liste-name { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; color: #1A2A1E; margin-bottom: .15rem; }
-.tgs-abt-liste-desc { font-size: 12px; color: #666; line-height: 1.4; margin-bottom: .2rem; }
-.tgs-abt-liste-contact { font-size: 11px; color: #999; }
-.tgs-abt-liste-arrow { font-size: 18px; color: #3D5A40; font-weight: 700; flex-shrink: 0; }
-
-/* RESPONSIVE ADDITIONS */
-
-    .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid #E4DDD0; }
-    .tgs-ss-info-grid { grid-template-columns: 1fr; }
-    .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
-    .tgs-abt-hero { flex-direction: column; text-align: center; }
-    .tgs-abt-detail-layout { grid-template-columns: 1fr; }
-    .tgs-abt-liste-card { flex-direction: column; text-align: center; }
-}
-
-/* FIX: span-based cards (wpautop workaround) */
-.tgs-abt-card, .tgs-abt-liste-card { cursor: pointer; }
-.tgs-abt-icon, .tgs-abt-name, .tgs-abt-desc { display: block; }
-.tgs-abt-liste-icon, .tgs-abt-liste-body, .tgs-abt-liste-name, 
-.tgs-abt-liste-desc, .tgs-abt-liste-contact { display: block; }
-
+/* ============ ABTEILUNG LISTE ============ */
+.tgs-abt-liste { display: flex; flex-direction: column; gap: 12px; }
+.tgs-abt-liste-card { display: flex; align-items: center; gap: 1.2rem; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.2rem 1.4rem; color: inherit; cursor: pointer; }
+.tgs-abt-liste-card:hover { border-color: var(--tgs-green); text-decoration: none; }
+.tgs-abt-liste-icon { font-size: 34px; flex-shrink: 0; display: block; }
+.tgs-abt-liste-body { flex: 1; display: block; }
+.tgs-abt-liste-name { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .2rem; display: block; }
+.tgs-abt-liste-desc { font-size: 14px; color: #66625a; line-height: 1.45; margin-bottom: .2rem; display: block; }
+.tgs-abt-liste-contact { font-size: 13px; color: var(--tgs-muted); display: block; }
+.tgs-abt-liste-arrow { font-size: 22px; color: var(--tgs-green); font-weight: 700; flex-shrink: 0; }
 
 /* ============================================
-   RESPONSIVE — Mobile First Fixes
+   RESPONSIVE
    ============================================ */
+@media (max-width: 900px) {
+  .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); }
+  .tgs-news-grid, .wp-block-latest-posts.tgs-news-grid { grid-template-columns: 1fr; }
+  .tgs-hero h1, .tgs-hero h2 { font-size: 38px; }
+  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 150px !important; }
+}
 
-/* === TABLET (max 768px) === */
 @media (max-width: 768px) {
-    /* TOPBAR */
-    .tgs-topbar { padding: 0 1rem; font-size: 9px; }
-
-    /* NAV */
-    .tgs-nav { padding: 0 1rem; min-height: 56px; flex-wrap: wrap; gap: .5rem; }
-    .tgs-nav-left { gap: 8px; }
-    .tgs-nav-left img { height: 36px !important; }
-    .tgs-club-info .wp-block-site-title { font-size: 13px !important; }
-    .tgs-nav-divider { height: 28px; }
-    .tgs-main-nav { order: 4; width: 100%; border-top: 1px solid #E4DDD0; padding-top: .5rem; margin-top: .25rem; }
-    .tgs-nav-list { gap: .75rem; justify-content: center; flex-wrap: wrap; }
-    .tgs-cta-nav-wrap { order: 3; }
-
-    /* HERO */
-    .tgs-hero { flex-direction: column; text-align: center; gap: 1.25rem; padding: 1.25rem 1rem; }
-    .tgs-hero p { max-width: none; }
-    .tgs-hero-btns { justify-content: center; flex-wrap: wrap; }
-    .tgs-hero h1, .tgs-hero h2 { font-size: 24px; }
-    .tgs-hero-logo-wrap img, .tgs-hero-logo { height: 100px !important; }
-
-    /* PAGE HERO */
-    .tgs-page-hero { padding: 1rem; flex-direction: column; gap: .75rem; text-align: center; }
-    .tgs-page-hero h1 { font-size: 20px; }
-    .tgs-page-hero .wp-block-site-logo img,
-    .tgs-page-hero img { height: 40px !important; }
-
-    /* SECTIONS */
-    .tgs-section, .tgs-section-alt { padding: 1rem; }
-    .tgs-section-hd { flex-direction: column; gap: .25rem; }
-
-    /* KURS-TABELLE: horizontal scrollbar */
-    .tgs-kurstabelle-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tgs-kurs-tabelle { min-width: 600px; }
-    .tgs-chip-row { gap: 4px; }
-    .tgs-chip { font-size: 9px; padding: 3px 8px; }
-
-    /* ABTEILUNGEN */
-    .tgs-abt-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-
-    /* NEWS */
-    .tgs-news-grid, .wp-block-latest-posts { display: block !important; }
-    .tgs-news-grid > *, .wp-block-latest-posts > li { margin-bottom: 8px; }
-
-    /* KONTAKT */
-    .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-
-    /* MITGLIED CTA */
-    .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: .75rem; padding: 1rem; }
-
-    /* SPONSOREN */
-    .tgs-sponsor-section { padding: .75rem 1rem; }
-    .tgs-sponsor-row { gap: 6px; }
-    .tgs-sponsor { padding: 6px 12px; font-size: 9px; }
-
-    /* KURS DETAIL */
-    .tgs-kd-header { flex-direction: column; gap: .75rem; padding: 1rem; }
-    .tgs-kd-cta { align-items: stretch; width: 100%; }
-    .tgs-kd-btn { text-align: center; }
-    .tgs-kd-body { grid-template-columns: 1fr; padding: 1rem; }
-    .tgs-kd-meta-row { flex-wrap: wrap; gap: .5rem; }
-
-    /* SPORTSTÄTTE */
-    .tgs-ss-hero { grid-template-columns: 1fr; }
-    .tgs-ss-hero-l { padding: 1rem; }
-    .tgs-ss-hero-map { height: 100px; border-left: none; border-top: 1px solid #E4DDD0; }
-    .tgs-ss-info-grid { grid-template-columns: 1fr; padding: 1rem; gap: 6px; }
-    .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
-
-    /* ABTEILUNG DETAIL */
-    .tgs-abt-hero { flex-direction: column; text-align: center; padding: 1.25rem 1rem; gap: 1rem; }
-    .tgs-abt-hero-h1 { font-size: 22px; }
-    .tgs-abt-detail-layout { grid-template-columns: 1fr; padding: 1rem; }
-
-    /* ABTEILUNG LISTE */
-    .tgs-abt-liste-card { padding: .8rem 1rem; }
-
-    /* FOOTER */
-    .tgs-footer { flex-direction: column; gap: .5rem; text-align: center; padding: .75rem 1rem; }
-
-    /* ANMELDUNG */
-    .tgs-anmeldung-form { max-width: none; margin: 1rem 0; }
+  .tgs-nav { flex-wrap: wrap; gap: .6rem; min-height: 0; padding-block: .7rem; }
+  .tgs-nav-left img { height: 42px !important; }
+  .tgs-club-info .wp-block-site-title, .tgs-club-info .wp-block-site-title a { font-size: 17px !important; }
+  .tgs-main-nav { order: 4; width: 100%; border-top: 1px solid rgba(255,255,255,.15); padding-top: .6rem; margin-top: .3rem; }
+  .tgs-nav-list { gap: 1.1rem; justify-content: center; flex-wrap: wrap; }
+  .tgs-cta-nav-wrap { order: 3; }
+  .tgs-hero { flex-direction: column; text-align: center; gap: 1.5rem; padding-block: 2.5rem; }
+  .tgs-hero-emblem, .tgs-hero-logo-wrap { order: -1; }
+  .tgs-hero p { max-width: none; margin-left: auto; margin-right: auto; }
+  .tgs-hero-btns { justify-content: center; }
+  .tgs-hero h1, .tgs-hero h2 { font-size: 32px; }
+  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 130px !important; }
+  .tgs-page-hero { flex-direction: column; text-align: center; gap: 1rem; padding-block: 1.8rem; }
+  .tgs-page-hero h1 { font-size: 26px; }
+  .tgs-page-hero .wp-block-site-logo img { height: 48px !important; }
+  .tgs-section, .tgs-section-alt { padding-block: 1.8rem; }
+  .tgs-section-hd { flex-direction: column; gap: .3rem; align-items: flex-start; }
+  .tgs-kurstabelle-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tgs-kurs-tabelle { min-width: 620px; }
+  .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: 1rem; padding-block: 1.6rem; }
+  .tgs-kd-header { flex-direction: column; gap: 1rem; }
+  .tgs-kd-cta { align-items: stretch; width: 100%; }
+  .tgs-kd-btn { text-align: center; }
+  .tgs-kd-body { grid-template-columns: 1fr; }
+  .tgs-ss-hero { grid-template-columns: 1fr; }
+  .tgs-ss-hero-l { padding: 1.5rem; }
+  .tgs-ss-hero-map { height: 120px; border-left: none; border-top: 1px solid var(--tgs-border); }
+  .tgs-ss-info-grid { grid-template-columns: 1fr; padding: 1.5rem; }
+  .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
+  .tgs-abt-hero { flex-direction: column; text-align: center; gap: 1.2rem; }
+  .tgs-abt-detail-layout { grid-template-columns: 1fr; }
+  .tgs-abt-liste-card { flex-direction: column; text-align: center; }
+  .tgs-footer { flex-direction: column; gap: .6rem; text-align: center; }
 }
 
-/* === MOBILE (max 480px) === */
-@media (max-width: 480px) {
-    /* NAV: kompakter */
-    .tgs-nav { padding: 0 .75rem; min-height: 50px; }
-    .tgs-nav-left img { height: 30px !important; }
-    .tgs-club-info .wp-block-site-title { font-size: 12px !important; }
-    .tgs-club-info .tgs-since { display: none; }
-    .tgs-nav-divider { display: none; }
-    .tgs-cta-nav-wrap .wp-block-button__link { padding: 5px 10px !important; font-size: 10px !important; }
-    .tgs-nav-list a { font-size: 11px; }
-
-    /* HERO */
-    .tgs-hero h1, .tgs-hero h2 { font-size: 20px; }
-    .tgs-hero p { font-size: 12px; }
-    .tgs-hero-logo-wrap img, .tgs-hero-logo { height: 80px !important; }
-    .tgs-hero-btn-w .wp-block-button__link,
-    .tgs-hero-btn-g .wp-block-button__link { font-size: 11px !important; padding: 8px 14px !important; }
-
-    /* GRIDS einspaltog */
-    .tgs-abt-grid { grid-template-columns: 1fr; }
-    .tgs-kontakt-grid { grid-template-columns: 1fr; }
-
-    /* BREADCRUMB */
-    .tgs-breadcrumb { padding: .5rem .75rem; }
-
-    /* KURS DETAIL */
-    .tgs-kd-h1 { font-size: 20px; }
-    .tgs-kd-info-row { font-size: 11px; }
-
-    /* SPORTSTÄTTE */
-    .tgs-ss-h1 { font-size: 20px; }
-
-    /* TOPBAR: verstecken auf ganz kleinen Screens */
-    .tgs-topbar { display: none; }
-}
-
-/* === Kurstabelle Mobil-Alternative: Kartenansicht === */
 @media (max-width: 600px) {
-    .tgs-kurstabelle-wrap { overflow-x: visible; }
-    .tgs-kurs-tabelle { min-width: 0; }
-    .tgs-kurs-tabelle thead { display: none; }
-    .tgs-kurs-tabelle tbody tr {
-        display: block; padding: .75rem; margin-bottom: 6px;
-        background: #F8F6F0; border: 1px solid #E4DDD0; border-radius: 4px;
-    }
-    .tgs-kurs-tabelle tbody tr:hover { background: #F0EDE4; }
-    .tgs-kurs-tabelle td {
-        display: inline; border: none; padding: 0; font-size: 12px;
-    }
-    .tgs-kurs-tabelle td.tgs-kurs-kategorie::after,
-    .tgs-kurs-tabelle td.tgs-kurs-meta::after { content: ' · '; color: #CCC; }
-    .tgs-kurs-tabelle td:last-child::after { content: ''; }
-    .tgs-kurs-tabelle .tgs-kurs-name { display: block; font-size: 13px; margin-bottom: 2px; }
-    .tgs-kurs-tabelle .tgs-status-frei,
-    .tgs-kurs-tabelle .tgs-status-warteliste { display: block; margin-top: 4px; }
-    .tgs-kurs-tabelle .tgs-kurs-link { display: block; margin-top: 4px; }
+  .tgs-kurstabelle-wrap { overflow-x: visible; }
+  .tgs-kurs-tabelle { min-width: 0; }
+  .tgs-kurs-tabelle thead { display: none; }
+  .tgs-kurs-tabelle tbody tr { display: block; padding: 1rem; margin-bottom: 8px; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; }
+  .tgs-kurs-tabelle tbody tr:hover td { background: transparent; }
+  .tgs-kurs-tabelle td { display: inline; border: none; padding: 0; font-size: 14px; }
+  .tgs-kurs-tabelle td.tgs-kurs-meta::after { content: ' · '; color: #CCC; }
+  .tgs-kurs-tabelle td:last-child::after { content: ''; }
+  .tgs-kurs-tabelle .tgs-kurs-name { display: block; font-size: 16px; margin-bottom: 3px; }
+  .tgs-kurs-tabelle .tgs-kurs-kategorie { display: block; margin-bottom: 2px; }
+  .tgs-kurs-tabelle .tgs-status-frei, .tgs-kurs-tabelle .tgs-status-warteliste { display: block; margin-top: 5px; }
+  .tgs-kurs-tabelle .tgs-kurs-link { display: block; margin-top: 5px; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+  .tgs-nav-left img { height: 36px !important; }
+  .tgs-club-info .wp-block-site-title, .tgs-club-info .wp-block-site-title a { font-size: 15px !important; }
+  .tgs-since { display: none !important; }
+  .tgs-nav-divider { display: none; }
+  .tgs-nav-list li a { font-size: 15px; }
+  .tgs-cta-nav-wrap .wp-block-button__link, .tgs-cta-nav .wp-block-button__link { padding: 8px 14px !important; font-size: 14px !important; }
+  .tgs-hero h1, .tgs-hero h2 { font-size: 27px; }
+  .tgs-hero p { font-size: 15px; }
+  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 110px !important; }
+  .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: 1fr; }
+  .tgs-kd-h1, .tgs-ss-h1, .tgs-abt-hero-h1 { font-size: 26px; }
 }

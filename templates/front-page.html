@@ -1,35 +1,35 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"className":"tgs-hero","layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<!-- wp:group {"className":"tgs-hero","layout":{"type":"flex","justifyContent":"left","verticalAlignment":"center"}} -->
 <div class="wp-block-group tgs-hero">
-    <!-- wp:group -->
-    <div class="wp-block-group">
+    <!-- wp:group {"className":"tgs-hero-emblem","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+    <div class="wp-block-group tgs-hero-emblem">
+        <!-- wp:shortcode -->
+        [tgs_logo color="black" height="190" class="tgs-hero-logo"]
+        <!-- /wp:shortcode -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:group {"className":"tgs-hero-text"} -->
+    <div class="wp-block-group tgs-hero-text">
+        <!-- wp:paragraph {"className":"tgs-hero-eye"} -->
+        <p class="tgs-hero-eye">Seit 1886 in Langenhain</p>
+        <!-- /wp:paragraph -->
         <!-- wp:heading {"level":1} -->
         <h1 class="wp-block-heading">Dein Sport.<br>Dein <em>Verein.</em></h1>
         <!-- /wp:heading -->
         <!-- wp:paragraph -->
-        <p>Über 20 Kurse und Trainings für alle Altersklassen — direkt in Langenhain.</p>
+        <p>Über 20 Kurse und Trainings für alle Altersklassen — mitten im Taunus, direkt in Langenhain.</p>
         <!-- /wp:paragraph -->
         <!-- wp:buttons {"className":"tgs-hero-btns"} -->
         <div class="wp-block-buttons tgs-hero-btns">
-            <!-- wp:button {"className":"tgs-hero-btn-w"} -->
-            <div class="wp-block-button tgs-hero-btn-w"><a class="wp-block-button__link" href="/kurse">Alle Kurse ansehen</a></div>
+            <!-- wp:button {"className":"tgs-hero-btn-primary"} -->
+            <div class="wp-block-button tgs-hero-btn-primary"><a class="wp-block-button__link wp-element-button" href="/kurse">Alle Kurse ansehen</a></div>
             <!-- /wp:button -->
-            <!-- wp:button {"className":"tgs-hero-btn-g"} -->
-            <div class="wp-block-button tgs-hero-btn-g"><a class="wp-block-button__link" href="/kurse">Kursübersicht</a></div>
+            <!-- wp:button {"className":"tgs-hero-btn-ghost"} -->
+            <div class="wp-block-button tgs-hero-btn-ghost"><a class="wp-block-button__link wp-element-button" href="/mitglied-werden">Mitglied werden</a></div>
             <!-- /wp:button -->
         </div>
         <!-- /wp:buttons -->
-    </div>
-    <!-- /wp:group -->
-    <!-- wp:group {"className":"tgs-hero-logo-wrap","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
-    <div class="wp-block-group tgs-hero-logo-wrap">
-        <!-- wp:shortcode -->
-        [tgs_logo color="white" height="130" class="tgs-hero-logo"]
-        <!-- /wp:shortcode -->
-        <!-- wp:paragraph {"className":"tgs-hero-since"} -->
-        <p class="tgs-hero-since">Seit 1886</p>
-        <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
 </div>

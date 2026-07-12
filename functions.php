@@ -3,14 +3,14 @@
  * TGS Langenhain Theme Functions
  *
  * @package TGS_Langenhain
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.1.0' );
+define( 'TGS_VERSION', '0.2.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 

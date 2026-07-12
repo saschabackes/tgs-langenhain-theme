@@ -51,8 +51,9 @@ img { max-width: 100%; height: auto; }
 .tgs-cta-nav-wrap .wp-block-button__link:hover { background: var(--tgs-creme) !important; text-decoration: none; }
 
 /* ============ HERO (hell, Wappen als These) ============ */
-.tgs-hero { background: var(--tgs-creme); display: flex; align-items: center; justify-content: flex-start; gap: 3rem; padding-block: 3.5rem; border-bottom: 1px solid var(--tgs-border); }
-.tgs-hero-emblem, .tgs-hero-logo-wrap { flex-shrink: 0; }
+.tgs-hero { background: var(--tgs-creme); display: flex; align-items: center; justify-content: space-between; gap: 3rem; padding-block: 3.5rem; border-bottom: 1px solid var(--tgs-border); }
+.tgs-hero-text { order: 1; }
+.tgs-hero-emblem, .tgs-hero-logo-wrap { flex-shrink: 0; order: 2; }
 .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 190px !important; width: auto !important; filter: drop-shadow(0 10px 26px rgba(26,42,30,.20)); }
 .tgs-hero-eye { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--tgs-green); font-weight: 700; margin: 0 0 1rem 0; }
 .tgs-hero h1, .tgs-hero h2 { font-family: 'Libre Baskerville', Georgia, serif; font-size: 46px; line-height: 1.05; color: var(--tgs-ink); margin: 0 0 1rem 0; font-weight: 700; }

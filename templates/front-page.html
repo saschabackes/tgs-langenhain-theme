@@ -1,14 +1,7 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"className":"tgs-hero","layout":{"type":"flex","justifyContent":"left","verticalAlignment":"center"}} -->
+<!-- wp:group {"className":"tgs-hero","layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group tgs-hero">
-    <!-- wp:group {"className":"tgs-hero-emblem","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
-    <div class="wp-block-group tgs-hero-emblem">
-        <!-- wp:shortcode -->
-        [tgs_logo color="black" height="190" class="tgs-hero-logo"]
-        <!-- /wp:shortcode -->
-    </div>
-    <!-- /wp:group -->
     <!-- wp:group {"className":"tgs-hero-text"} -->
     <div class="wp-block-group tgs-hero-text">
         <!-- wp:paragraph {"className":"tgs-hero-eye"} -->
@@ -30,6 +23,13 @@
             <!-- /wp:button -->
         </div>
         <!-- /wp:buttons -->
+    </div>
+    <!-- /wp:group -->
+    <!-- wp:group {"className":"tgs-hero-emblem","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+    <div class="wp-block-group tgs-hero-emblem">
+        <!-- wp:shortcode -->
+        [tgs_logo color="black" height="190" class="tgs-hero-logo"]
+        <!-- /wp:shortcode -->
     </div>
     <!-- /wp:group -->
 </div>

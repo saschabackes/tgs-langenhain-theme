@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.2.1] — 2026-07-12
+
+### Geändert
+- **Hero-Layout „Option A"**: Claim/Text jetzt linksbündig als These, Wappen als Anker rechts (`justify-content: space-between` + `order`), damit die vorher freie Fläche rechts natürlich gefüllt wird. Auf Mobile weiterhin Wappen oben, Text darunter.
+
 ## [0.2.0] — 2026-07-12
 
 ### Geändert — Visual Redesign (Entwurf C „Emblem")

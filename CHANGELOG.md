@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.5] — 2026-07-12
+
+### Geändert
+- Handball-Icon neu: an das Standard-Handball-Piktogramm angelehnte Wurf-Silhouette (gefüllt) statt des unklaren „Hand+Ball". Icon-Helper unterstützt jetzt gemischte Stile (Linien-Icons + gefüllte Silhouette) mit eigener viewBox je Icon.
+
 ## [0.3.4] — 2026-07-12
 
 ### Geändert

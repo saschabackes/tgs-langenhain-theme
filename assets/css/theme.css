@@ -296,6 +296,16 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-ausst-list li { font-size: 14px; color: #55524a; line-height: 1.5; padding: .45rem 0 .45rem 1.4rem; position: relative; border-top: 1px solid var(--tgs-border); }
 .tgs-ss-ausst-list li:first-child { border-top: none; }
 .tgs-ss-ausst-list li::before { content: '✓'; position: absolute; left: 0; color: var(--tgs-green); font-weight: 700; }
+
+/* Trainings-App-Karte */
+.tgs-ss-app { display: flex; align-items: center; gap: 1.2rem; background: var(--tgs-ink); border-radius: 14px; padding: 1.3rem 1.5rem; color: #fff; flex-wrap: wrap; }
+.tgs-ss-app-ic { font-size: 30px; line-height: 1; flex-shrink: 0; }
+.tgs-ss-app-body { flex: 1 1 240px; }
+.tgs-ss-app-name { font-size: 17px; font-weight: 700; color: #fff; }
+.tgs-ss-app-desc { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.45; margin-top: 2px; }
+.tgs-ss-app-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.tgs-ss-app-btn { display: inline-block; background: #fff; color: var(--tgs-ink); font-size: 14px; font-weight: 700; padding: 9px 18px; border-radius: 999px; white-space: nowrap; }
+.tgs-ss-app-btn:hover { text-decoration: none; opacity: .9; }
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }

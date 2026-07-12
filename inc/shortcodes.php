@@ -483,6 +483,10 @@ function tgs_shortcode_sportstaette_detail() {
     $park     = get_post_meta( $post_id, '_tgs_parkplaetze', true );
     $ort_name = get_the_title( $post_id );
     $bild      = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail_url( $post_id, 'large' ) : '';
+    $app_name  = get_post_meta( $post_id, '_tgs_ss_app_name', true );
+    $app_desc  = get_post_meta( $post_id, '_tgs_ss_app_desc', true );
+    $app_ios   = get_post_meta( $post_id, '_tgs_ss_app_ios', true );
+    $app_andr  = get_post_meta( $post_id, '_tgs_ss_app_android', true );
 
     // Ausstattung in Listenpunkte zerlegen (Zeilenweise; Altdaten mit Kommas werden gesplittet)
     $ausst_items = array();
@@ -556,6 +560,22 @@ function tgs_shortcode_sportstaette_detail() {
             </ul>
         </aside>
         <?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if ( $app_name && ( $app_ios || $app_andr ) ) : ?>
+    <div class="tgs-section">
+        <div class="tgs-ss-app">
+            <div class="tgs-ss-app-ic">📱</div>
+            <div class="tgs-ss-app-body">
+                <div class="tgs-ss-app-name"><?php echo esc_html( $app_name ); ?></div>
+                <?php if ( $app_desc ) : ?><div class="tgs-ss-app-desc"><?php echo esc_html( $app_desc ); ?></div><?php endif; ?>
+            </div>
+            <div class="tgs-ss-app-btns">
+                <?php if ( $app_ios ) : ?><a href="<?php echo esc_url( $app_ios ); ?>" class="tgs-ss-app-btn" target="_blank" rel="noopener"> App&nbsp;Store</a><?php endif; ?>
+                <?php if ( $app_andr ) : ?><a href="<?php echo esc_url( $app_andr ); ?>" class="tgs-ss-app-btn" target="_blank" rel="noopener">▶ Google&nbsp;Play</a><?php endif; ?>
+            </div>
+        </div>
     </div>
     <?php endif; ?>
 

@@ -99,6 +99,10 @@ function tgs_register_meta_fields() {
         '_tgs_ausstattung'  => 'string',
         '_tgs_barrierefreiheit' => 'string',
         '_tgs_parkplaetze'  => 'string',
+        '_tgs_ss_app_name'    => 'string',
+        '_tgs_ss_app_desc'    => 'string',
+        '_tgs_ss_app_ios'     => 'string',
+        '_tgs_ss_app_android' => 'string',
     );
 
     foreach ( $ss_fields as $key => $type ) {
@@ -266,6 +270,10 @@ function tgs_sportstaette_meta_box_html( $post ) {
         '_tgs_ausstattung'      => array( 'label' => 'Ausstattung', 'type' => 'textarea', 'placeholder' => "Ein Punkt pro Zeile, z.B.:\nReck & Barren\nKlimmzugstangen\nLeitern zum Hangeln\nFreifläche für Yoga & Gymnastik" ),
         '_tgs_parkplaetze'      => array( 'label' => 'Parkplätze', 'type' => 'text', 'placeholder' => 'z.B. Parkplätze am Sportplatz' ),
         '_tgs_barrierefreiheit' => array( 'label' => 'Barrierefreiheit', 'type' => 'text', 'placeholder' => 'z.B. Ebenerdig zugänglich' ),
+        '_tgs_ss_app_name'      => array( 'label' => 'Trainings-App (Name, optional)', 'type' => 'text', 'placeholder' => 'z.B. KOMPAN Outdoor Fitness' ),
+        '_tgs_ss_app_desc'      => array( 'label' => 'App-Beschreibung', 'type' => 'text', 'placeholder' => 'z.B. Kostenlose Übungsanleitungen & Workouts für die Geräte' ),
+        '_tgs_ss_app_ios'       => array( 'label' => 'App-Store-Link (iOS)', 'type' => 'url', 'placeholder' => 'https://apps.apple.com/…' ),
+        '_tgs_ss_app_android'   => array( 'label' => 'Google-Play-Link', 'type' => 'url', 'placeholder' => 'https://play.google.com/…' ),
     );
 
     echo '<table class="form-table"><tbody>';
@@ -297,10 +305,16 @@ function tgs_save_sportstaette_meta( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
     if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
-    $text_fields = array( '_tgs_ss_typ', '_tgs_adresse', '_tgs_plz_ort', '_tgs_maps_link', '_tgs_ss_zugang', '_tgs_ss_kosten', '_tgs_parkplaetze', '_tgs_barrierefreiheit' );
+    $text_fields = array( '_tgs_ss_typ', '_tgs_adresse', '_tgs_plz_ort', '_tgs_ss_zugang', '_tgs_ss_kosten', '_tgs_parkplaetze', '_tgs_barrierefreiheit', '_tgs_ss_app_name', '_tgs_ss_app_desc' );
     foreach ( $text_fields as $key ) {
         if ( isset( $_POST[ $key ] ) ) {
             update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
+        }
+    }
+    $url_fields = array( '_tgs_maps_link', '_tgs_ss_app_ios', '_tgs_ss_app_android' );
+    foreach ( $url_fields as $key ) {
+        if ( isset( $_POST[ $key ] ) ) {
+            update_post_meta( $post_id, $key, esc_url_raw( trim( $_POST[ $key ] ) ) );
         }
     }
     if ( isset( $_POST['_tgs_ausstattung'] ) ) {

@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.7.2] — 2026-07-12
+
+### Hinzugefügt — Trainings-App verlinken
+- Optionaler **App-Block** pro Sportstätte: Felder für App-Name, Kurzbeschreibung, App-Store- und Google-Play-Link in der Metabox. Bei ausgefüllten Werten erscheint eine dunkle App-Karte mit Store-Buttons auf der Detailseite (z.B. KOMPAN Outdoor Fitness).
+
 ## [0.7.1] — 2026-07-12
 
 ### Behoben

@@ -438,38 +438,23 @@ add_shortcode( 'tgs_kurs_detail', 'tgs_shortcode_kurs_detail' );
  * [tgs_navigation] — Hauptnavigation aus klassischem WP-Menü
  */
 function tgs_shortcode_navigation() {
-    // Versuche zuerst das registrierte Menü
-    if ( has_nav_menu( 'primary' ) ) {
-        return wp_nav_menu( array(
-            'theme_location' => 'primary',
-            'container'      => 'nav',
-            'container_class'=> 'tgs-main-nav',
-            'menu_class'     => 'tgs-nav-list',
-            'depth'          => 1,
-            'echo'           => false,
-        ) );
+    // Feste, korrekte Navigation auf die aktuellen Theme-Seiten.
+    // Anpassbar über den Filter 'tgs_nav_items' (Label => URL-Pfad).
+    $items = apply_filters( 'tgs_nav_items', array(
+        'Kurse'        => '/kurse',
+        'Abteilungen'  => '/abteilungen',
+        'Sportstätten' => '/sportstaetten',
+        'Gaststätte'   => '/gaststaette',
+        'Kontakt'      => '/kontakt',
+    ) );
+
+    $html = '<nav class="tgs-main-nav"><ul class="tgs-nav-list">';
+    foreach ( $items as $label => $url ) {
+        $href = ( strpos( $url, 'http' ) === 0 ) ? $url : home_url( $url );
+        $html .= '<li><a href="' . esc_url( $href ) . '">' . esc_html( $label ) . '</a></li>';
     }
-    
-    // Fallback: Menü nach Name suchen
-    $menu = wp_get_nav_menu_object( 'Main' );
-    if ( $menu ) {
-        return wp_nav_menu( array(
-            'menu'           => $menu->term_id,
-            'container'      => 'nav',
-            'container_class'=> 'tgs-main-nav',
-            'menu_class'     => 'tgs-nav-list',
-            'depth'          => 1,
-            'echo'           => false,
-        ) );
-    }
-    
-    // Letzter Fallback: statische Links
-    return '<nav class="tgs-main-nav"><ul class="tgs-nav-list">
-        <li><a href="/kurse">Kurse</a></li>
-        <li><a href="/abteilungen">Abteilungen</a></li>
-        <li><a href="/sportstaetten">Sportstätten</a></li>
-        <li><a href="/kontakt">Ansprechpartner</a></li>
-    </ul></nav>';
+    $html .= '</ul></nav>';
+    return $html;
 }
 add_shortcode( 'tgs_navigation', 'tgs_shortcode_navigation' );
 
@@ -646,20 +631,23 @@ function tgs_shortcode_sportstaetten_liste() {
             $plz     = get_post_meta( $ort->ID, '_tgs_plz_ort', true );
             $typ     = get_post_meta( $ort->ID, '_tgs_ss_typ', true );
             $zugang  = get_post_meta( $ort->ID, '_tgs_ss_zugang', true );
+            $img     = has_post_thumbnail( $ort->ID ) ? get_the_post_thumbnail_url( $ort->ID, 'medium_large' ) : '';
         ?>
         <a href="<?php echo get_permalink( $ort->ID ); ?>" class="tgs-ss-liste-card">
-            <?php if ( $typ ) : ?><span class="tgs-ss-liste-typ"><?php echo esc_html( $typ ); ?></span><?php endif; ?>
-            <div class="tgs-ss-liste-name"><?php echo esc_html( $ort->post_title ); ?></div>
-            <div class="tgs-ss-liste-addr"><?php echo esc_html( $adresse ); ?><?php if ($plz) echo '<br>' . esc_html($plz); ?></div>
-            <?php if ( $zugang ) : ?>
-                <div class="tgs-ss-liste-desc">🕐 <?php echo esc_html( $zugang ); ?></div>
-            <?php endif; ?>
-            <span class="tgs-ss-liste-link">Details ansehen →</span>
+            <?php if ( $img ) : ?><span class="tgs-ss-liste-img" style="background-image:url(<?php echo esc_url( $img ); ?>);"></span><?php endif; ?>
+            <span class="tgs-ss-liste-body">
+                <?php if ( $typ ) : ?><span class="tgs-ss-liste-typ"><?php echo esc_html( $typ ); ?></span><?php endif; ?>
+                <span class="tgs-ss-liste-name"><?php echo esc_html( $ort->post_title ); ?></span>
+                <span class="tgs-ss-liste-addr"><?php echo esc_html( $adresse ); ?><?php if ($plz) echo '<br>' . esc_html($plz); ?></span>
+                <?php if ( $zugang ) : ?><span class="tgs-ss-liste-desc">🕐 <?php echo esc_html( $zugang ); ?></span><?php endif; ?>
+                <span class="tgs-ss-liste-link">Details ansehen →</span>
+            </span>
         </a>
         <?php endforeach; ?>
     </div>
     <?php
-    return ob_get_clean();
+    // Whitespace zwischen Tags entfernen, damit wpautop die Karten nicht zerlegt.
+    return preg_replace( '/>\s+</', '><', ob_get_clean() );
 }
 add_shortcode( 'tgs_sportstaetten_liste', 'tgs_shortcode_sportstaetten_liste' );
 

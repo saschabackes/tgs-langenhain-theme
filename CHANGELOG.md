@@ -1,3 +1,11 @@
+## [0.13.0] — 2026-07-12
+
+### Behoben / Hinzugefügt
+- **Sportstätten-Übersicht:** Karten wurden durch wpautop zerlegt (leere „Details"-Boxen rechts). Neu gebaut als saubere Kacheln mit optionalem Foto (Beitragsbild), Typ-Badge und „Details ansehen" im Kartenfuß; wpautop-fest.
+- **Mitglied-werden-CTA:** irreführender Hinweis „Ab 5 €/Monat" entfernt; Button verweist weiterhin auf die Info-Seite mit den konkreten Beiträgen.
+- **Hauptnavigation:** zeigt jetzt fest auf die aktuellen Theme-Seiten (Kurse, Abteilungen, Sportstätten, Gaststätte, Kontakt) statt auf alte Newsartikel aus einem veralteten WP-Menü. Anpassbar per Filter tgs_nav_items.
+- **Kontaktformular:** neuer Shortcode [tgs_kontakt] (Name, E-Mail, Betreff, Nachricht, DSGVO) mit Spam-Honeypot; sendet an die Vereins-/Admin-E-Mail (Filter tgs_kontakt_empfaenger).
+
 ## [0.12.2] — 2026-07-12
 
 ### Hinzugefügt — Aktionstage auf der Speisekarte

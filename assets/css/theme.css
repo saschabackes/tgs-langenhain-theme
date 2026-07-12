@@ -208,6 +208,12 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-anm-success--wait { background: #FEF5EC; color: #C07020; border-color: #C07020; }
 .tgs-anm-error { background: #FEE; color: #C33; padding: .9rem 1.1rem; border-radius: 6px; font-size: 15px; border-left: 3px solid #C33; margin-bottom: 1.1rem; }
 
+/* Kontaktformular */
+.tgs-kontakt-form { max-width: 640px; }
+.tgs-kf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.tgs-kf-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.tgs-kontakt-form .tgs-anm-submit { width: auto; padding-inline: 34px; }
+
 /* ---- Kurs-Status-Seite [tgs_kurs_status] ---- */
 .tgs-status-card { max-width: 560px; margin: 1.5rem auto; background: #fff; border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.8rem; }
 .tgs-status-notice { font-size: 14px; margin-bottom: 1.1rem; padding: .7rem .9rem; border-radius: 8px; background: var(--tgs-creme); border: 1px solid var(--tgs-border); }
@@ -524,14 +530,16 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-ss-andere-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
 
 /* ============ SPORTSTÄTTE LISTE ============ */
-.tgs-ss-liste-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.tgs-ss-liste-card { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.3rem; display: block; color: inherit; }
-.tgs-ss-liste-card:hover { border-color: var(--tgs-green); text-decoration: none; }
-.tgs-ss-liste-typ { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--tgs-green); background: #e6efe6; border-radius: 999px; padding: 3px 10px; margin-bottom: .55rem; }
-.tgs-ss-liste-name { font-family: 'Libre Baskerville', serif; font-size: 18px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .35rem; }
-.tgs-ss-liste-addr { font-size: 13px; color: #77736a; line-height: 1.55; margin-bottom: .35rem; }
-.tgs-ss-liste-desc { font-size: 14px; color: #66625a; margin-bottom: .45rem; }
-.tgs-ss-liste-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
+.tgs-ss-liste-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.tgs-ss-liste-card { display: flex; flex-direction: column; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; color: inherit; transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.tgs-ss-liste-card:hover { border-color: var(--tgs-green); box-shadow: 0 8px 24px rgba(20,32,22,.1); transform: translateY(-2px); text-decoration: none; }
+.tgs-ss-liste-img { display: block; height: 160px; background-size: cover; background-position: center; background-color: #dde5d8; }
+.tgs-ss-liste-body { display: flex; flex-direction: column; padding: 1.3rem 1.4rem; flex: 1 1 auto; }
+.tgs-ss-liste-typ { align-self: flex-start; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--tgs-green); background: #e6efe6; border-radius: 999px; padding: 3px 10px; margin-bottom: .6rem; }
+.tgs-ss-liste-name { display: block; font-family: 'Libre Baskerville', serif; font-size: 19px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .4rem; }
+.tgs-ss-liste-addr { display: block; font-size: 13px; color: #77736a; line-height: 1.55; margin-bottom: .5rem; }
+.tgs-ss-liste-desc { display: block; font-size: 14px; color: #55524a; font-weight: 600; }
+.tgs-ss-liste-link { display: block; margin-top: auto; padding-top: 1rem; font-size: 14px; color: var(--tgs-green); font-weight: 700; }
 
 /* ============ ABTEILUNG DETAIL (Hero hell, ohne Logo) ============ */
 .tgs-abt-hero { background: var(--tgs-creme); padding-block: 1.5rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
@@ -665,6 +673,7 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-sk-speisen, .tgs-sk-getraenke { column-count: 1; }
   .tgs-sk-aktion-grid { grid-template-columns: 1fr; }
   .tgs-sk-h1 { font-size: 26px; }
+  .tgs-kf-row { grid-template-columns: 1fr; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }
   .tgs-mw-cta { padding: 1.4rem 1.5rem; }

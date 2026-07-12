@@ -1,3 +1,11 @@
+## [0.9.0] — 2026-07-12
+
+### Hinzugefügt — Altersgrenzen für Kurse
+- Neue Kursdetails-Felder **Mindestalter** und **Höchstalter** (Jahre, leer = keine Grenze) — besonders für Kinderkurse.
+- Ist eine Grenze gesetzt, fragt das Anmeldeformular ein **Geburtsdatum** ab (bei Kinderkursen „des Kindes"), zeigt die Altersvorgabe an und **prüft bei der Anmeldung** das Alter; außerhalb der Spanne wird abgelehnt.
+- Altersvorgabe erscheint auf der Kurs-Detailseite („Auf einen Blick") und Geburtsdatum + Alter im Backend-Teilnehmer-Roster.
+- Formular-Feldpaarung (E-Mail/Telefon) auf robuste ID-basierte CSS umgestellt, damit zusätzliche Felder die Spalten nicht verschieben.
+
 ## [0.8.1] — 2026-07-12
 
 ### Behoben — Mitglied-werden-Seite

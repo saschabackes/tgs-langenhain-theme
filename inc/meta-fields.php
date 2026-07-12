@@ -63,6 +63,8 @@ function tgs_register_meta_fields() {
         '_tgs_bewertung_aktiv'    => 'string', // '1' = an
         '_tgs_bewertung_anzeigen' => 'string', // '1' = öffentlich zeigen
         '_tgs_kurs_kinder'        => 'string', // '1' = Kinderkurs (Kind + Elternkontakt)
+        '_tgs_kurs_alter_min'     => 'integer', // Mindestalter (Jahre), leer = keine Grenze
+        '_tgs_kurs_alter_max'     => 'integer', // Höchstalter (Jahre), leer = keine Grenze
         '_tgs_ansprechpartner' => 'string',
         '_tgs_ansprechpartner_email' => 'string',
         '_tgs_ansprechpartner_tel'   => 'string',
@@ -159,6 +161,8 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_max_teilnehmer'  => array( 'label' => 'Max. Teilnehmer', 'type' => 'number', 'placeholder' => 'leer = unbegrenzt' ),
         '_tgs_kurs_anmeldung'  => array( 'label' => 'Anmeldung', 'type' => 'select', 'options' => array( 'pflicht' => 'Anmeldung erforderlich (mit Warteliste)', 'offen' => 'Offener Kurs – keine Anmeldung nötig' ) ),
         '_tgs_kurs_kinder'     => array( 'label' => 'Kurs für Kinder', 'type' => 'select', 'options' => array( '1' => 'Ja – Anmeldung mit Kind + Elternkontakt', '0' => 'Nein' ) ),
+        '_tgs_kurs_alter_min'  => array( 'label' => 'Mindestalter (Jahre)', 'type' => 'number', 'placeholder' => 'leer = keine Grenze' ),
+        '_tgs_kurs_alter_max'  => array( 'label' => 'Höchstalter (Jahre)', 'type' => 'number', 'placeholder' => 'leer = keine Grenze' ),
         '_tgs_bewertung_aktiv'    => array( 'label' => 'Bewertungen', 'type' => 'select', 'options' => array( '1' => 'Aktiviert (Teilnehmer können bewerten)', '0' => 'Aus' ) ),
         '_tgs_bewertung_anzeigen' => array( 'label' => 'Bewertungen öffentlich zeigen', 'type' => 'select', 'options' => array( '1' => 'Ja – auf der Kursseite anzeigen', '0' => 'Nein – nur intern' ) ),
         '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'checkboxes', 'options' => tgs_zielgruppen() ),
@@ -224,6 +228,7 @@ function tgs_save_kurs_meta( $post_id ) {
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
         '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
         '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder',
+        '_tgs_kurs_alter_min', '_tgs_kurs_alter_max',
         '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel',
         '_tgs_mitbringen',
     );

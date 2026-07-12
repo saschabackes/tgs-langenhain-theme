@@ -389,6 +389,14 @@ function tgs_shortcode_kurs_detail() {
                 <?php if ( $zeit ) : ?><div class="tgs-kd-info-row"><strong>Uhrzeit</strong><span><?php echo esc_html( $zeit_display ); ?></span></div><?php endif; ?>
                 <?php if ( $ort ) : ?><div class="tgs-kd-info-row"><strong>Ort</strong><span><?php echo esc_html( $ort ); ?></span></div><?php endif; ?>
                 <?php if ( $zielgr ) : ?><div class="tgs-kd-info-row"><strong>Zielgruppe</strong><span><?php echo esc_html( $zielgr ); ?></span></div><?php endif; ?>
+                <?php
+                if ( function_exists( 'tgs_kurs_altersgrenzen' ) ) {
+                    $kd_alter = tgs_kurs_altersgrenzen( $post_id );
+                    if ( $kd_alter['has'] ) {
+                        echo '<div class="tgs-kd-info-row"><strong>Alter</strong><span>' . esc_html( tgs_alter_hinweis( $kd_alter['min'], $kd_alter['max'] ) ) . '</span></div>';
+                    }
+                }
+                ?>
                 <?php if ( $mitbr ) : ?><div class="tgs-kd-info-row"><strong>Mitbringen</strong><span><?php echo esc_html( $mitbr ); ?></span></div><?php endif; ?>
                 <?php if ( $max_tn ) : ?><div class="tgs-kd-info-row"><strong>Max. Teiln.</strong><span><?php echo esc_html( $max_tn ); ?></span></div><?php endif; ?>
             </div>

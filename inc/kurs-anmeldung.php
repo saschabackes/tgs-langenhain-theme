@@ -94,6 +94,35 @@ function tgs_kurs_ist_kinderkurs( $kurs_id ) {
     return get_post_meta( $kurs_id, '_tgs_kurs_kinder', true ) === '1';
 }
 
+/** Altersgrenzen eines Kurses: array( 'min' => int|0, 'max' => int|0, 'has' => bool ). */
+function tgs_kurs_altersgrenzen( $kurs_id ) {
+    $min = (int) get_post_meta( $kurs_id, '_tgs_kurs_alter_min', true );
+    $max = (int) get_post_meta( $kurs_id, '_tgs_kurs_alter_max', true );
+    return array( 'min' => $min, 'max' => $max, 'has' => ( $min > 0 || $max > 0 ) );
+}
+
+/** Alter in vollen Jahren aus einem Datum (Y-m-d). 0/false bei ungültig. */
+function tgs_alter_aus_geburtsdatum( $ymd ) {
+    $ymd = trim( (string) $ymd );
+    if ( $ymd === '' ) return false;
+    try {
+        $geb   = new DateTime( $ymd );
+        $heute = new DateTime( current_time( 'Y-m-d' ) );
+    } catch ( Exception $e ) {
+        return false;
+    }
+    if ( $geb > $heute ) return false;
+    return (int) $geb->diff( $heute )->y;
+}
+
+/** Menschlicher Hinweis zur Altersgrenze, z.B. "von 6 bis 10 Jahren". */
+function tgs_alter_hinweis( $min, $max ) {
+    if ( $min > 0 && $max > 0 ) return sprintf( 'von %d bis %d Jahren', $min, $max );
+    if ( $min > 0 )            return sprintf( 'ab %d Jahren', $min );
+    if ( $max > 0 )            return sprintf( 'bis %d Jahren', $max );
+    return '';
+}
+
 /** Anrede für E-Mails (bei Kinderkursen der Elternkontakt). */
 function tgs_anm_greet( $anm_id ) {
     $k = get_post_meta( $anm_id, '_tgs_anm_kontakt_name', true );
@@ -196,6 +225,7 @@ function tgs_anmeldung_shortcode( $atts ) {
     $cap     = tgs_kurs_capacity( $kurs_id );
     $is_full = $cap['is_full'];
     $kinder  = tgs_kurs_ist_kinderkurs( $kurs_id );
+    $alter   = tgs_kurs_altersgrenzen( $kurs_id );
 
     ob_start();
     ?>
@@ -212,6 +242,9 @@ function tgs_anmeldung_shortcode( $atts ) {
                 Die Teilnahme ist über deine TGS-Mitgliedschaft abgedeckt.
             </p>
         <?php endif; ?>
+        <?php if ( $alter['has'] ) : ?>
+            <p class="tgs-anm-info tgs-anm-info--alter">Dieser Kurs ist für Teilnehmer <strong><?php echo esc_html( tgs_alter_hinweis( $alter['min'], $alter['max'] ) ); ?></strong>. Bitte das Geburtsdatum <?php echo $kinder ? 'des Kindes' : ''; ?> angeben.</p>
+        <?php endif; ?>
 
         <form method="post" action="#tgs-anmeldung">
             <?php wp_nonce_field( 'tgs_anmeldung', 'tgs_anm_nonce' ); ?>
@@ -219,6 +252,10 @@ function tgs_anmeldung_shortcode( $atts ) {
             <?php if ( $kinder ) : ?>
             <div class="tgs-anm-field"><label for="tgs_anm_kind">Name des Kindes *</label>
                 <input type="text" id="tgs_anm_kind" name="tgs_anm_kind" required placeholder="Vor- und Nachname des Kindes"></div>
+            <?php if ( $alter['has'] ) : ?>
+            <div class="tgs-anm-field"><label for="tgs_anm_geburtsdatum">Geburtsdatum des Kindes *</label>
+                <input type="date" id="tgs_anm_geburtsdatum" name="tgs_anm_geburtsdatum" required></div>
+            <?php endif; ?>
             <p class="tgs-anm-section">Ansprechpartner (Elternteil) *</p>
             <div class="tgs-anm-field"><label for="tgs_anm_k1_name">Name *</label>
                 <input type="text" id="tgs_anm_k1_name" name="tgs_anm_k1_name" required placeholder="Vor- und Nachname"></div>
@@ -236,6 +273,10 @@ function tgs_anmeldung_shortcode( $atts ) {
             <?php else : ?>
             <div class="tgs-anm-field"><label for="tgs_anm_name">Name *</label>
                 <input type="text" id="tgs_anm_name" name="tgs_anm_name" required placeholder="Vor- und Nachname"></div>
+            <?php if ( $alter['has'] ) : ?>
+            <div class="tgs-anm-field"><label for="tgs_anm_geburtsdatum">Geburtsdatum *</label>
+                <input type="date" id="tgs_anm_geburtsdatum" name="tgs_anm_geburtsdatum" required></div>
+            <?php endif; ?>
             <div class="tgs-anm-field"><label for="tgs_anm_email">E-Mail *</label>
                 <input type="email" id="tgs_anm_email" name="tgs_anm_email" required placeholder="deine@email.de"></div>
             <div class="tgs-anm-field"><label for="tgs_anm_telefon">Telefon (optional)</label>
@@ -286,6 +327,20 @@ function tgs_create_anmeldung( $kurs_id ) {
         return '<p class="tgs-anm-error">Bitte stimme der Datenschutzerklärung zu.</p>';
     }
 
+    // Altersgrenzen prüfen (falls für den Kurs gesetzt)
+    $alter        = tgs_kurs_altersgrenzen( $kurs_id );
+    $geburtsdatum = '';
+    if ( $alter['has'] ) {
+        $geburtsdatum = sanitize_text_field( $_POST['tgs_anm_geburtsdatum'] ?? '' );
+        $jahre = tgs_alter_aus_geburtsdatum( $geburtsdatum );
+        if ( $jahre === false ) {
+            return '<p class="tgs-anm-error">Bitte gib ein gültiges Geburtsdatum an.</p>';
+        }
+        if ( ( $alter['min'] > 0 && $jahre < $alter['min'] ) || ( $alter['max'] > 0 && $jahre > $alter['max'] ) ) {
+            return '<p class="tgs-anm-error">Dieser Kurs ist für ein Alter <strong>' . esc_html( tgs_alter_hinweis( $alter['min'], $alter['max'] ) ) . '</strong> vorgesehen (angegeben: ' . intval( $jahre ) . ' Jahre). Bei Fragen melde dich gern bei uns.</p>';
+        }
+    }
+
     // Vorhandene Anmeldung dieser E-Mail für diesen Kurs?
     $existing = get_posts( array(
         'post_type' => 'tgs_anmeldung', 'post_status' => 'publish', 'numberposts' => 1,
@@ -322,6 +377,7 @@ function tgs_create_anmeldung( $kurs_id ) {
     update_post_meta( $anm_id, '_tgs_anm_status', 'unbestaetigt' );
     update_post_meta( $anm_id, '_tgs_anm_token', $token );
     update_post_meta( $anm_id, '_tgs_anm_datum', current_time( 'Y-m-d H:i:s' ) );
+    if ( $geburtsdatum ) update_post_meta( $anm_id, '_tgs_anm_geburtsdatum', $geburtsdatum );
     if ( $kinder ) {
         update_post_meta( $anm_id, '_tgs_anm_kind', '1' );
         update_post_meta( $anm_id, '_tgs_anm_kontakt_name', $k1_name );
@@ -704,6 +760,11 @@ function tgs_render_anm_table( $title, $list, $numbered, $ops = array() ) {
                 $sub .= ' · ' . esc_html( $k2 ) . ( $k2t ? ' (' . esc_html( $k2t ) . ')' : '' );
             }
             $namecell .= '<br><small style="color:#888;">' . $sub . '</small>';
+        }
+        $geb = get_post_meta( $a->ID, '_tgs_anm_geburtsdatum', true );
+        if ( $geb ) {
+            $j = tgs_alter_aus_geburtsdatum( $geb );
+            $namecell .= '<br><small style="color:#888;">geb. ' . esc_html( date_i18n( 'd.m.Y', strtotime( $geb ) ) ) . ( $j !== false ? ' · ' . intval( $j ) . ' J.' : '' ) . '</small>';
         }
         echo '<tr>';
         if ( $numbered ) echo '<td>' . $i . '</td>';

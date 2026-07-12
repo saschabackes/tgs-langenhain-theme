@@ -49,8 +49,16 @@ WordPress Block Theme für die **TGS 1886 Langenhain e.V.** — Sportverein im T
 - `[tgs_navigation]` — Hauptnavigation aus WP-Menü
 - `[tgs_sportstaette_detail]` — Sportstätten-Detailseite
 - `[tgs_sportstaetten_liste]` — Sportstätten-Übersicht
-- `[tgs_abteilung_detail]` — Abteilungs-Detailseite
-- `[tgs_abteilungen_detail_liste]` — Abteilungen-Übersicht
+- `[tgs_abteilung_detail]` — Abteilungs-Detailseite (Hero ohne Logo, Icon-Badge, Sidebar sticky)
+- `[tgs_abteilungen_detail_liste]` — Abteilungen-Übersicht (2-spaltiges Karten-Raster)
+
+### Content-Bausteine (inc/content-blocks.php, ab v0.3.0)
+Wiederverwendbar in Beitragsinhalten (Abteilungen etc.), wpautop-sicher:
+- `[tgs_chips]A | B | C[/tgs_chips]` — Fakten-Chip-Reihe
+- `[tgs_infobox][tgs_infospalte titel="" gross=""]…[/tgs_infospalte]…[/tgs_infobox]` — mehrspaltige Info-Box
+- `[tgs_gruppen][tgs_gruppe name="" grad="" hinweis=""]…[/tgs_gruppe]…[/tgs_gruppen]` — Karten-Raster mit Schwierigkeits-Chip
+- `[tgs_cta_box titel="" text="" button="" url="" farbe="gruen|whatsapp"]` — hervorgehobene Aktions-Box
+- Inhalte je Container-Shortcode auf **einer Zeile** schreiben (wpautop). Container nutzen `tgs_clean_shortcode_content()`.
 
 ### Templates (templates/)
 - `front-page.html` — Startseite

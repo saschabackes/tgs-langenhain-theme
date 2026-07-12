@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.3.4] — 2026-07-12
+
+### Geändert
+- Abteilungs-Hero: Icon-Badge deutlich vergrößert (50→76 px, Icon 42 px) für mehr Präsenz auf den Abteilungsseiten. Kleine Badges in Karten/Listen unverändert.
+
 ## [0.3.3] — 2026-07-12
 
 ### Geändert — Vereinseigenes Sport-Icon-Set statt Emojis

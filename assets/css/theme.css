@@ -229,8 +229,9 @@ img { max-width: 100%; height: auto; }
 
 /* ============ ABTEILUNG DETAIL (Hero hell, ohne Logo) ============ */
 .tgs-abt-hero { background: var(--tgs-creme); padding-block: 1.5rem; display: flex; align-items: center; justify-content: flex-start; border-bottom: 1px solid var(--tgs-border); }
-.tgs-abt-hero-inner { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; }
-.tgs-abt-hero-badge { grid-row: 1 / span 2; width: 50px; height: 50px; border-radius: 13px; background: #EAF1EA; color: var(--tgs-green); display: flex; align-items: center; justify-content: center; font-size: 25px; }
+.tgs-abt-hero-inner { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 20px; }
+.tgs-abt-hero-badge { grid-row: 1 / span 2; width: 76px; height: 76px; border-radius: 18px; background: #EAF1EA; color: var(--tgs-green); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+.tgs-abt-hero-badge .tgs-sport-icon { width: 42px; height: 42px; stroke-width: 1.6; }
 /* Sport-Icons (Inline-SVG-Set) */
 .tgs-sport-icon { width: 26px; height: 26px; display: block; }
 .tgs-sport-emoji { font-size: 25px; line-height: 1; }

@@ -266,68 +266,132 @@ function tgs_create_anmeldung( $kurs_id ) {
  * Status-Seite  [tgs_kurs_status]  (Bestätigen / Ansehen / Abmelden)
  * ========================================================================= */
 function tgs_kurs_status_shortcode() {
-    $token  = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : '';
-    $aktion = isset( $_GET['aktion'] ) ? sanitize_key( $_GET['aktion'] ) : '';
     $notice = '';
 
-    // Bestätigen (Double-Opt-In, Klick auf Link in der Mail)
-    if ( $aktion === 'confirm' && $token ) {
-        $r = tgs_confirm_anmeldung( $token );
+    // Bestätigen (Double-Opt-In)
+    if ( isset( $_GET['aktion'], $_GET['token'] ) && sanitize_key( $_GET['aktion'] ) === 'confirm' ) {
+        $r = tgs_confirm_anmeldung( sanitize_text_field( wp_unslash( $_GET['token'] ) ) );
         $notice = $r['msg'];
     }
-    // Abmelden (Formular-POST mit Token + Nonce)
+    // Abmelden (POST mit Anmeldungs-Token + Nonce)
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tgs_cancel_token'], $_POST['tgs_cancel_nonce'] )
          && wp_verify_nonce( $_POST['tgs_cancel_nonce'], 'tgs_cancel' ) ) {
-        $token = sanitize_text_field( wp_unslash( $_POST['tgs_cancel_token'] ) );
-        $r = tgs_cancel_anmeldung( $token );
+        $r = tgs_cancel_anmeldung( sanitize_text_field( wp_unslash( $_POST['tgs_cancel_token'] ) ) );
         $notice = $r['msg'];
     }
+    // Magic-Link anfordern (POST E-Mail)
+    if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['tgs_meine_email'], $_POST['tgs_meine_nonce'] )
+         && wp_verify_nonce( $_POST['tgs_meine_nonce'], 'tgs_meine' ) ) {
+        tgs_send_access_link( sanitize_email( wp_unslash( $_POST['tgs_meine_email'] ) ) );
+        $notice = '<span class="tgs-status-ok">Wenn zu dieser Adresse Anmeldungen bestehen, haben wir dir gerade einen Link geschickt. Bitte schau in dein E-Mail-Postfach.</span>';
+    }
 
-    $anm = tgs_get_anmeldung_by_token( $token );
+    // E-Mail der Person bestimmen (aus Anmeldungs-Token, Zugangs-Token oder Abmelde-POST)
+    $email = '';
+    if ( isset( $_GET['token'] ) ) {
+        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_GET['token'] ) ) );
+        if ( $a ) $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+    } elseif ( isset( $_GET['zugang'] ) ) {
+        $email = tgs_resolve_access_token( sanitize_text_field( wp_unslash( $_GET['zugang'] ) ) );
+    } elseif ( isset( $_POST['tgs_cancel_token'] ) ) {
+        $a = tgs_get_anmeldung_by_token( sanitize_text_field( wp_unslash( $_POST['tgs_cancel_token'] ) ) );
+        if ( $a ) $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+    }
+
+    ob_start();
+    if ( $notice ) echo '<div class="tgs-status-card" style="margin-bottom:1rem;"><div class="tgs-status-notice">' . wp_kses_post( $notice ) . '</div></div>';
+    echo $email ? tgs_render_person_overview( $email ) : tgs_meine_kurse_form();
+    return ob_get_clean();
+}
+add_shortcode( 'tgs_kurs_status', 'tgs_kurs_status_shortcode' );
+
+/** Status-Badge (Frontend) für eine Anmeldung. */
+function tgs_status_badge_html( $status, $anm_id ) {
+    if ( $status === 'bestaetigt' )   return '<span class="tgs-status-badge tgs-status-badge--ok">✓ Angemeldet</span>';
+    if ( $status === 'warteliste' )   { $p = tgs_waitlist_position( $anm_id ); return '<span class="tgs-status-badge tgs-status-badge--wait">⏳ Warteliste' . ( $p ? ' · Platz ' . intval( $p ) : '' ) . '</span>'; }
+    if ( $status === 'unbestaetigt' ) return '<span class="tgs-status-badge tgs-status-badge--wait">✉ Nicht bestätigt</span>';
+    if ( $status === 'storniert' )    return '<span class="tgs-status-badge tgs-status-badge--off">Abgemeldet</span>';
+    return '';
+}
+
+/** Übersicht aller aktiven Anmeldungen einer E-Mail. */
+function tgs_render_person_overview( $email ) {
+    $anms = get_posts( array(
+        'post_type' => 'tgs_anmeldung', 'post_status' => 'publish', 'numberposts' => -1,
+        'orderby' => 'date', 'order' => 'ASC',
+        'meta_query' => array( 'relation' => 'AND',
+            array( 'key' => '_tgs_anm_email', 'value' => $email ),
+            array( 'key' => '_tgs_anm_status', 'value' => array( 'unbestaetigt', 'bestaetigt', 'warteliste' ), 'compare' => 'IN' ),
+        ),
+    ) );
     ob_start();
     echo '<div class="tgs-status-card">';
-    if ( $notice ) echo '<div class="tgs-status-notice">' . wp_kses_post( $notice ) . '</div>';
-
-    if ( ! $anm ) {
-        echo '<p>Dieser Link ist ungültig oder abgelaufen. Falls du Fragen hast, wende dich bitte an den Kursleiter.</p>';
+    echo '<h2 class="tgs-status-h">Meine Kurse</h2>';
+    echo '<p class="tgs-status-name">' . esc_html( $email ) . '</p>';
+    if ( empty( $anms ) ) {
+        echo '<p>Für diese Adresse sind aktuell keine aktiven Anmeldungen hinterlegt.</p>';
     } else {
-        $status  = get_post_meta( $anm->ID, '_tgs_anm_status', true );
-        $kurs_id = intval( get_post_meta( $anm->ID, '_tgs_anm_kurs_id', true ) );
-        $name    = get_post_meta( $anm->ID, '_tgs_anm_name', true );
-        $kurs    = get_the_title( $kurs_id );
-
-        echo '<h2 class="tgs-status-h">' . esc_html( $kurs ) . '</h2>';
-        echo '<p class="tgs-status-name">Anmeldung von ' . esc_html( $name ) . '</p>';
-
-        if ( $status === 'bestaetigt' ) {
-            echo '<div class="tgs-status-badge tgs-status-badge--ok">✓ Angemeldet</div>';
-            echo '<p>Dein Platz ist bestätigt. Wir freuen uns auf dich!</p>';
-        } elseif ( $status === 'warteliste' ) {
-            $pos = tgs_waitlist_position( $anm->ID );
-            echo '<div class="tgs-status-badge tgs-status-badge--wait">⏳ Warteliste' . ( $pos ? ' · Platz ' . intval( $pos ) : '' ) . '</div>';
-            echo '<p>Du stehst auf der Warteliste. Sobald ein Platz frei wird, rücken wir dich automatisch nach und benachrichtigen dich per E-Mail.</p>';
-        } elseif ( $status === 'unbestaetigt' ) {
-            echo '<div class="tgs-status-badge tgs-status-badge--wait">✉ Noch nicht bestätigt</div>';
-            echo '<p>Deine Anmeldung ist noch nicht bestätigt. Bitte klicke auf den Bestätigungslink in unserer E-Mail.</p>';
-        } elseif ( $status === 'storniert' ) {
-            echo '<div class="tgs-status-badge tgs-status-badge--off">Abgemeldet</div>';
-            echo '<p>Diese Anmeldung wurde storniert. Du kannst dich jederzeit auf der Kursseite neu anmelden.</p>';
-        }
-
-        // Abmelden-Button (nur bei aktiver Anmeldung)
-        if ( in_array( $status, array( 'bestaetigt', 'warteliste', 'unbestaetigt' ), true ) ) {
-            echo '<form method="post" class="tgs-status-cancel" onsubmit="return confirm(\'Möchtest du dich wirklich abmelden?\');">';
+        echo '<div class="tgs-mk-list">';
+        foreach ( $anms as $a ) {
+            $status  = get_post_meta( $a->ID, '_tgs_anm_status', true );
+            $kurs_id = intval( get_post_meta( $a->ID, '_tgs_anm_kurs_id', true ) );
+            $tok     = get_post_meta( $a->ID, '_tgs_anm_token', true );
+            echo '<div class="tgs-mk-item">';
+            echo '<div class="tgs-mk-head"><a class="tgs-mk-kurs" href="' . esc_url( get_permalink( $kurs_id ) ) . '">' . esc_html( get_the_title( $kurs_id ) ) . '</a> ' . tgs_status_badge_html( $status, $a->ID ) . '</div>';
+            $info = tgs_kurs_infozeile( $kurs_id );
+            if ( $info ) echo '<div class="tgs-mk-meta">' . $info . '</div>';
+            echo '<form method="post" class="tgs-mk-cancel" onsubmit="return confirm(\'Von diesem Kurs abmelden?\');">';
             wp_nonce_field( 'tgs_cancel', 'tgs_cancel_nonce' );
-            echo '<input type="hidden" name="tgs_cancel_token" value="' . esc_attr( get_post_meta( $anm->ID, '_tgs_anm_token', true ) ) . '">';
-            echo '<button type="submit" class="tgs-status-cancel-btn">Vom Kurs abmelden</button>';
-            echo '</form>';
+            echo '<input type="hidden" name="tgs_cancel_token" value="' . esc_attr( $tok ) . '">';
+            echo '<button type="submit" class="tgs-mk-cancel-btn">Abmelden</button></form>';
+            echo '</div>';
         }
-        if ( $kurs_id ) echo '<p class="tgs-status-back"><a href="' . esc_url( get_permalink( $kurs_id ) ) . '">← Zur Kursseite</a></p>';
+        echo '</div>';
     }
     echo '</div>';
     return ob_get_clean();
 }
-add_shortcode( 'tgs_kurs_status', 'tgs_kurs_status_shortcode' );
+
+/** Zugangs-Formular „Meine Kurse" (E-Mail → Magic-Link). */
+function tgs_meine_kurse_form() {
+    ob_start();
+    echo '<div class="tgs-status-card">';
+    echo '<h2 class="tgs-status-h">Meine Kurse</h2>';
+    echo '<p>Gib deine E-Mail-Adresse ein — wir schicken dir einen Link zu deiner persönlichen Kursübersicht (Anmeldungen &amp; Warteliste). Ganz ohne Konto.</p>';
+    echo '<form method="post" class="tgs-meine-form">';
+    wp_nonce_field( 'tgs_meine', 'tgs_meine_nonce' );
+    echo '<div class="tgs-anm-field"><label for="tgs_meine_email">E-Mail</label><input type="email" id="tgs_meine_email" name="tgs_meine_email" required placeholder="deine@email.de"></div>';
+    echo '<button type="submit" class="tgs-anm-submit">Link anfordern</button>';
+    echo '</form></div>';
+    return ob_get_clean();
+}
+
+/** Verschickt den Zugangs-Link zur Kursübersicht (nur wenn Anmeldungen existieren). */
+function tgs_send_access_link( $email ) {
+    if ( ! is_email( $email ) ) return;
+    $has = get_posts( array( 'post_type' => 'tgs_anmeldung', 'post_status' => 'publish', 'numberposts' => 1, 'fields' => 'ids',
+        'meta_query' => array( array( 'key' => '_tgs_anm_email', 'value' => $email ) ) ) );
+    if ( empty( $has ) ) return;
+
+    $token = wp_generate_password( 40, false, false );
+    set_transient( 'tgs_zugang_' . $token, $email, 7 * DAY_IN_SECONDS );
+    $page = get_option( 'tgs_status_page_id' );
+    $link = add_query_arg( 'zugang', $token, $page ? get_permalink( $page ) : home_url( '/' ) );
+
+    $body = tgs_mail_wrap(
+        '<h2>Deine Kursübersicht</h2>'
+        . '<p>hier kommst du zu deinen Anmeldungen und Wartelisten bei der TGS Langenhain:</p>'
+        . '<p><a href="' . esc_url( $link ) . '" style="display:inline-block;background:#3D5A40;color:#fff;font-weight:bold;text-decoration:none;padding:10px 20px;border-radius:8px;">Meine Kurse ansehen</a></p>'
+        . '<p style="color:#8a8577;font-size:13px;">Der Link ist 7 Tage gültig.</p>'
+    );
+    wp_mail( $email, 'Deine Kursübersicht — TGS Langenhain', $body, tgs_mail_headers() );
+}
+
+function tgs_resolve_access_token( $token ) {
+    if ( ! $token ) return '';
+    $email = get_transient( 'tgs_zugang_' . $token );
+    return $email ? $email : '';
+}
 
 /* =========================================================================
  * Aktionen: Bestätigen / Abmelden / Nachrücken
@@ -514,25 +578,81 @@ function tgs_kurs_anm_list( $kurs_id, $status ) {
     ) );
 }
 
-function tgs_render_anm_table( $title, $list, $numbered ) {
+/** Aktions-Button (Backend) für eine Anmeldung. */
+function tgs_anm_action_link( $anm_id, $op, $label, $confirm = '' ) {
+    $url = wp_nonce_url( admin_url( 'admin-post.php?action=tgs_anm_manage&op=' . $op . '&anm=' . $anm_id ), 'tgs_anm_manage_' . $anm_id );
+    $onclick = $confirm ? ' onclick="return confirm(\'' . esc_js( $confirm ) . '\');"' : '';
+    return '<a href="' . esc_url( $url ) . '" class="button button-small"' . $onclick . '>' . esc_html( $label ) . '</a>';
+}
+
+function tgs_render_anm_table( $title, $list, $numbered, $ops = array() ) {
     if ( empty( $list ) ) return;
     echo '<h4 style="margin:1.2em 0 .3em;">' . esc_html( $title ) . ' (' . count( $list ) . ')</h4>';
     echo '<table class="widefat striped" style="margin-bottom:.5em;"><thead><tr>';
     if ( $numbered ) echo '<th style="width:34px;">#</th>';
-    echo '<th>Name</th><th>E-Mail</th><th>Telefon</th><th>Datum</th></tr></thead><tbody>';
+    echo '<th>Name</th><th>E-Mail</th><th>Telefon</th><th>Datum</th>';
+    if ( $ops ) echo '<th>Aktion</th>';
+    echo '</tr></thead><tbody>';
     $i = 0;
     foreach ( $list as $a ) {
         $i++;
         $email = get_post_meta( $a->ID, '_tgs_anm_email', true );
+        $name  = get_post_meta( $a->ID, '_tgs_anm_name', true );
         echo '<tr>';
         if ( $numbered ) echo '<td>' . $i . '</td>';
-        echo '<td><strong>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_name', true ) ) . '</strong></td>';
+        echo '<td><strong>' . esc_html( $name ) . '</strong></td>';
         echo '<td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td>';
         echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_telefon', true ) ) . '</td>';
         echo '<td>' . esc_html( get_post_meta( $a->ID, '_tgs_anm_datum', true ) ) . '</td>';
+        if ( $ops ) {
+            echo '<td style="white-space:nowrap;">';
+            if ( in_array( 'promote', $ops, true ) ) echo tgs_anm_action_link( $a->ID, 'promote', 'In Kurs aufnehmen' ) . ' ';
+            if ( in_array( 'remove', $ops, true ) )  echo tgs_anm_action_link( $a->ID, 'remove', 'Entfernen', 'Diese Person wirklich entfernen? Bei einem belegten Platz rückt automatisch die Warteliste nach.' );
+            echo '</td>';
+        }
         echo '</tr>';
     }
     echo '</tbody></table>';
+}
+
+/** Backend-Aktion: Teilnehmer entfernen (+ Nachrücken) oder von Warteliste aufnehmen. */
+function tgs_handle_anm_manage() {
+    $anm_id = isset( $_GET['anm'] ) ? intval( $_GET['anm'] ) : 0;
+    $op     = isset( $_GET['op'] ) ? sanitize_key( $_GET['op'] ) : '';
+    if ( ! $anm_id || empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'tgs_anm_manage_' . $anm_id ) ) {
+        wp_die( 'Ungültige oder abgelaufene Anfrage.' );
+    }
+    if ( ! current_user_can( 'edit_posts' ) ) wp_die( 'Keine Berechtigung.' );
+
+    $kurs_id = intval( get_post_meta( $anm_id, '_tgs_anm_kurs_id', true ) );
+    if ( $op === 'remove' ) {
+        $prev = get_post_meta( $anm_id, '_tgs_anm_status', true );
+        update_post_meta( $anm_id, '_tgs_anm_status', 'storniert' );
+        tgs_sync_kurs_status( $kurs_id );
+        if ( in_array( $prev, array( 'bestaetigt', 'warteliste' ), true ) ) tgs_mail_removed( $anm_id );
+        if ( $prev === 'bestaetigt' ) tgs_promote_waitlist( $kurs_id );
+    } elseif ( $op === 'promote' ) {
+        update_post_meta( $anm_id, '_tgs_anm_status', 'bestaetigt' );
+        tgs_sync_kurs_status( $kurs_id );
+        tgs_mail_promoted( $anm_id );
+    }
+    wp_safe_redirect( admin_url( 'post.php?post=' . $kurs_id . '&action=edit' ) );
+    exit;
+}
+add_action( 'admin_post_tgs_anm_manage', 'tgs_handle_anm_manage' );
+
+/** Info-Mail an eine vom Kursleiter entfernte Person. */
+function tgs_mail_removed( $anm_id ) {
+    $email = get_post_meta( $anm_id, '_tgs_anm_email', true );
+    if ( ! $email || ! is_email( $email ) ) return;
+    $name    = get_post_meta( $anm_id, '_tgs_anm_name', true );
+    $kurs_id = intval( get_post_meta( $anm_id, '_tgs_anm_kurs_id', true ) );
+    $kurs    = get_the_title( $kurs_id );
+    $body = tgs_mail_wrap(
+        '<h2>Hallo ' . esc_html( $name ) . ',</h2>'
+        . '<p>deine Anmeldung für <strong>' . esc_html( $kurs ) . '</strong> wurde storniert. Falls das ein Versehen war, wende dich bitte an den Kursleiter oder melde dich auf der Kursseite neu an.</p>'
+    );
+    wp_mail( $email, 'Abmeldung: ' . $kurs, $body, tgs_mail_headers() );
 }
 
 function tgs_kurs_anmeldungen_metabox_html( $post ) {
@@ -553,8 +673,8 @@ function tgs_kurs_anmeldungen_metabox_html( $post ) {
         echo '<p style="color:#999;">Noch keine bestätigten Anmeldungen.</p>';
         return;
     }
-    tgs_render_anm_table( 'Angemeldet', $conf, false );
-    tgs_render_anm_table( 'Warteliste', $wait, true );
+    tgs_render_anm_table( 'Angemeldet', $conf, false, array( 'remove' ) );
+    tgs_render_anm_table( 'Warteliste', $wait, true, array( 'promote', 'remove' ) );
 }
 
 /* =========================================================================

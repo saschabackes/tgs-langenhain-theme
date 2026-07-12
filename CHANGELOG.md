@@ -2,6 +2,12 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.4.2] — 2026-07-12
+
+### Hinzugefügt — Teilnehmerverwaltung
+- **Kursleiter-Buttons im Backend**: In der Box „Anmeldungen zu diesem Kurs" je Person „Entfernen" (rückt Warteliste automatisch nach + Info-Mail) und bei Wartelisten-Einträgen „In Kurs aufnehmen" (setzt auf angemeldet + Mail). Ein Klick, via admin-post + Nonce.
+- **„Meine Kurse" für Teilnehmer (ohne Konto)**: Die persönliche Status-Seite zeigt jetzt **alle** Anmeldungen derselben E-Mail (Status, Wartelisten-Platz, Abmelden je Kurs). Zusätzlich E-Mail-Zugangsformular → Magic-Link (7 Tage gültig) zur Übersicht.
+
 ## [0.4.1] — 2026-07-12
 
 ### Hinzugefügt / Geändert — Backend-Verwaltung

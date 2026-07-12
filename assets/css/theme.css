@@ -213,6 +213,18 @@ img { max-width: 100%; height: auto; }
 .tgs-status-cancel-btn { background: #fff; border: 1px solid var(--tgs-border); color: #a3453a; font-weight: 600; font-size: 14px; padding: 9px 18px; border-radius: 8px; cursor: pointer; }
 .tgs-status-cancel-btn:hover { border-color: #a3453a; }
 .tgs-status-back { margin-top: 1.2rem; }
+/* „Meine Kurse" — Übersicht mehrerer Anmeldungen */
+.tgs-mk-list { display: flex; flex-direction: column; gap: 12px; margin-top: 1rem; }
+.tgs-mk-item { border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1rem 1.1rem; }
+.tgs-mk-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tgs-mk-head .tgs-status-badge { margin-bottom: 0; }
+.tgs-mk-kurs { font-family: 'Libre Baskerville', serif; font-size: 17px; font-weight: 700; color: var(--tgs-ink); text-decoration: none; }
+.tgs-mk-kurs:hover { color: var(--tgs-green); }
+.tgs-mk-meta { font-size: 13px; color: var(--tgs-muted); margin-top: .25rem; }
+.tgs-mk-cancel { margin-top: .7rem; }
+.tgs-mk-cancel-btn { background: #fff; border: 1px solid var(--tgs-border); color: #a3453a; font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 7px; cursor: pointer; }
+.tgs-mk-cancel-btn:hover { border-color: #a3453a; }
+.tgs-meine-form { margin-top: 1rem; max-width: 400px; }
 
 /* ============ SPORTSTÄTTE DETAIL ============ */
 .tgs-ss-hero { display: grid; grid-template-columns: 1fr 300px; background: #fff; border-bottom: 1px solid var(--tgs-border); }

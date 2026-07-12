@@ -27,10 +27,9 @@ function tgs_gaststaette_daten() {
         'adresse'     => 'Sportplatzstraße 13',
         'plz_ort'     => '65719 Hofheim-Langenhain',
         'maps'        => 'https://www.google.com/maps/search/?api=1&query=Zu%20den%20Eichen%20Da%20Luca%20Sportplatzstra%C3%9Fe%2013%20Hofheim',
-        // Speisekarte als eigenes PDF: in die Mediathek hochladen und die interne
-        // URL hier eintragen (z.B. .../wp-content/uploads/…/speisekarte.pdf).
-        // Leer lassen = kein Speisekarten-Button (kein externer Link).
-        'speisekarte' => '',
+        // Interne Speisekarten-Seite (Shortcode [tgs_speisekarte]). Leer lassen
+        // = kein Speisekarten-Button.
+        'speisekarte' => '/speisekarte',
         'rating'      => '4,6',
         'rating_link' => 'https://www.google.com/maps/search/?api=1&query=Zu%20den%20Eichen%20Da%20Luca%20Sportplatzstra%C3%9Fe%2013%20Hofheim',
         'zeiten'      => array(
@@ -97,7 +96,7 @@ function tgs_shortcode_gaststaette() {
                 <div class="tgs-gs-hero-cta">
                     <a href="tel:<?php echo esc_attr( $d['tel_link'] ); ?>" class="tgs-gs-btn tgs-gs-btn--primary">📞 Tisch reservieren</a>
                     <?php if ( $d['speisekarte'] ) : ?>
-                    <a href="<?php echo esc_url( $d['speisekarte'] ); ?>" class="tgs-gs-btn tgs-gs-btn--ghost" target="_blank" rel="noopener">Zur Speisekarte →</a>
+                    <a href="<?php echo esc_url( $d['speisekarte'] ); ?>" class="tgs-gs-btn tgs-gs-btn--ghost">Zur Speisekarte →</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -155,7 +154,7 @@ function tgs_shortcode_gaststaette() {
                     <?php endforeach; ?>
                 </div>
                 <?php if ( $d['speisekarte'] ) : ?>
-                <a href="<?php echo esc_url( $d['speisekarte'] ); ?>" class="tgs-gs-menu-btn" target="_blank" rel="noopener">Komplette Speisekarte ansehen →</a>
+                <a href="<?php echo esc_url( $d['speisekarte'] ); ?>" class="tgs-gs-menu-btn">Komplette Speisekarte ansehen →</a>
                 <?php else : ?>
                 <p class="tgs-gs-note">Die vollständige Speisekarte gibt's direkt vor Ort – oder ruf uns kurz an unter <a href="tel:<?php echo esc_attr( $d['tel_link'] ); ?>"><?php echo esc_html( $d['tel'] ); ?></a>.</p>
                 <?php endif; ?>

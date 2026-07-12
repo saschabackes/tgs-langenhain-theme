@@ -318,10 +318,11 @@ a.tgs-chip:hover { color: #fff; }
 /* .tgs-mw ist der EINE zentrierende Container (wie .tgs-section). Die umgebende
    Seiten-Section wird entrahmt, damit sich die Zentrierung nicht verdoppelt,
    und der doppelte Seitentitel wird ausgeblendet. */
-.tgs-mw, .tgs-gs { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
+.tgs-mw, .tgs-gs, .tgs-sk { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem; }
 .tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw),
-.tgs-section:has(.tgs-gs), .wp-block-post-content:has(.tgs-gs) { padding: 0 !important; border-bottom: none; background: transparent; }
-body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title { display: none; }
+.tgs-section:has(.tgs-gs), .wp-block-post-content:has(.tgs-gs),
+.tgs-section:has(.tgs-sk), .wp-block-post-content:has(.tgs-sk) { padding: 0 !important; border-bottom: none; background: transparent; }
+body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, body:has(.tgs-sk) .wp-block-post-title { display: none; }
 .tgs-mw-block { margin-top: 2.6rem; }
 .tgs-mw-intro { max-width: 760px; }
 .tgs-mw-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .5rem; }
@@ -447,6 +448,40 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title {
 .tgs-gs-contact-sub { font-size: 14px; color: rgba(255,255,255,.82); }
 .tgs-gs-contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 .tgs-gs-contact .tgs-gs-btn--ghost { color: #fff; border-color: rgba(255,255,255,.5); }
+
+/* ============ SPEISEKARTE ============ */
+.tgs-sk-intro { max-width: 720px; margin-bottom: 1.4rem; }
+.tgs-sk-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .3rem; }
+.tgs-sk-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; color: var(--tgs-ink); margin: 0 0 .6rem; font-weight: 700; }
+.tgs-sk-lead { font-size: 16px; color: #55524a; line-height: 1.6; margin: 0; }
+.tgs-sk-section { font-family: 'Libre Baskerville', serif; font-size: 26px; color: var(--tgs-ink); margin: 2.4rem 0 1.2rem; padding-top: 1.6rem; border-top: 2px solid var(--tgs-border); }
+
+.tgs-sk-speisen, .tgs-sk-getraenke { column-count: 2; column-gap: 3rem; }
+.tgs-sk-cat { break-inside: avoid; margin-bottom: 1.8rem; }
+.tgs-sk-cat-title { font-family: 'Libre Baskerville', serif; font-size: 20px; color: var(--tgs-green); margin: 0 0 .2rem; font-weight: 700; }
+.tgs-sk-cat-note { font-size: 13px; color: #8a867b; line-height: 1.45; margin: 0 0 .6rem; }
+.tgs-sk-cat-foot { font-size: 12.5px; color: #8a867b; line-height: 1.5; margin: .6rem 0 0; font-style: italic; }
+
+.tgs-sk-head { display: grid; grid-template-columns: 1.8rem 1fr 4rem 4rem; gap: .8rem; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #9a9488; padding-bottom: .2rem; }
+.tgs-sk-head span:nth-child(2) ~ span { text-align: right; }
+.tgs-sk-list { list-style: none; margin: 0; padding: 0; }
+.tgs-sk-item { display: grid; grid-template-columns: 1.8rem 1fr 4.5rem; gap: .1rem .8rem; align-items: baseline; padding: .5rem 0; border-bottom: 1px solid var(--tgs-border); }
+.tgs-sk-list--2 .tgs-sk-item { grid-template-columns: 1.8rem 1fr 4rem 4rem; }
+.tgs-sk-nr { color: #b3ad9f; font-size: 12px; font-variant-numeric: tabular-nums; }
+.tgs-sk-main { display: flex; flex-direction: column; gap: 1px; grid-column: 2; }
+.tgs-sk-name { font-weight: 700; color: var(--tgs-ink); font-size: 15px; }
+.tgs-sk-desc { font-size: 12.5px; color: #8a867b; line-height: 1.4; }
+.tgs-sk-preis { font-weight: 700; color: var(--tgs-green); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; }
+.tgs-sk-extra { list-style: none; margin: .5rem 0 0; padding: .5rem 0 0; border-top: 1px dashed var(--tgs-border); }
+.tgs-sk-extra li { display: flex; justify-content: space-between; gap: .8rem; font-size: 13px; color: #66625a; padding: .2rem 0; }
+.tgs-sk-extra li span:last-child { color: var(--tgs-green); font-weight: 700; white-space: nowrap; }
+
+.tgs-sk-drinks { list-style: none; margin: 0; padding: 0; }
+.tgs-sk-drinks li { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; padding: .4rem 0; border-bottom: 1px solid var(--tgs-border); font-size: 14.5px; }
+.tgs-sk-dname { color: var(--tgs-ink); }
+.tgs-sk-dname small { color: #8a867b; font-size: 12px; }
+.tgs-sk-dprice { color: var(--tgs-green); font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tgs-sk-legend { font-size: 12px; color: #9a9488; line-height: 1.55; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border); }
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
@@ -592,6 +627,9 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title {
   .tgs-gs-features { grid-template-columns: 1fr; }
   .tgs-gs-reviews { grid-template-columns: 1fr; gap: 1rem; text-align: center; padding: 1.5rem; }
   .tgs-gs-facts { grid-template-columns: 1fr 1fr; }
+  .tgs-sk { padding-block: 1.6rem; }
+  .tgs-sk-speisen, .tgs-sk-getraenke { column-count: 1; }
+  .tgs-sk-h1 { font-size: 26px; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }
   .tgs-mw-cta { padding: 1.4rem 1.5rem; }

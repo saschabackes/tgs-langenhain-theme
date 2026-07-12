@@ -1,3 +1,9 @@
+## [0.11.0] — 2026-07-12
+
+### Hinzugefügt — Speisekarte auf eigener Seite
+- Neuer Shortcode `[tgs_speisekarte]`: die komplette Karte von „Zu den Eichen – Da Luca" (aus dem offiziellen PDF übernommen) schön gesetzt auf der eigenen Website – Speisen (Antipasti, Suppe, Salate, Pizza, Pasta, Pasta Special, Fisch, Rumpsteak, Schnitzel, Kinder, Dessert) mit Nummern, Beschreibungen und Preisen (inkl. Klein/Groß) sowie alle Getränke. Zweispaltiges Layout, mobil einspaltig.
+- Der „Zur Speisekarte"-Button auf der Gaststätten-Seite verlinkt jetzt intern auf diese Seite (kein externer Link mehr). Menüdaten zentral in `inc/speisekarte.php`.
+
 ## [0.10.1] — 2026-07-12
 
 ### Behoben — Gaststätten-Seite

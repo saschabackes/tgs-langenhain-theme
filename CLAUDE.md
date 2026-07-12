@@ -58,6 +58,7 @@ Wiederverwendbar in Beitragsinhalten (Abteilungen etc.), wpautop-sicher:
 - `[tgs_infobox][tgs_infospalte titel="" gross=""]…[/tgs_infospalte]…[/tgs_infobox]` — mehrspaltige Info-Box
 - `[tgs_gruppen][tgs_gruppe name="" grad="" hinweis=""]…[/tgs_gruppe]…[/tgs_gruppen]` — Karten-Raster mit Schwierigkeits-Chip
 - `[tgs_cta_box titel="" text="" button="" url="" farbe="gruen|whatsapp"]` — hervorgehobene Aktions-Box
+- `[tgs_whatsapp titel="" text="{mitglieder}…" mitglieder="" tel="49…" nachricht="" link="" qr="datei.png" button=""]` — WhatsApp-Community-Karte (wa.me oder Gruppenlink) mit optionalem QR-Code (QR-PNGs in assets/images/, mit `segno` erzeugt)
 - Inhalte je Container-Shortcode auf **einer Zeile** schreiben (wpautop). Container nutzen `tgs_clean_shortcode_content()`.
 
 ### Templates (templates/)

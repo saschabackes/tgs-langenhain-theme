@@ -2,6 +2,13 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [0.8.0] — 2026-07-12
+
+### Hinzugefügt — Seite „Mitglied werden" mit Kostenübersicht
+- Neuer Shortcode `[tgs_mitglied_werden]`: komplette Beitritts-Seite mit Intro, transparenter **Beitragsübersicht** (Grundbeiträge ab 2026 als Karten inkl. grober Monatswerte, Handball-Zusatzbeitrag, Familienregel + Rechenbeispiele), 3-Schritte-Erklärung, gebrandeter CTA zum offiziellen Online-Mitgliedsantrag (SPG-Vereinsportal, öffnet in neuem Tab) und FAQ-Kacheln.
+- Zusätzlich `[tgs_beitraege]` für die reine Beitragstabelle. Beitragsdaten und Portal-URL zentral in `inc/mitglied.php` pflegbar (Portal-URL per Filter `tgs_mitglied_portal_url` überschreibbar).
+- Bewusst **kein iframe** des externen Portals (DSGVO/Fremd-Skripte + Fremdoptik); stattdessen behält unsere Seite den Kontext und der offizielle Antrag ist ein klarer, gebrandeter Klick.
+
 ## [0.7.3] — 2026-07-12
 
 ### Behoben / Verbessert — Brotkrumen

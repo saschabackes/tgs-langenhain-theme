@@ -312,6 +312,49 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-app-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 .tgs-ss-app-btn { display: inline-block; background: #fff; color: var(--tgs-ink); font-size: 14px; font-weight: 700; padding: 9px 18px; border-radius: 999px; white-space: nowrap; }
 .tgs-ss-app-btn:hover { text-decoration: none; opacity: .9; }
+
+/* ============ MITGLIED WERDEN / BEITRÄGE ============ */
+.tgs-mw-intro { padding: 2.6rem 2rem 1rem; max-width: 760px; }
+.tgs-mw-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-green); margin: 0 0 .5rem; }
+.tgs-mw-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; line-height: 1.15; color: var(--tgs-ink); margin: 0 0 .8rem; font-weight: 700; }
+.tgs-mw-lead { font-size: 17px; line-height: 1.65; color: #55524a; margin: 0; }
+
+.tgs-beitrag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.tgs-beitrag-card { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.3rem 1.4rem; }
+.tgs-beitrag-name { font-size: 14px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .5rem; min-height: 2.6em; }
+.tgs-beitrag-jahr { font-family: 'Libre Baskerville', serif; font-size: 28px; font-weight: 700; color: var(--tgs-green); line-height: 1; }
+.tgs-beitrag-jahr span { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #8a867b; }
+.tgs-beitrag-monat { font-size: 12.5px; color: #8a867b; margin-top: .35rem; }
+
+.tgs-beitrag-addon { background: #e6efe6; border-radius: 12px; padding: 1.1rem 1.4rem; margin-top: 14px; }
+.tgs-beitrag-addon-hd { font-size: 14px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .7rem; }
+.tgs-beitrag-addon-hd span { font-weight: 500; color: #6f7a6f; }
+.tgs-beitrag-addon-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tgs-beitrag-pill { background: #fff; border: 1px solid #cfe0cf; border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #44433b; }
+.tgs-beitrag-pill strong { color: var(--tgs-green); }
+
+.tgs-beitrag-note { font-size: 14px; color: #55524a; line-height: 1.6; margin-top: 1.3rem; }
+.tgs-beitrag-note ul { margin: .4rem 0 0; padding-left: 1.2rem; }
+.tgs-beitrag-note li { margin-bottom: .25rem; }
+.tgs-beitrag-stand { font-size: 12.5px; color: #9a9488; margin-top: 1rem; }
+
+.tgs-mw-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tgs-mw-step { display: flex; gap: .9rem; align-items: flex-start; }
+.tgs-mw-step-no { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--tgs-green); color: #fff; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.tgs-mw-step-tx { display: flex; flex-direction: column; gap: 3px; }
+.tgs-mw-step-tx strong { font-size: 15px; color: var(--tgs-ink); }
+.tgs-mw-step-tx span { font-size: 14px; color: #66625a; line-height: 1.5; }
+
+.tgs-mw-cta { background: var(--tgs-green); border-radius: 16px; padding: 1.8rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.tgs-mw-cta-h { font-family: 'Libre Baskerville', serif; font-size: 21px; font-weight: 700; color: #fff; margin-bottom: .35rem; }
+.tgs-mw-cta-sub { font-size: 14px; color: rgba(255,255,255,.82); line-height: 1.5; max-width: 520px; }
+.tgs-mw-cta-btn { flex-shrink: 0; background: #fff; color: var(--tgs-green); font-size: 16px; font-weight: 700; padding: 13px 26px; border-radius: 999px; white-space: nowrap; }
+.tgs-mw-cta-btn:hover { text-decoration: none; opacity: .92; }
+
+.tgs-mw-faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tgs-mw-faq-item { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.1rem 1.3rem; }
+.tgs-mw-faq-item strong { display: block; font-size: 15px; color: var(--tgs-ink); margin-bottom: .3rem; }
+.tgs-mw-faq-item span { font-size: 14px; color: #66625a; line-height: 1.55; }
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
@@ -447,6 +490,11 @@ a.tgs-chip:hover { color: #fff; }
   .tgs-ss-hero-inner { padding: 1.6rem 1.4rem; }
   .tgs-ss-body { grid-template-columns: 1fr; gap: 1.4rem; }
   .tgs-ss-ausst { position: static; }
+  .tgs-mw-intro { padding: 1.8rem 1.4rem .5rem; }
+  .tgs-mw-h1 { font-size: 26px; }
+  .tgs-mw-steps { grid-template-columns: 1fr; }
+  .tgs-mw-faq-grid { grid-template-columns: 1fr; }
+  .tgs-mw-cta { padding: 1.4rem 1.5rem; }
   .tgs-ss-andere-grid, .tgs-ss-liste-grid { grid-template-columns: 1fr; }
   .tgs-abt-hero { text-align: left; }
   .tgs-abt-detail-layout { grid-template-columns: 1fr; }

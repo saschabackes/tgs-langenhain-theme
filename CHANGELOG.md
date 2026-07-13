@@ -1,3 +1,8 @@
+## [0.18.1] — 2026-07-13
+
+### Geändert — Startseite (Hero)
+- Medaillon-Scheibe/Ring entfernt: Das Wappen steht jetzt frei (nur dezenter Schatten) und größer (300px). Wirkt cleaner. Responsiv 300→240→190px.
+
 ## [0.18.0] — 2026-07-13
 
 ### Geändert — Startseite (Hero)

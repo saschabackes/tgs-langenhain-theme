@@ -1,3 +1,8 @@
+## [0.16.1] — 2026-07-12
+
+### Geändert — Kurs-Layout auf „Klassik+" (A)
+- Auf Wunsch: klassischer Kopf mit „Jetzt anmelden"-Button + Status rechts, Inhalt links, „Auf einen Blick"-Box rechts. Anmelde-Karte und Foto-Hero wieder entfernt (einheitlicher Aufbau für alle Kurse). Das feste Template (Kurzbeschreibung, Über den Kurs, Das erwartet dich) bleibt bestehen.
+
 ## [0.16.0] — 2026-07-12
 
 ### Geändert — Kurs-Detailseite: festes Template + neues Layout

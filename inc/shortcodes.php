@@ -358,19 +358,6 @@ function tgs_shortcode_kurs_detail() {
 
     ob_start();
     ?>
-    <?php if ( $bild ) : ?>
-    <div class="tgs-kd-hero tgs-kd-hero--photo" style="background-image:linear-gradient(rgba(20,32,22,.15),rgba(20,32,22,.72)),url(<?php echo esc_url( $bild ); ?>);">
-        <div class="tgs-kd-hero-inner">
-            <?php if ( $kat ) : ?><span class="tgs-kd-tag"><?php echo esc_html( $kat ); ?></span><?php endif; ?>
-            <h1 class="tgs-kd-h1"><?php echo esc_html( get_the_title() ); ?></h1>
-            <div class="tgs-kd-meta-row">
-                <span>📅 <strong><?php echo esc_html( $tag ); ?></strong></span>
-                <span>🕐 <strong><?php echo esc_html( $zeit_display ); ?></strong></span>
-                <span>📍 <strong><?php echo esc_html( $ort ); ?></strong></span>
-            </div>
-        </div>
-    </div>
-    <?php else : ?>
     <div class="tgs-kd-header">
         <div class="tgs-kd-header-l">
             <?php if ( $kat ) : ?><span class="tgs-kd-tag"><?php echo esc_html( $kat ); ?></span><?php endif; ?>
@@ -381,8 +368,11 @@ function tgs_shortcode_kurs_detail() {
                 <span>📍 <strong><?php echo esc_html( $ort ); ?></strong></span>
             </div>
         </div>
+        <div class="tgs-kd-cta">
+            <?php if ( ! $offen ) : ?><a href="#tgs-anmeldung" class="tgs-kd-btn"><?php echo $btn_label; ?></a><?php endif; ?>
+            <div class="<?php echo $status_class; ?>"><?php echo $status_label; ?></div>
+        </div>
     </div>
-    <?php endif; ?>
 
     <div class="tgs-kd-body">
         <div class="tgs-kd-content">
@@ -413,17 +403,6 @@ function tgs_shortcode_kurs_detail() {
         </div>
 
         <div class="tgs-kd-sidebar">
-            <div class="tgs-kd-book">
-                <div class="tgs-kd-book-status <?php echo $status_class; ?>"><?php echo $status_label; ?></div>
-                <?php if ( ! $offen && $cap && empty( $cap['unlimited'] ) ) : ?>
-                    <div class="tgs-kd-book-free"><?php echo ! empty( $cap['is_full'] ) ? 'Kurs ist aktuell voll — Warteliste möglich.' : 'Noch ' . intval( $cap['free'] ) . ' von ' . intval( $cap['max'] ) . ' Plätzen frei.'; ?></div>
-                <?php endif; ?>
-                <?php if ( ! $offen ) : ?>
-                    <a href="#tgs-anmeldung" class="tgs-kd-book-btn"><?php echo $btn_label; ?></a>
-                <?php endif; ?>
-                <div class="tgs-kd-book-hint"><?php echo $offen ? 'Offener Kurs — einfach vorbeikommen.' : 'Die Teilnahme ist über deine TGS-Mitgliedschaft abgedeckt.'; ?></div>
-            </div>
-
             <div class="tgs-kd-info-box">
                 <div class="tgs-kd-info-title">Auf einen Blick</div>
                 <?php if ( $tag ) : ?><div class="tgs-kd-info-row"><strong>Tag</strong><span><?php echo esc_html( $tag ); ?></span></div><?php endif; ?>

@@ -1,3 +1,8 @@
+## [0.15.0] — 2026-07-12
+
+### Hinzugefügt — Spielgemeinschafts-Banner (Handball / HSG EppLa)
+- Neuer Shortcode [tgs_hsg]: markanter grüner Banner, der die Spielgemeinschaft visualisiert (TGS Langenhain ✕ TSG Eppstein → HSG EppLa) mit Kurztext und großem Button zur HSG. Attribute für Vereine, Name, Titel, Text, Button und URL. Ersetzt auf der Handball-Seite die generische CTA-Box.
+
 ## [0.14.0] — 2026-07-12
 
 ### Hinzugefügt — Impressum & Datenschutzerklärung

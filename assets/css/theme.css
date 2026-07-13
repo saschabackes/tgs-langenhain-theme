@@ -214,6 +214,20 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kf-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .tgs-kontakt-form .tgs-anm-submit { width: auto; padding-inline: 34px; }
 
+/* Spielgemeinschafts-Banner (HSG) */
+.tgs-hsg { background: linear-gradient(135deg, #2f4230 0%, var(--tgs-green) 60%, #3c5a3e 100%); border-radius: 16px; overflow: hidden; margin: 1.6rem 0; }
+.tgs-hsg-inner { padding: 2rem 2.2rem; }
+.tgs-hsg-kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #e7c9a0; }
+.tgs-hsg-title { font-family: 'Libre Baskerville', serif; font-size: 24px; color: #fff; margin: .4rem 0 1.1rem; font-weight: 700; line-height: 1.2; }
+.tgs-hsg-union { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1.1rem; }
+.tgs-hsg-club { display: inline-block; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); color: #fff; font-weight: 600; font-size: 14px; padding: 7px 14px; border-radius: 999px; }
+.tgs-hsg-op { color: rgba(255,255,255,.65); font-weight: 700; font-size: 16px; }
+.tgs-hsg-arrow { font-size: 20px; }
+.tgs-hsg-name { display: inline-block; background: #c8873f; color: #fff; font-weight: 700; font-size: 15px; padding: 7px 16px; border-radius: 999px; }
+.tgs-hsg-text { font-size: 15px; color: rgba(255,255,255,.82); line-height: 1.6; margin: 0 0 1.3rem; max-width: 560px; }
+.tgs-hsg-btn { display: inline-block; background: #fff; color: var(--tgs-green); font-size: 15px; font-weight: 700; padding: 12px 24px; border-radius: 999px; }
+.tgs-hsg-btn:hover { text-decoration: none; opacity: .92; }
+
 /* Rechtstexte (Impressum / Datenschutz) */
 .tgs-legal { max-width: 760px; font-size: 15.5px; line-height: 1.7; color: #44433b; }
 .tgs-legal h2 { font-family: 'Libre Baskerville', serif; font-size: 21px; color: var(--tgs-ink); margin: 2.1rem 0 .6rem; font-weight: 700; }
@@ -686,6 +700,8 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-sk-aktion-grid { grid-template-columns: 1fr; }
   .tgs-sk-h1 { font-size: 26px; }
   .tgs-kf-row { grid-template-columns: 1fr; }
+  .tgs-hsg-inner { padding: 1.5rem 1.4rem; }
+  .tgs-hsg-title { font-size: 21px; }
   .tgs-mw-steps { grid-template-columns: 1fr; }
   .tgs-mw-faq-grid { grid-template-columns: 1fr; }
   .tgs-mw-cta { padding: 1.4rem 1.5rem; }

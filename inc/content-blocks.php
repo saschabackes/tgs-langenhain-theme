@@ -174,3 +174,48 @@ function tgs_shortcode_whatsapp( $atts ) {
     return $html . '</div>';
 }
 add_shortcode( 'tgs_whatsapp', 'tgs_shortcode_whatsapp' );
+
+/**
+ * [tgs_hsg] — Spielgemeinschafts-Banner (z. B. Handball / HSG EppLa).
+ *
+ * Attribute:
+ *   stamm1  — erster Stammverein (Default: "TGS Langenhain")
+ *   stamm2  — zweiter Stammverein (Default: "TSG Eppstein")
+ *   name    — Name der Spielgemeinschaft (Default: "HSG EppLa")
+ *   titel   — Überschrift (Default: "Handball spielen wir gemeinsam")
+ *   text    — Kurzbeschreibung
+ *   button  — Button-Text (Default: "Zur HSG EppLa →")
+ *   url     — Ziel (Default: https://hsg-eppla.de)
+ */
+function tgs_shortcode_hsg( $atts ) {
+    $atts = shortcode_atts( array(
+        'stamm1' => 'TGS Langenhain',
+        'stamm2' => 'TSG Eppstein',
+        'name'   => 'HSG EppLa',
+        'titel'  => 'Handball spielen wir gemeinsam',
+        'text'   => 'Als Spielgemeinschaft treten wir gemeinsam an — mit Teams von den Minis bis zu den Aktiven. Alle Mannschaften, Trainingszeiten und News gibt es bei der Spielgemeinschaft.',
+        'button' => 'Zur HSG EppLa →',
+        'url'    => 'https://hsg-eppla.de',
+    ), $atts );
+
+    ob_start();
+    ?>
+    <div class="tgs-hsg">
+        <div class="tgs-hsg-inner">
+            <span class="tgs-hsg-kicker">Handball-Spielgemeinschaft</span>
+            <h3 class="tgs-hsg-title"><?php echo esc_html( $atts['titel'] ); ?></h3>
+            <div class="tgs-hsg-union">
+                <span class="tgs-hsg-club"><?php echo esc_html( $atts['stamm1'] ); ?></span>
+                <span class="tgs-hsg-op">✕</span>
+                <span class="tgs-hsg-club"><?php echo esc_html( $atts['stamm2'] ); ?></span>
+                <span class="tgs-hsg-op tgs-hsg-arrow">→</span>
+                <span class="tgs-hsg-name"><?php echo esc_html( $atts['name'] ); ?></span>
+            </div>
+            <?php if ( $atts['text'] !== '' ) : ?><p class="tgs-hsg-text"><?php echo esc_html( $atts['text'] ); ?></p><?php endif; ?>
+            <a class="tgs-hsg-btn" href="<?php echo esc_url( $atts['url'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $atts['button'] ); ?></a>
+        </div>
+    </div>
+    <?php
+    return preg_replace( '/>\s+</', '><', ob_get_clean() );
+}
+add_shortcode( 'tgs_hsg', 'tgs_shortcode_hsg' );

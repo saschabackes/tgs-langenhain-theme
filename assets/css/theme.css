@@ -176,8 +176,9 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kd-ap { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border); font-size: 15px; }
 .tgs-kd-info-box { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; margin-bottom: .8rem; }
 .tgs-kd-info-title { font-size: 11px; font-weight: 700; color: var(--tgs-ink); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .6rem; }
-.tgs-kd-info-row { font-size: 14px; color: #44433b; margin-bottom: .4rem; display: flex; justify-content: space-between; gap: .5rem; }
-.tgs-kd-info-row span { color: var(--tgs-muted); }
+.tgs-kd-info-row { font-size: 14px; color: #44433b; margin-bottom: .55rem; display: grid; grid-template-columns: 38% 1fr; gap: .6rem; align-items: start; }
+.tgs-kd-info-row strong { font-weight: 600; }
+.tgs-kd-info-row span { color: var(--tgs-muted); text-align: left; }
 .tgs-kd-related { display: flex; flex-direction: column; gap: 4px; }
 .tgs-kd-related-item { display: flex; justify-content: space-between; font-size: 13px; color: var(--tgs-green); font-weight: 600; padding: 6px 0; border-bottom: 1px solid var(--tgs-border); gap: .5rem; }
 .tgs-kd-related-item:last-child { border-bottom: none; }

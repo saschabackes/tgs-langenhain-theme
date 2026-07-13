@@ -1,3 +1,8 @@
+## [0.15.1] — 2026-07-12
+
+### Behoben
+- Kurs-Detailseite: „Auf einen Blick"-Box – Werte waren rechtsbündig und wirkten bei Umbruch verschoben. Jetzt sauberes linksbündiges 2-Spalten-Raster (Label | Wert).
+
 ## [0.15.0] — 2026-07-12
 
 ### Hinzugefügt — Spielgemeinschafts-Banner (Handball / HSG EppLa)

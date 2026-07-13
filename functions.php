@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.19.0' );
+define( 'TGS_VERSION', '0.19.1' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -194,6 +194,23 @@ function tgs_shortcode_logo( $atts ) {
     );
 }
 add_shortcode( 'tgs_logo', 'tgs_shortcode_logo' );
+
+/**
+ * Entfernt Zwischenraum zwischen HTML-Tags in Shortcode-Ausgaben.
+ *
+ * Zentrale Lösung gegen das wpautop-Problem: Zeilenumbrüche/Einrückungen
+ * zwischen Inline-/Block-Tags würden sonst zu ungewollten <br>/<p> führen
+ * (Label rutscht unter Input, Karten „verrutschen"). Nur Whitespace, der
+ * direkt zwischen `>` und `<` steht, wird kollabiert – Text bleibt unberührt.
+ *
+ * Verwendung: `return tgs_strip_ws( ob_get_clean() );`
+ *
+ * @param string $html
+ * @return string
+ */
+function tgs_strip_ws( $html ) {
+    return trim( preg_replace( '/>\s+</', '><', (string) $html ) );
+}
 
 /**
  * Prevent wpautop from breaking shortcode output

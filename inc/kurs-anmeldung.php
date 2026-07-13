@@ -291,7 +291,7 @@ function tgs_anmeldung_shortcode( $atts ) {
         </form>
     </div>
     <?php
-    return ob_get_clean();
+    return tgs_strip_ws( ob_get_clean() );
 }
 add_shortcode( 'tgs_anmeldung', 'tgs_anmeldung_shortcode' );
 

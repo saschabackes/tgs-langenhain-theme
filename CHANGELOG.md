@@ -1,3 +1,10 @@
+## [0.19.1] — 2026-07-13
+
+### Behoben — wpautop (Layout)
+- Zentrale Helper-Funktion `tgs_strip_ws()` eingeführt (entfernt Zwischenraum zwischen Tags in Shortcode-Ausgaben).
+- **Kurs-Anmeldeformular** (`inc/kurs-anmeldung.php`): Ausgabe wird jetzt gestrippt – vorher fügte wpautop ein `<br>` zwischen Label und Eingabefeld ein (Feld rutschte unter das Label). Betraf jede Kursseite.
+- **„Weitere Sportstätten"-Karten** (`inc/shortcodes.php`): Karten-Schleife zwischenraumfrei umgebaut (kein wpautop-`<br>` mehr); `get_permalink()` zusätzlich mit `esc_url()` gehärtet.
+
 ## [0.19.0] — 2026-07-13
 
 ### Geändert — Datenschutz (DSGVO)

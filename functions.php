@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.19.1' );
+define( 'TGS_VERSION', '0.19.2' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 

@@ -1,3 +1,8 @@
+## [0.19.2] — 2026-07-13
+
+### Behoben — Anmeldeformular (Rest-`<br>`)
+- DSGVO-Zustimmung: Checkbox und Text standen auf getrennten Zeilen → wpautop machte daraus ein `<br>` (Checkbox über dem Text). Auf eine Zeile gezogen (Checkbox inline vor dem Text). `/datenschutz`-Link auf `home_url()` umgestellt.
+
 ## [0.19.1] — 2026-07-13
 
 ### Behoben — wpautop (Layout)

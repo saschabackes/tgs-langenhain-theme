@@ -284,9 +284,7 @@ function tgs_anmeldung_shortcode( $atts ) {
             <?php endif; ?>
             <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht (optional)</label>
                 <textarea id="tgs_anm_nachricht" name="tgs_anm_nachricht" rows="3" placeholder="Fragen, Anmerkungen..."></textarea></div>
-            <div class="tgs-anm-field"><label>
-                <input type="checkbox" name="tgs_anm_dsgvo" required>
-                Ich stimme der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *</label></div>
+            <div class="tgs-anm-field"><label><input type="checkbox" name="tgs_anm_dsgvo" required> Ich stimme der <a href="<?php echo esc_url( home_url( '/datenschutz' ) ); ?>" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *</label></div>
             <button type="submit" name="tgs_anm_submit" class="tgs-anm-submit"><?php echo $is_full ? 'Auf Warteliste setzen' : 'Anmeldung absenden'; ?></button>
         </form>
     </div>

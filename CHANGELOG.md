@@ -1,3 +1,10 @@
+## [0.16.0] — 2026-07-12
+
+### Geändert — Kurs-Detailseite: festes Template + neues Layout
+- **Festes Template gegen Wildwuchs:** neue Backend-Box „Kursbeschreibung" mit strukturierten Feldern (Kurzbeschreibung, Über den Kurs, Das erwartet dich). Kurs anlegen = Felder ausfüllen; Aufbau entsteht automatisch und immer gleich. Ist „Über den Kurs" leer, wird der klassische Inhaltsbereich als Fallback genutzt (bestehende Kurse bleiben intakt).
+- **Layout B + C:** Sidebar-Anmelde-Karte als Standard (Status, freie Plätze, „Jetzt anmelden"-Button, Hinweis) statt CTA im Kopf; ist ein Beitragsbild gesetzt, erscheint automatisch ein Foto-Hero. Kurzbeschreibung als Lead, „Das erwartet dich" als Häkchen-Liste.
+- „Auf einen Blick"-Box: linksbündiges Raster (aus 0.15.1).
+
 ## [0.15.1] — 2026-07-12
 
 ### Behoben

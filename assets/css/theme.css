@@ -184,6 +184,30 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kd-related-item:last-child { border-bottom: none; }
 .tgs-kd-related-item span { color: var(--tgs-muted); font-weight: 400; }
 
+/* Foto-Hero (wenn Kursbild gesetzt) */
+.tgs-kd-hero--photo { background-size: cover; background-position: center; border-bottom: 1px solid var(--tgs-border); }
+.tgs-kd-hero-inner { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 3.6rem 2rem; min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; }
+.tgs-kd-hero--photo .tgs-kd-tag { background: rgba(255,255,255,.9); }
+.tgs-kd-hero--photo .tgs-kd-h1 { color: #fff; }
+.tgs-kd-hero--photo .tgs-kd-meta-row { color: rgba(255,255,255,.85); }
+.tgs-kd-hero--photo .tgs-kd-meta-row strong { color: #fff; }
+
+/* Kurzbeschreibung + Highlights */
+.tgs-kd-lead { font-size: 18px; line-height: 1.6; color: var(--tgs-ink); font-weight: 500; margin: 0 0 1.1rem; }
+.tgs-kd-highlights { margin-top: 1.4rem; }
+.tgs-kd-hl-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--tgs-green); margin-bottom: .5rem; }
+.tgs-kd-highlights ul { list-style: none; margin: 0; padding: 0; }
+.tgs-kd-highlights li { font-size: 15px; color: #44433b; line-height: 1.5; padding: .35rem 0 .35rem 1.6rem; position: relative; }
+.tgs-kd-highlights li::before { content: '✓'; position: absolute; left: 0; color: var(--tgs-green); font-weight: 700; }
+
+/* Anmelde-Karte (Sidebar) */
+.tgs-kd-book { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1.3rem; margin-bottom: .8rem; }
+.tgs-kd-book-status { font-size: 15px; font-weight: 700; margin-bottom: .25rem; }
+.tgs-kd-book-free { font-size: 13px; color: #77736a; margin-bottom: 1rem; }
+.tgs-kd-book-btn { display: block; text-align: center; background: var(--tgs-green); color: #fff !important; font-size: 15px; font-weight: 700; padding: 12px; border-radius: 9px; }
+.tgs-kd-book-btn:hover { background: var(--tgs-green-d); text-decoration: none; }
+.tgs-kd-book-hint { font-size: 12px; color: #8a867b; text-align: center; margin-top: .7rem; line-height: 1.45; }
+
 /* ============ ANMELDEFORMULAR ============ */
 .tgs-anmeldung-form { max-width: 520px; padding: 1.5rem; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; margin: 1.25rem 0; }
 /* Formular in die Kurs-Content-Spalte integriert: volle Breite, 2-spaltige Felder */
@@ -675,6 +699,7 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-kurstabelle-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .tgs-kurs-tabelle { min-width: 620px; }
   .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: 1rem; padding-block: 1.6rem; }
+  .tgs-kd-hero-inner { min-height: 220px; padding-block: 2.4rem 1.4rem; }
   .tgs-kd-header { flex-direction: column; gap: 1rem; }
   .tgs-kd-cta { align-items: stretch; width: 100%; }
   .tgs-kd-btn { text-align: center; }

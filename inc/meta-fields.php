@@ -52,6 +52,9 @@ function tgs_kurs_zielgruppen_labels( $post_id ) {
 function tgs_register_meta_fields() {
     // Kurs meta fields
     $kurs_fields = array(
+        '_tgs_kurs_kurz'       => 'string',   // Kurzbeschreibung (Teaser)
+        '_tgs_kurs_ueber'      => 'string',   // Über den Kurs (Fließtext)
+        '_tgs_kurs_highlights' => 'string',   // Das erwartet dich (1 pro Zeile)
         '_tgs_wochentag'       => 'string',
         '_tgs_uhrzeit'         => 'string',
         '_tgs_uhrzeit_ende'    => 'string',
@@ -140,6 +143,14 @@ add_action( 'init', 'tgs_register_meta_fields' );
  */
 function tgs_add_kurs_meta_boxes() {
     add_meta_box(
+        'tgs_kurs_text',
+        'Kursbeschreibung',
+        'tgs_kurs_text_meta_box_html',
+        'tgs_kurs',
+        'normal',
+        'high'
+    );
+    add_meta_box(
         'tgs_kurs_details',
         'Kursdetails',
         'tgs_kurs_meta_box_html',
@@ -149,6 +160,41 @@ function tgs_add_kurs_meta_boxes() {
     );
 }
 add_action( 'add_meta_boxes', 'tgs_add_kurs_meta_boxes' );
+
+/**
+ * Meta box "Kursbeschreibung" — die strukturierten Textfelder (festes Template).
+ */
+function tgs_kurs_text_meta_box_html( $post ) {
+    wp_nonce_field( 'tgs_kurs_text', 'tgs_kurs_text_nonce' );
+    $kurz  = get_post_meta( $post->ID, '_tgs_kurs_kurz', true );
+    $ueber = get_post_meta( $post->ID, '_tgs_kurs_ueber', true );
+    $high  = get_post_meta( $post->ID, '_tgs_kurs_highlights', true );
+    ?>
+    <p style="margin-top:0;color:#666;">Diese Felder ergeben den einheitlichen Aufbau jeder Kursseite. Ein Beitragsbild (rechts) zeigt zusätzlich ein Titelbild.</p>
+    <table class="form-table"><tbody>
+        <tr><th><label for="_tgs_kurs_kurz">Kurzbeschreibung</label></th>
+            <td><textarea id="_tgs_kurs_kurz" name="_tgs_kurs_kurz" rows="2" class="large-text" placeholder="1–2 Sätze, erscheinen als Einleitung unter dem Titel."><?php echo esc_textarea( $kurz ); ?></textarea></td></tr>
+        <tr><th><label for="_tgs_kurs_ueber">Über den Kurs</label></th>
+            <td><textarea id="_tgs_kurs_ueber" name="_tgs_kurs_ueber" rows="6" class="large-text" placeholder="Ausführliche Beschreibung. Leerzeile = neuer Absatz."><?php echo esc_textarea( $ueber ); ?></textarea>
+            <p class="description">Leer lassen, um den klassischen Inhaltsbereich (oben) zu verwenden.</p></td></tr>
+        <tr><th><label for="_tgs_kurs_highlights">Das erwartet dich</label></th>
+            <td><textarea id="_tgs_kurs_highlights" name="_tgs_kurs_highlights" rows="4" class="large-text" placeholder="Ein Stichpunkt pro Zeile, z. B.:&#10;Sanfter Einstieg&#10;Kleine Gruppe&#10;Persönliche Betreuung"><?php echo esc_textarea( $high ); ?></textarea>
+            <p class="description">Eine Zeile = ein Häkchen-Punkt.</p></td></tr>
+    </tbody></table>
+    <?php
+}
+
+function tgs_save_kurs_text_meta( $post_id ) {
+    if ( ! isset( $_POST['tgs_kurs_text_nonce'] ) || ! wp_verify_nonce( $_POST['tgs_kurs_text_nonce'], 'tgs_kurs_text' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+    foreach ( array( '_tgs_kurs_kurz', '_tgs_kurs_ueber', '_tgs_kurs_highlights' ) as $key ) {
+        if ( isset( $_POST[ $key ] ) ) {
+            update_post_meta( $post_id, $key, sanitize_textarea_field( $_POST[ $key ] ) );
+        }
+    }
+}
+add_action( 'save_post_tgs_kurs', 'tgs_save_kurs_text_meta' );
 
 function tgs_kurs_meta_box_html( $post ) {
     wp_nonce_field( 'tgs_kurs_meta', 'tgs_kurs_meta_nonce' );

@@ -1,3 +1,9 @@
+## [0.19.0] — 2026-07-13
+
+### Geändert — Datenschutz (DSGVO)
+- Schriften (Inter, Libre Baskerville) werden jetzt **selbst gehostet** statt vom Google-CDN geladen. Damit wird beim Seitenaufruf keine Besucher-IP mehr an Google übertragen – die Datenschutzerklärung stimmt jetzt mit dem tatsächlichen Verhalten überein. woff2-Subsets (latin + latin-ext) liegen in `assets/fonts/`, eingebunden über `assets/css/fonts.css` (font-display:swap). Google-CDN-Einbindung in functions.php entfernt (Frontend + Editor).
+- functions.php Doc-Header von veralteter 0.2.0 auf aktuelle Version korrigiert.
+
 ## [0.18.4] — 2026-07-13
 
 ### Behoben — Beitragsbild / Hero

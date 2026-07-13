@@ -3,14 +3,14 @@
  * TGS Langenhain Theme Functions
  *
  * @package TGS_Langenhain
- * @version 0.2.0
+ * @version 0.19.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.18.4' );
+define( 'TGS_VERSION', '0.19.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -18,8 +18,8 @@ define( 'TGS_URI', get_template_directory_uri() );
  * Theme Setup
  */
 function tgs_setup() {
-    // Google Fonts
-    add_editor_style( 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap' );
+    // Schriften: selbstgehostet (DSGVO – kein Google-CDN)
+    add_editor_style( 'assets/css/fonts.css' );
 
     // Theme supports
     add_theme_support( 'wp-block-styles' );
@@ -45,19 +45,19 @@ add_action( 'after_setup_theme', 'tgs_setup' );
  * Enqueue Styles & Scripts
  */
 function tgs_enqueue_assets() {
-    // Google Fonts
+    // Schriften: selbstgehostet (DSGVO – kein Google-CDN)
     wp_enqueue_style(
-        'tgs-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap',
+        'tgs-fonts',
+        TGS_URI . '/assets/css/fonts.css',
         array(),
-        null
+        TGS_VERSION
     );
 
     // Theme styles
     wp_enqueue_style(
         'tgs-theme',
         TGS_URI . '/assets/css/theme.css',
-        array(),
+        array( 'tgs-fonts' ),
         TGS_VERSION
     );
 

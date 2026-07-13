@@ -1,3 +1,8 @@
+## [0.17.3] — 2026-07-12
+
+### Behoben — Startseite (und alle Seiten)
+- Zwischen den Vollbreiten-Abschnitten lag ein 16px-Abstand (WordPress-Block-Abstand), der den creme Body-Hintergrund als schmalen Streifen unter der Trennlinie zeigte. Die Bänder stoßen jetzt direkt aneinander; der Wechsel weiß/creme ist sauber.
+
 ## [0.17.2] — 2026-07-12
 
 ### Geändert — Startseite

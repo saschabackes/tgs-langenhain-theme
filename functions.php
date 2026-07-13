@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.18.3' );
+define( 'TGS_VERSION', '0.18.4' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -24,6 +24,7 @@ function tgs_setup() {
     // Theme supports
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'editor-styles' );
+    add_theme_support( 'post-thumbnails' ); // aktiviert das „Beitragsbild" (Hero für Sportstätten & News)
     add_theme_support( 'custom-logo', array(
         'height'      => 100,
         'width'       => 100,

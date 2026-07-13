@@ -1,3 +1,8 @@
+## [0.18.4] — 2026-07-13
+
+### Behoben — Beitragsbild / Hero
+- `add_theme_support('post-thumbnails')` ergänzt. Ohne diesen Theme-Support blendete der Block-Editor das „Beitragsbild"-Feld komplett aus – dadurch ließ sich weder für Sportstätten (Foto-Hero) noch für News-Beiträge ein Titelbild setzen. Das Feld erscheint jetzt in der Editor-Seitenleiste.
+
 ## [0.18.3] — 2026-07-13
 
 ### Behoben — Kurs-Detailseite & Abteilungs-Detailseite

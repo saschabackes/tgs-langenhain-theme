@@ -1,3 +1,9 @@
+## [0.17.2] — 2026-07-12
+
+### Geändert — Startseite
+- Abschnitts-Hintergründe wechseln jetzt sauber ab (weiß/creme): Kurse (weiß) → Abteilungen (creme) → Aktuelles (weiß) → Ansprechpartner (creme). Vorher hatten Abteilungen und Aktuelles denselben Hintergrund.
+- Doppelte „Mitglied werden"-Aufforderung entfernt: Der Mitglied-werden-Banner am Seitenende der Startseite ist raus (der Button oben rechts in der Navigation bleibt).
+
 ## [0.17.1] — 2026-07-12
 
 ### Behoben

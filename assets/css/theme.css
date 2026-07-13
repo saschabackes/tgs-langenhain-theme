@@ -51,10 +51,13 @@ img { max-width: 100%; height: auto; }
 .tgs-cta-nav-wrap .wp-block-button__link:hover { background: var(--tgs-creme) !important; text-decoration: none; }
 
 /* ============ HERO (hell, Wappen als These) ============ */
-.tgs-hero { background: var(--tgs-creme); display: flex; align-items: center; justify-content: space-between; gap: 3rem; padding-block: 3.5rem; border-bottom: 1px solid var(--tgs-border); }
-.tgs-hero-text { order: 1; }
-.tgs-hero-emblem, .tgs-hero-logo-wrap { flex-shrink: 0; order: 2; }
-.tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 190px !important; width: auto !important; filter: drop-shadow(0 10px 26px rgba(26,42,30,.20)); }
+.tgs-hero { background: var(--tgs-creme); display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 4rem; padding-block: 3.5rem; border-bottom: 1px solid var(--tgs-border); }
+.tgs-hero-text { order: 1; max-width: 600px; }
+/* Wappen als Medaillon: füllt seine Spalte, statt in der Mitte zu schweben */
+.tgs-hero-emblem, .tgs-hero-logo-wrap { order: 2; position: relative; width: 340px; height: 340px; display: grid; place-items: center; flex-shrink: 0; }
+.tgs-hero-emblem::before, .tgs-hero-logo-wrap::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 50% 42%, #fff 0%, #e9e4d6 68%, #ded7c5 100%); box-shadow: inset 0 2px 10px rgba(255,255,255,.7), 0 18px 40px rgba(26,42,30,.14); }
+.tgs-hero-emblem::after, .tgs-hero-logo-wrap::after { content: ""; position: absolute; inset: 14px; border-radius: 50%; border: 1px solid rgba(61,90,64,.18); }
+.tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { position: relative; height: 220px !important; width: auto !important; filter: drop-shadow(0 10px 22px rgba(26,42,30,.22)); }
 .tgs-hero-eye { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--tgs-green); font-weight: 700; margin: 0 0 1rem 0; }
 .tgs-hero h1, .tgs-hero h2 { font-family: 'Libre Baskerville', Georgia, serif; font-size: 46px; line-height: 1.05; color: var(--tgs-ink); margin: 0 0 1rem 0; font-weight: 700; }
 .tgs-hero h1 em, .tgs-hero h2 em { font-style: italic; color: var(--tgs-green); }
@@ -720,7 +723,8 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); }
   .tgs-news-grid, .wp-block-latest-posts.tgs-news-grid { grid-template-columns: 1fr; }
   .tgs-hero h1, .tgs-hero h2 { font-size: 38px; }
-  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 150px !important; }
+  .tgs-hero-emblem, .tgs-hero-logo-wrap { width: 280px; height: 280px; }
+  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 178px !important; }
 }
 
 @media (max-width: 768px) {
@@ -730,8 +734,9 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-main-nav { order: 4; width: 100%; border-top: 1px solid rgba(255,255,255,.15); padding-top: .6rem; margin-top: .3rem; }
   .tgs-nav-list { gap: 1.1rem; justify-content: center; flex-wrap: wrap; }
   .tgs-cta-nav-wrap { order: 3; }
-  .tgs-hero { flex-direction: column; text-align: center; gap: 1.5rem; padding-block: 2.5rem; }
+  .tgs-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.5rem; padding-block: 2.5rem; }
   .tgs-hero-emblem, .tgs-hero-logo-wrap { order: -1; }
+  .tgs-hero-text { max-width: none; }
   .tgs-hero p { max-width: none; margin-left: auto; margin-right: auto; }
   .tgs-hero-btns { justify-content: center; }
   .tgs-hero h1, .tgs-hero h2 { font-size: 32px; }
@@ -815,7 +820,8 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-cta-nav-wrap .wp-block-button__link, .tgs-cta-nav .wp-block-button__link { padding: 8px 14px !important; font-size: 14px !important; }
   .tgs-hero h1, .tgs-hero h2 { font-size: 27px; }
   .tgs-hero p { font-size: 15px; }
-  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 110px !important; }
+  .tgs-hero-emblem, .tgs-hero-logo-wrap { width: 230px; height: 230px; }
+  .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 148px !important; }
   .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: 1fr; }
   .tgs-kd-h1, .tgs-ss-h1, .tgs-abt-hero-h1 { font-size: 26px; }
 }

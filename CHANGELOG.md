@@ -1,3 +1,9 @@
+## [0.18.0] — 2026-07-13
+
+### Geändert — Startseite (Hero)
+- Hero neu ausbalanciert (Variante „Medaillon"): Statt `justify-content: space-between` (das Text und Logo an die Ränder zog und eine große Lücke in der Mitte ließ) jetzt ein 2-Spalten-Raster mit definiertem Abstand. Das Wappen sitzt vergrößert (220px) auf einer weichen, kreisrunden Medaillon-Scheibe mit dezentem Ring und füllt so seine Spalte, statt mittig zu schweben. Proportionen zwischen Textblock und Wappen stimmen jetzt.
+- Responsiv angepasst: Medaillon skaliert mit (340→280→230px), auf dem Handy steht das Wappen zentriert über dem Text.
+
 ## [0.17.3] — 2026-07-12
 
 ### Behoben — Startseite (und alle Seiten)

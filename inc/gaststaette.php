@@ -39,8 +39,8 @@ function tgs_gaststaette_daten() {
         'rating_link' => 'https://www.google.com/maps/search/?api=1&query=Zu%20den%20Eichen%20Da%20Luca%20Sportplatzstra%C3%9Fe%2013%20Hofheim',
         'imagefilm'   => 'y1_fysKGo00', // YouTube-Video-ID; leer = kein Film-Abschnitt
         'zahlung'     => array(
-            array( '💶', 'Barzahlung' ),
-            array( '💳', 'Kartenzahlung' ),
+            array( '💶', 'Bar' ),
+            array( '💳', 'Karte' ),
         ),
         'zeiten'      => array(
             1 => array( 'Montag',     '17:00–24:00 Uhr',              array( array( 1020, 1440 ) ) ),
@@ -130,16 +130,16 @@ function tgs_shortcode_gaststaette() {
                 <span class="tgs-gs-fact-k">Küche</span>
                 <span class="tgs-gs-fact-v"><?php echo esc_html( $d['kueche'] ); ?></span>
             </div>
+            <?php if ( ! empty( $d['zahlung'] ) ) :
+                $pay = array();
+                foreach ( $d['zahlung'] as $z ) $pay[] = $z[0] . ' ' . $z[1];
+            ?>
+            <div class="tgs-gs-fact">
+                <span class="tgs-gs-fact-k">Bezahlung</span>
+                <span class="tgs-gs-fact-v"><?php echo esc_html( implode( ' · ', $pay ) ); ?></span>
+            </div>
+            <?php endif; ?>
         </div>
-
-        <?php if ( ! empty( $d['zahlung'] ) ) : ?>
-        <div class="tgs-gs-pay">
-            <span class="tgs-gs-pay-label">Bezahlung</span>
-            <?php foreach ( $d['zahlung'] as $z ) : ?>
-            <span class="tgs-gs-pay-item"><span class="tgs-gs-pay-ic"><?php echo esc_html( $z[0] ); ?></span><?php echo esc_html( $z[1] ); ?></span>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
 
         <!-- ÖFFNUNGSZEITEN + SPEISEN -->
         <div class="tgs-gs-grid">

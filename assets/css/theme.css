@@ -496,7 +496,7 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-gs-hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
 
 /* Schnell-Fakten */
-.tgs-gs-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--tgs-border); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; margin-top: 1.4rem; }
+.tgs-gs-facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--tgs-border); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; margin-top: 1.4rem; }
 .tgs-gs-fact { background: var(--tgs-creme); padding: 1.1rem 1.3rem; display: flex; flex-direction: column; gap: 3px; color: inherit; }
 .tgs-gs-fact--link:hover { background: #eef2ea; text-decoration: none; }
 .tgs-gs-fact-k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; }
@@ -555,11 +555,6 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-gs-contact .tgs-gs-btn--ghost { color: #fff; border-color: rgba(255,255,255,.5); }
 
 /* Zahlungshinweise */
-.tgs-gs-pay { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
-.tgs-gs-pay-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; margin-right: 2px; }
-.tgs-gs-pay-item { display: inline-flex; align-items: center; gap: 7px; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 999px; padding: 7px 15px; font-size: 14px; font-weight: 600; color: var(--tgs-ink); }
-.tgs-gs-pay-ic { font-size: 17px; }
-
 /* Imagefilm-Facade */
 .tgs-gs-video { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; cursor: pointer; background: linear-gradient(135deg, #2f4230, var(--tgs-green)); }
 .tgs-gs-video-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; color: #fff; transition: background .15s ease; }
@@ -720,6 +715,8 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 @media (max-width: 900px) {
   .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: repeat(2, 1fr); }
   .tgs-news-grid, .wp-block-latest-posts.tgs-news-grid { grid-template-columns: 1fr; }
+  .tgs-gs-facts { grid-template-columns: 1fr 1fr; }
+  .tgs-gs-facts .tgs-gs-fact:last-child { grid-column: 1 / -1; }
   .tgs-hero h1, .tgs-hero h2 { font-size: 38px; }
   .tgs-hero-emblem img, img.tgs-hero-logo, .tgs-hero-logo-wrap img { height: 240px !important; }
 }

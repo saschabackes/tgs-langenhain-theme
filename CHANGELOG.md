@@ -1,3 +1,8 @@
+## [0.18.2] — 2026-07-13
+
+### Geändert — Gaststätte
+- Zahlungshinweis (Bar/Karte) in die Schnell-Fakten-Tabelle oben übernommen (als 5. Feld „Bezahlung"). Das eigenständige Bezahl-Band darunter entfällt – es hatte allein keinen Mehrwert. Fakten-Grid jetzt 5-spaltig, auf Tablet 2-spaltig (Bezahl-Feld über volle Breite), auf dem Handy gestapelt.
+
 ## [0.18.1] — 2026-07-13
 
 ### Geändert — Startseite (Hero)

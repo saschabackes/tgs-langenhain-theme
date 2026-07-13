@@ -40,7 +40,7 @@ function tgs_news_card_html( $post_id ) {
         </span>
     </a>
     <?php
-    return preg_replace( '/>\s+</', '><', ob_get_clean() );
+    return trim( preg_replace( '/>\s+</', '><', ob_get_clean() ) );
 }
 
 /** [tgs_news_teaser anzahl="3"] — Startseiten-Teaser. */
@@ -118,9 +118,11 @@ function tgs_shortcode_news_detail() {
             ?>
             <div class="tgs-news-related">
                 <div class="tgs-news-related-title">Weitere Beiträge</div>
-                <div class="tgs-news-grid">
-                    <?php foreach ( $related as $rel ) echo tgs_news_card_html( $rel->ID ); ?>
-                </div>
+                <?php
+                $rel_html = '';
+                foreach ( $related as $rel ) $rel_html .= tgs_news_card_html( $rel->ID );
+                echo '<div class="tgs-news-grid">' . $rel_html . '</div>';
+                ?>
             </div>
             <?php endif; ?>
         </div>

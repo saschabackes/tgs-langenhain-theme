@@ -1,3 +1,8 @@
+## [0.17.1] — 2026-07-12
+
+### Behoben
+- News-Übersicht/Teaser: wpautop fügte zwischen den Karten <br>-Elemente ein (jede Karte endete mit Zeilenumbruch), wodurch das Karten-Raster versetzt/„wild" wirkte. Karten werden jetzt getrimmt und ohne Zwischenraum ausgegeben.
+
 ## [0.17.0] — 2026-07-12
 
 ### Hinzugefügt — News/Aktuelles neu aufgebaut

@@ -616,9 +616,9 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-ss-andere-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .tgs-ss-andere-card { background: #fff; border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; display: block; color: inherit; }
 .tgs-ss-andere-card:hover { border-color: var(--tgs-green); text-decoration: none; }
-.tgs-ss-andere-name { font-size: 16px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .25rem; }
-.tgs-ss-andere-addr { font-size: 13px; color: #77736a; margin-bottom: .35rem; }
-.tgs-ss-andere-link { font-size: 13px; color: var(--tgs-green); font-weight: 600; }
+.tgs-ss-andere-name { display: block; font-size: 16px; font-weight: 700; color: var(--tgs-ink); margin-bottom: .25rem; }
+.tgs-ss-andere-addr { display: block; font-size: 13px; color: #77736a; margin-bottom: .35rem; }
+.tgs-ss-andere-link { display: block; font-size: 13px; color: var(--tgs-green); font-weight: 600; }
 
 /* ============ SPORTSTÄTTE LISTE ============ */
 .tgs-ss-liste-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }

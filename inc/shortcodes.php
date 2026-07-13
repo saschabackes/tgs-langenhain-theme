@@ -611,7 +611,7 @@ function tgs_shortcode_sportstaette_detail() {
             <p class="tgs-section-title"><strong>Weitere Sportstätten</strong></p>
         </div>
         <div class="tgs-ss-andere-grid"><?php foreach ( $andere as $a ) :
-        ?><a href="<?php echo esc_url( get_permalink( $a->ID ) ); ?>" class="tgs-ss-andere-card"><div class="tgs-ss-andere-name"><?php echo esc_html( $a->post_title ); ?></div><div class="tgs-ss-andere-addr"><?php echo esc_html( get_post_meta( $a->ID, '_tgs_adresse', true ) ); ?></div><span class="tgs-ss-andere-link">Zur Sportstätte →</span></a><?php endforeach; ?></div>
+        ?><a href="<?php echo esc_url( get_permalink( $a->ID ) ); ?>" class="tgs-ss-andere-card"><span class="tgs-ss-andere-name"><?php echo esc_html( $a->post_title ); ?></span><span class="tgs-ss-andere-addr"><?php echo esc_html( get_post_meta( $a->ID, '_tgs_adresse', true ) ); ?></span><span class="tgs-ss-andere-link">Zur Sportstätte →</span></a><?php endforeach; ?></div>
     </div>
     <?php endif; ?>
     <?php

@@ -1,3 +1,8 @@
+## [0.19.3] — 2026-07-13
+
+### Behoben — „Weitere Sportstätten"-Karten (wpautop, echte Ursache)
+- Ursache war nicht der Whitespace, sondern dass die Karte ein `<a>` mit Block-`<div>`-Kindern war → wpautop zerlegte das (leere `<p>`, aufgespaltene Links). Die inneren Elemente sind jetzt inline-`<span>` mit `display:block` im CSS (Layout unverändert) — das `<a>` enthält nur noch Inline-Elemente, wpautop lässt es in Ruhe.
+
 ## [0.19.2] — 2026-07-13
 
 ### Behoben — Anmeldeformular (Rest-`<br>`)

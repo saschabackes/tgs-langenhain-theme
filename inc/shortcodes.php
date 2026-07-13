@@ -437,14 +437,9 @@ function tgs_shortcode_kurs_detail() {
             ?>
             <div class="tgs-kd-info-box">
                 <div class="tgs-kd-info-title">Weitere <?php echo esc_html( $kat ); ?></div>
-                <div class="tgs-kd-related">
-                    <?php foreach ( $related as $rel ) : ?>
-                        <a href="<?php echo get_permalink( $rel->ID ); ?>" class="tgs-kd-related-item">
-                            <?php echo esc_html( $rel->post_title ); ?>
-                            <span><?php echo esc_html( get_post_meta( $rel->ID, '_tgs_wochentag', true ) ); ?> <?php echo esc_html( get_post_meta( $rel->ID, '_tgs_uhrzeit', true ) ); ?></span>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
+                <div class="tgs-kd-related"><?php foreach ( $related as $rel ) :
+                    $rel_zeit = trim( get_post_meta( $rel->ID, '_tgs_wochentag', true ) . ' ' . get_post_meta( $rel->ID, '_tgs_uhrzeit', true ) );
+                ?><a href="<?php echo esc_url( get_permalink( $rel->ID ) ); ?>" class="tgs-kd-related-item"><?php echo esc_html( $rel->post_title ); ?><span><?php echo esc_html( $rel_zeit ); ?></span></a><?php endforeach; ?></div>
             </div>
             <?php endif; endif; ?>
         </div>
@@ -760,12 +755,8 @@ function tgs_shortcode_abteilung_detail() {
                     'orderby'        => 'menu_order',
                     'order'          => 'ASC',
                 ) );
-                foreach ( $andere as $a ) : ?>
-                    <a href="<?php echo get_permalink( $a->ID ); ?>" class="tgs-kd-related-item">
-                        <span class="tgs-rel-label"><?php echo tgs_abteilung_icon_html( $a->ID ); ?><?php echo esc_html( $a->post_title ); ?></span>
-                        <span>→</span>
-                    </a>
-                <?php endforeach; ?>
+                foreach ( $andere as $a ) :
+                ?><a href="<?php echo esc_url( get_permalink( $a->ID ) ); ?>" class="tgs-kd-related-item"><span class="tgs-rel-label"><?php echo tgs_abteilung_icon_html( $a->ID ); ?><?php echo esc_html( $a->post_title ); ?></span><span>→</span></a><?php endforeach; ?>
             </div>
         </div>
     </div>

@@ -1,3 +1,8 @@
+## [0.18.3] — 2026-07-13
+
+### Behoben — Kurs-Detailseite & Abteilungs-Detailseite
+- „Weitere Kurse" / „Weitere Abteilungen": Layout war verschoben, weil wpautop aus den Zeilenumbrüchen im Markup `<br>`-Tags in die `display:flex`-Einträge einfügte (Name/Zeit rutschten dadurch). Zwischenraum zwischen den Inline-Tags entfernt – die Einträge sitzen jetzt sauber (Name links, Zeit/Pfeil rechts).
+
 ## [0.18.2] — 2026-07-13
 
 ### Geändert — Gaststätte

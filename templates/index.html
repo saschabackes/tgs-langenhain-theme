@@ -1,24 +1,27 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group">
-    <!-- wp:query {"queryId":1,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date"}} -->
-    <div class="wp-block-query">
-        <!-- wp:post-template -->
-            <!-- wp:post-title {"isLink":true} /-->
-            <!-- wp:post-date /-->
-            <!-- wp:post-excerpt /-->
-        <!-- /wp:post-template -->
-        <!-- wp:query-pagination -->
-            <!-- wp:query-pagination-previous /-->
-            <!-- wp:query-pagination-numbers /-->
-            <!-- wp:query-pagination-next /-->
-        <!-- /wp:query-pagination -->
+<!-- wp:group {"className":"tgs-page-hero"} -->
+<div class="wp-block-group tgs-page-hero">
+    <!-- wp:group -->
+    <div class="wp-block-group">
+        <!-- wp:heading {"level":1} -->
+        <h1 class="wp-block-heading">Aktuelles</h1>
+        <!-- /wp:heading -->
+        <!-- wp:paragraph -->
+        <p>Neuigkeiten, Berichte und Termine aus der TGS Langenhain</p>
+        <!-- /wp:paragraph -->
     </div>
-    <!-- /wp:query -->
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"tgs-section"} -->
+<div class="wp-block-group tgs-section">
+    <!-- wp:shortcode -->
+    [tgs_news_liste anzahl="18"]
+    <!-- /wp:shortcode -->
 </div>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"mitglied-cta","area":"uncategorized"} /-->
-<!-- wp:template-part {"slug":"sponsor-bar","area":"uncategorized"} /-->
 <!-- wp:template-part {"slug":"footer","area":"footer"} /-->

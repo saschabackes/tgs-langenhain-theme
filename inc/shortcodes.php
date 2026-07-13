@@ -684,6 +684,7 @@ function tgs_shortcode_breadcrumb() {
         'tgs_sportstaette' => array( 'Sportstätten', '/sportstaetten' ),
         'tgs_abteilung'    => array( 'Abteilungen', '/abteilungen' ),
         'tgs_kurs'         => array( 'Kurse', '/kurse' ),
+        'post'             => array( 'Aktuelles', '/aktuelles' ),
     );
     $pt = get_post_type( $post_id );
     if ( isset( $map[ $pt ] ) ) {

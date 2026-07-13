@@ -371,6 +371,48 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-app-btn { display: inline-block; background: #fff; color: var(--tgs-ink); font-size: 14px; font-weight: 700; padding: 9px 18px; border-radius: 999px; white-space: nowrap; }
 .tgs-ss-app-btn:hover { text-decoration: none; opacity: .9; }
 
+/* ============ NEWS / AKTUELLES ============ */
+.tgs-news-header { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.4rem 1.2rem; background: #fff; border-bottom: 1px solid var(--tgs-border); }
+.tgs-news-hero--photo { background-size: cover; background-position: center; border-bottom: 1px solid var(--tgs-border); }
+.tgs-news-hero-inner { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 4rem 2rem; min-height: 320px; display: flex; flex-direction: column; justify-content: flex-end; }
+.tgs-news-cat { display: inline-block; align-self: flex-start; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--tgs-green); background: #e9f0e9; border-radius: 999px; padding: 4px 12px; margin-bottom: .7rem; }
+.tgs-news-hero--photo .tgs-news-cat { background: rgba(255,255,255,.92); }
+.tgs-news-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; line-height: 1.15; color: var(--tgs-ink); margin: 0 0 .6rem; font-weight: 700; }
+.tgs-news-hero--photo .tgs-news-h1 { color: #fff; }
+.tgs-news-meta { font-size: 14px; color: var(--tgs-muted); }
+.tgs-news-hero--photo .tgs-news-meta { color: rgba(255,255,255,.85); }
+.tgs-news-body { padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); padding-block: 2.2rem 2.6rem; background: #fff; }
+.tgs-news-content { max-width: 720px; font-size: 17px; line-height: 1.8; color: #3a3931; }
+.tgs-news-content > *:first-child { margin-top: 0; }
+.tgs-news-content p { margin: 0 0 1.1rem; }
+.tgs-news-content h2 { font-family: 'Libre Baskerville', serif; font-size: 24px; color: var(--tgs-ink); margin: 2rem 0 .7rem; }
+.tgs-news-content h3 { font-size: 19px; color: var(--tgs-ink); margin: 1.6rem 0 .5rem; font-weight: 700; }
+.tgs-news-content ul, .tgs-news-content ol { margin: 0 0 1.1rem 1.3rem; }
+.tgs-news-content li { margin-bottom: .4rem; }
+.tgs-news-content a { color: var(--tgs-green); font-weight: 600; }
+.tgs-news-content img { border-radius: 10px; height: auto; max-width: 100%; }
+.tgs-news-content figure { margin: 1.4rem 0; }
+.tgs-news-content figcaption { font-size: 13px; color: var(--tgs-muted); text-align: center; margin-top: .4rem; }
+.tgs-news-content blockquote { margin: 1.4rem 0; padding: .4rem 0 .4rem 1.2rem; border-left: 3px solid var(--tgs-green); font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 19px; color: var(--tgs-ink); }
+.tgs-news-foot { max-width: 720px; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--tgs-border); }
+.tgs-news-back { font-size: 14px; font-weight: 600; color: var(--tgs-green); }
+.tgs-news-related { margin-top: 2.4rem; padding-top: 1.6rem; border-top: 1px solid var(--tgs-border); }
+.tgs-news-related-title { font-family: 'Libre Baskerville', serif; font-size: 20px; color: var(--tgs-ink); margin-bottom: 1rem; }
+.tgs-news-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tgs-news-grid--liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tgs-news-card-title, .tgs-news-card-exc { overflow-wrap: anywhere; }
+.tgs-news-card { display: flex; flex-direction: column; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; overflow: hidden; color: inherit; transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.tgs-news-card:hover { border-color: var(--tgs-green); box-shadow: 0 8px 24px rgba(20,32,22,.1); transform: translateY(-2px); text-decoration: none; }
+.tgs-news-card-img { display: block; height: 160px; background-size: cover; background-position: center; background-color: #dde5d8; }
+.tgs-news-card-body { display: flex; flex-direction: column; padding: 1.1rem 1.2rem; flex: 1 1 auto; }
+.tgs-news-card-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; flex-wrap: wrap; }
+.tgs-news-card-cat { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--tgs-green); background: #e6efe6; border-radius: 999px; padding: 2px 9px; }
+.tgs-news-card-date { font-size: 12px; color: var(--tgs-muted); }
+.tgs-news-card-title { font-family: 'Libre Baskerville', serif; font-size: 17px; font-weight: 700; color: var(--tgs-ink); line-height: 1.25; margin-bottom: .4rem; }
+.tgs-news-card-exc { font-size: 13.5px; color: #66625a; line-height: 1.5; margin-bottom: .6rem; }
+.tgs-news-card-link { margin-top: auto; font-size: 13px; font-weight: 700; color: var(--tgs-green); }
+.tgs-news-empty { color: var(--tgs-muted); padding: 1rem 0; }
+
 /* ============ MITGLIED WERDEN / BEITRÄGE ============ */
 /* .tgs-mw ist der EINE zentrierende Container (wie .tgs-section). Die umgebende
    Seiten-Section wird entrahmt, damit sich die Zentrierung nicht verdoppelt,
@@ -700,6 +742,10 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-kurs-tabelle { min-width: 620px; }
   .tgs-mitglied-cta { flex-direction: column; text-align: center; gap: 1rem; padding-block: 1.6rem; }
   .tgs-kd-hero-inner { min-height: 220px; padding-block: 2.4rem 1.4rem; }
+  .tgs-news-hero-inner { min-height: 220px; padding-block: 2.6rem 1.4rem; }
+  .tgs-news-h1 { font-size: 26px; }
+  .tgs-news-content { font-size: 16px; }
+  .tgs-news-grid, .tgs-news-grid--liste { grid-template-columns: 1fr; }
   .tgs-kd-header { flex-direction: column; gap: 1rem; }
   .tgs-kd-cta { align-items: stretch; width: 100%; }
   .tgs-kd-btn { text-align: center; }

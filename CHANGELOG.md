@@ -1,3 +1,10 @@
+## [0.17.0] — 2026-07-12
+
+### Hinzugefügt — News/Aktuelles neu aufgebaut
+- Neues Modul inc/news.php mit drei Bausteinen: **[tgs_news_detail]** (Artikelseite mit Titelbild-Hero, Kategorie-Badge, Datum/Autor, lesbarer Typografie inkl. Zitat/Bild/Listen, „← Zu allen Beiträgen" und verwandten Beiträgen), **[tgs_news_liste]** (Übersicht als Karten) und **[tgs_news_teaser]** (Startseiten-Teaser als Karten).
+- Templates verdrahtet: single.html (Beitrag) → schlanke Brotkrume + [tgs_news_detail]; index.html (Aktuelles-Übersicht) → Page-Hero + [tgs_news_liste]; Startseite → [tgs_news_teaser] statt Latest-Posts-Block.
+- Brotkrume erkennt Beiträge (Startseite › Aktuelles › Titel). News bleiben normale WP-Beiträge (Gutenberg für den Inhalt); Empfehlung je Beitrag: Beitragsbild, Kategorie, Auszug.
+
 ## [0.16.1] — 2026-07-12
 
 ### Geändert — Kurs-Layout auf „Klassik+" (A)

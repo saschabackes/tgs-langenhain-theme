@@ -213,12 +213,12 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_wochentag'       => array( 'label' => 'Wochentag', 'type' => 'select', 'options' => array( 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So' ) ),
         '_tgs_uhrzeit'         => array( 'label' => 'Uhrzeit (Start)', 'type' => 'time' ),
         '_tgs_uhrzeit_ende'    => array( 'label' => 'Uhrzeit (Ende)', 'type' => 'time' ),
-        '_tgs_ort'             => array( 'label' => 'Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle' ),
+        '_tgs_ort'             => array( 'label' => 'Ort / Halle', 'type' => 'ortpicker', 'id_key' => '_tgs_ort_id' ),
         '_tgs_saison'          => array( 'label' => 'Saisonabhängig?', 'type' => 'select', 'options' => array( 'ja' => 'Ja – im Winter andere Zeit/Ort', 'nein' => 'Nein' ), 'note' => 'Wochentag/Uhrzeit/Ort oben gelten als <strong>Sommer</strong>. Bei „Ja" die Winter-Felder darunter ausfüllen.' ),
         '_tgs_winter_wochentag'    => array( 'label' => '❄ Winter: Wochentag', 'type' => 'select', 'options' => array( 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So' ), 'row' => 'saison', 'note' => 'leer = wie im Sommer' ),
         '_tgs_winter_uhrzeit'      => array( 'label' => '❄ Winter: Uhrzeit (Start)', 'type' => 'time', 'row' => 'saison' ),
         '_tgs_winter_uhrzeit_ende' => array( 'label' => '❄ Winter: Uhrzeit (Ende)', 'type' => 'time', 'row' => 'saison' ),
-        '_tgs_winter_ort'          => array( 'label' => '❄ Winter: Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle', 'row' => 'saison' ),
+        '_tgs_winter_ort'          => array( 'label' => '❄ Winter: Ort / Halle', 'type' => 'ortpicker', 'id_key' => '_tgs_winter_ort_id', 'row' => 'saison' ),
         '_tgs_winter_pause'        => array( 'label' => '❄ Winter: Betrieb', 'type' => 'select', 'options' => array( 'nein' => 'findet statt (Winter-Zeit/Ort)', 'ja' => 'pausiert – kein Wintertraining' ), 'row' => 'saison' ),
         '_tgs_winter_von'          => array( 'label' => '❄ Winter von', 'type' => 'monthselect', 'default' => 10, 'row' => 'saison' ),
         '_tgs_winter_bis'          => array( 'label' => '❄ Winter bis', 'type' => 'monthselect', 'default' => 3, 'row' => 'saison', 'note' => 'Standard: Oktober bis März.' ),
@@ -276,6 +276,21 @@ function tgs_kurs_meta_box_html( $post ) {
                 printf( '<option value="%d"%s>%s</option>', $mn, selected( $eff, $mn, false ), esc_html( $ml ) );
             }
             echo '</select>';
+        } elseif ( $field['type'] === 'ortpicker' ) {
+            $id_key   = $field['id_key'];
+            $sel_id   = (int) get_post_meta( $post->ID, $id_key, true );
+            $staetten = get_posts( array( 'post_type' => 'tgs_sportstaette', 'numberposts' => -1, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'publish' ) );
+            echo '<select id="' . esc_attr( $id_key ) . '" name="' . esc_attr( $id_key ) . '" class="tgs-ortpicker" data-freitext="' . esc_attr( $key ) . '">';
+            echo '<option value="">— Freitext (Feld darunter) —</option>';
+            foreach ( $staetten as $st ) {
+                printf( '<option value="%d"%s>%s</option>', (int) $st->ID, selected( $sel_id, $st->ID, false ), esc_html( $st->post_title ) );
+            }
+            echo '</select>';
+            printf(
+                '<input type="text" id="%s" name="%s" value="%s" class="regular-text" placeholder="…oder Ort frei eingeben" style="display:block;margin-top:6px;">',
+                esc_attr( $key ), esc_attr( $key ), esc_attr( $value )
+            );
+            echo '<p class="description">Sportstätte auswählen <em>oder</em> unten frei eintippen. Bei Auswahl wird der Ort automatisch mit der Sportstätten-Seite verlinkt.</p>';
         } else {
             printf(
                 '<input type="%s" id="%s" name="%s" value="%s" class="regular-text" placeholder="%s">',
@@ -299,10 +314,17 @@ function tgs_kurs_meta_box_html( $post ) {
     <script>
     (function(){
         var sel = document.getElementById('_tgs_saison');
-        if ( ! sel ) return;
-        var rows = document.querySelectorAll('tr[data-tgs-row="saison"]');
-        function upd(){ var on = sel.value === 'ja'; rows.forEach(function(r){ r.style.display = on ? '' : 'none'; }); }
-        sel.addEventListener('change', upd); upd();
+        if ( sel ) {
+            var rows = document.querySelectorAll('tr[data-tgs-row="saison"]');
+            var updS = function(){ var on = sel.value === 'ja'; rows.forEach(function(r){ r.style.display = on ? '' : 'none'; }); };
+            sel.addEventListener('change', updS); updS();
+        }
+        document.querySelectorAll('select.tgs-ortpicker').forEach(function(pk){
+            var txt = document.getElementById( pk.getAttribute('data-freitext') );
+            if ( ! txt ) return;
+            var updO = function(){ var chosen = pk.value !== ''; txt.disabled = chosen; txt.style.opacity = chosen ? '.5' : '1'; };
+            pk.addEventListener('change', updO); updO();
+        });
     })();
     </script>
     <?php
@@ -327,6 +349,17 @@ function tgs_save_kurs_meta( $post_id ) {
     foreach ( $fields as $key ) {
         if ( isset( $_POST[ $key ] ) ) {
             update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
+        }
+    }
+
+    // Ort-Picker: gewählte Sportstätte → deren Titel als Ort + verknüpfte ID; sonst Freitext (steht schon), ID leeren
+    foreach ( array( '_tgs_ort' => '_tgs_ort_id', '_tgs_winter_ort' => '_tgs_winter_ort_id' ) as $ort_key => $id_key ) {
+        $sid = isset( $_POST[ $id_key ] ) ? intval( $_POST[ $id_key ] ) : 0;
+        if ( $sid > 0 && get_post_type( $sid ) === 'tgs_sportstaette' ) {
+            update_post_meta( $post_id, $ort_key, get_the_title( $sid ) );
+            update_post_meta( $post_id, $id_key, $sid );
+        } else {
+            update_post_meta( $post_id, $id_key, 0 );
         }
     }
 

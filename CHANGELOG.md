@@ -1,3 +1,9 @@
+## [0.20.1] — 2026-07-13
+
+### Neu — Ort per Sportstätte wählen (statt tippen)
+- Im Kurs-Editor ist „Ort / Halle" jetzt ein Picker: **Sportstätte aus einer Auswahl** ODER weiterhin **Freitext** (Feld darunter). Bei Auswahl wird der Ort-Text automatisch aus der Sportstätte gesetzt und die verknüpfte ID gespeichert. Gilt für Sommer- und Winter-Ort.
+- Auf der Kursseite wird der Ort in „Auf einen Blick" bei verknüpfter Sportstätte automatisch auf deren Seite verlinkt.
+- (Das ID-Feld `_tgs_ort_id` war längst registriert, hatte nur nie eine Oberfläche.)
 ## [0.20.0] — 2026-07-13
 
 ### Neu — Saisonale Kurse (Sommer/Winter)

@@ -416,7 +416,14 @@ function tgs_shortcode_kurs_detail() {
                 <div class="tgs-kd-info-title">Auf einen Blick</div>
                 <?php if ( $tag ) : ?><div class="tgs-kd-info-row"><strong>Tag</strong><span><?php echo esc_html( $tag ); ?></span></div><?php endif; ?>
                 <?php if ( $zeit ) : ?><div class="tgs-kd-info-row"><strong>Uhrzeit</strong><span><?php echo esc_html( $zeit_display ); ?></span></div><?php endif; ?>
-                <?php if ( $ort ) : ?><div class="tgs-kd-info-row"><strong>Ort</strong><span><?php echo esc_html( $ort ); ?></span></div><?php endif; ?>
+                <?php if ( $ort ) : ?><div class="tgs-kd-info-row"><strong>Ort</strong><span><?php
+                    $ort_id = ! empty( $termin['ort_id'] ) ? (int) $termin['ort_id'] : 0;
+                    if ( $ort_id && get_post_status( $ort_id ) === 'publish' ) {
+                        echo '<a href="' . esc_url( get_permalink( $ort_id ) ) . '">' . esc_html( $ort ) . '</a>';
+                    } else {
+                        echo esc_html( $ort );
+                    }
+                ?></span></div><?php endif; ?>
                 <?php
                 if ( ! empty( $termin['saisonal'] ) ) {
                     $ist_winter   = $termin['aktiv'] === 'winter';

@@ -1,3 +1,7 @@
+## [0.20.4] — 2026-07-13
+
+### Behoben — Mobile Header
+- Der „Mitglied werden"-Button im Header wurde auf dem Handy nicht ausgeblendet (WordPress' `.wp-block-buttons`-Regel überschrieb das `display:none`). Dadurch wurde der Vereinsname gequetscht und brach um. Fix mit höherer Spezifität + `!important` — jetzt sauber: Logo + Titel links, „☰ Menü" rechts; „Mitglied werden" ausschließlich im Dropdown (hervorgehoben).
 ## [0.20.3] — 2026-07-13
 
 ### Geändert — Mobile Navigation

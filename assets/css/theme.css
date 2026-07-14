@@ -755,7 +755,7 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-nav-left img { height: 42px !important; }
   .tgs-club-info .wp-block-site-title, .tgs-club-info .wp-block-site-title a { font-size: 17px !important; }
   .tgs-nav { position: relative; flex-wrap: nowrap; }
-  .tgs-cta-nav-wrap { display: none; } /* „Mitglied werden" wandert ins Menü */
+  .tgs-nav .tgs-cta-nav-wrap { display: none !important; } /* „Mitglied werden" wandert ins Menü */
   .tgs-main-nav { width: auto; }
   .tgs-nav-burger { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; padding: 7px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 7px; user-select: none; white-space: nowrap; }
   .tgs-nav-burger span { font-size: 14px; }

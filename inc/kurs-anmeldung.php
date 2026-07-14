@@ -101,6 +101,98 @@ function tgs_kurs_altersgrenzen( $kurs_id ) {
     return array( 'min' => $min, 'max' => $max, 'has' => ( $min > 0 || $max > 0 ) );
 }
 
+/* ---- Saison (Sommer/Winter unterschiedliche Zeit + Ort) ---- */
+
+/** Zeit-String, z. B. "19:30 – 21:00 Uhr" bzw. "19:30 Uhr". Leer ohne Startzeit. */
+function tgs_zeit_display( $zeit, $ende = '' ) {
+    if ( ! $zeit ) return '';
+    return $ende ? ( $zeit . ' – ' . $ende . ' Uhr' ) : ( $zeit . ' Uhr' );
+}
+
+/** Kurzer Monatsname (1–12), z. B. 10 => "Okt". */
+function tgs_monat_kurz( $m ) {
+    $n = array( 1=>'Jan',2=>'Feb',3=>'März',4=>'Apr',5=>'Mai',6=>'Juni',7=>'Juli',8=>'Aug',9=>'Sep',10=>'Okt',11=>'Nov',12=>'Dez' );
+    return isset( $n[ (int) $m ] ) ? $n[ (int) $m ] : '';
+}
+
+/**
+ * Aktuell gültiger (saisonabhängiger) Termin eines Kurses.
+ * Rückgabe enthält die JETZT gültigen tag/zeit/ende/ort/ort_id plus
+ * saisonal (bool), aktiv ('sommer'|'winter'|'ganzjahr'), pausiert (bool)
+ * und die kompletten Sommer-/Winter-Daten.
+ */
+function tgs_kurs_termin( $kurs_id ) {
+    $sommer = array(
+        'tag'    => get_post_meta( $kurs_id, '_tgs_wochentag', true ),
+        'zeit'   => get_post_meta( $kurs_id, '_tgs_uhrzeit', true ),
+        'ende'   => get_post_meta( $kurs_id, '_tgs_uhrzeit_ende', true ),
+        'ort'    => get_post_meta( $kurs_id, '_tgs_ort', true ),
+        'ort_id' => (int) get_post_meta( $kurs_id, '_tgs_ort_id', true ),
+    );
+
+    if ( get_post_meta( $kurs_id, '_tgs_saison', true ) !== 'ja' ) {
+        return array_merge( $sommer, array(
+            'saisonal' => false, 'aktiv' => 'ganzjahr', 'pausiert' => false,
+            'sommer' => $sommer, 'winter' => null,
+        ) );
+    }
+
+    $winter = array(
+        'tag'    => get_post_meta( $kurs_id, '_tgs_winter_wochentag', true ) ?: $sommer['tag'],
+        'zeit'   => get_post_meta( $kurs_id, '_tgs_winter_uhrzeit', true ),
+        'ende'   => get_post_meta( $kurs_id, '_tgs_winter_uhrzeit_ende', true ),
+        'ort'    => get_post_meta( $kurs_id, '_tgs_winter_ort', true ),
+        'ort_id' => (int) get_post_meta( $kurs_id, '_tgs_winter_ort_id', true ),
+        'pause'  => ( get_post_meta( $kurs_id, '_tgs_winter_pause', true ) === 'ja' ),
+    );
+
+    $von = (int) get_post_meta( $kurs_id, '_tgs_winter_von', true ); if ( $von < 1 || $von > 12 ) $von = 10;
+    $bis = (int) get_post_meta( $kurs_id, '_tgs_winter_bis', true ); if ( $bis < 1 || $bis > 12 ) $bis = 3;
+    $m   = (int) current_time( 'n' );
+    $ist_winter = ( $von <= $bis ) ? ( $m >= $von && $m <= $bis ) : ( $m >= $von || $m <= $bis );
+
+    $aktiv = $ist_winter ? $winter : $sommer;
+    return array_merge(
+        array( 'tag' => $aktiv['tag'], 'zeit' => $aktiv['zeit'], 'ende' => $aktiv['ende'], 'ort' => $aktiv['ort'], 'ort_id' => $aktiv['ort_id'] ),
+        array(
+            'saisonal' => true,
+            'aktiv'    => $ist_winter ? 'winter' : 'sommer',
+            'pausiert' => ( $ist_winter && ! empty( $winter['pause'] ) ),
+            'sommer'   => $sommer,
+            'winter'   => $winter,
+            'von'      => $von, 'bis' => $bis,
+        )
+    );
+}
+
+/** Saison-Callout (zwei Karten Sommer/Winter) für die Kursseite. Leer, wenn nicht saisonal. */
+function tgs_kurs_saison_callout( $kurs_id ) {
+    $t = tgs_kurs_termin( $kurs_id );
+    if ( empty( $t['saisonal'] ) ) return '';
+
+    $card = function ( $emoji, $label, $mod, $d, $active, $pause ) {
+        $o  = '<div class="tgs-saison-card tgs-saison-card--' . $mod . ( $active ? ' is-active' : '' ) . '">';
+        $o .= '<div class="tgs-saison-card-top">' . $emoji . ' ' . esc_html( $label );
+        if ( $active ) $o .= '<span class="tgs-saison-now">läuft gerade</span>';
+        $o .= '</div>';
+        if ( $pause ) {
+            $o .= '<div class="tgs-saison-pause">Kein Training in dieser Saison</div>';
+        } else {
+            $o .= '<div class="tgs-saison-kv"><span>Tag</span><b>' . esc_html( $d['tag'] ) . '</b></div>';
+            $o .= '<div class="tgs-saison-kv"><span>Zeit</span><b>' . esc_html( tgs_zeit_display( $d['zeit'], $d['ende'] ) ) . '</b></div>';
+            $o .= '<div class="tgs-saison-kv"><span>Ort</span><b>' . esc_html( $d['ort'] ) . '</b></div>';
+        }
+        return $o . '</div>';
+    };
+
+    $win_range = tgs_monat_kurz( $t['von'] ) . '–' . tgs_monat_kurz( $t['bis'] );
+    $html  = '<div class="tgs-saison"><div class="tgs-saison-hd">Wann &amp; wo wir trainieren</div><div class="tgs-saison-body">';
+    $html .= $card( '☀️', 'Sommer', 'sommer', $t['sommer'], $t['aktiv'] === 'sommer', false );
+    $html .= $card( '❄️', 'Winter · ' . $win_range, 'winter', $t['winter'], $t['aktiv'] === 'winter', ! empty( $t['winter']['pause'] ) );
+    $html .= '</div></div>';
+    return $html;
+}
+
 /** Alter in vollen Jahren aus einem Datum (Y-m-d). 0/false bei ungültig. */
 function tgs_alter_aus_geburtsdatum( $ymd ) {
     $ymd = trim( (string) $ymd );

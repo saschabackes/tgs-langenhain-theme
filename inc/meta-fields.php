@@ -60,6 +60,16 @@ function tgs_register_meta_fields() {
         '_tgs_uhrzeit_ende'    => 'string',
         '_tgs_ort'             => 'string',
         '_tgs_ort_id'          => 'integer',  // Link to tgs_sportstaette
+        // Saisonabhängig (Sommer = Standardfelder oben, Winter = folgende Felder)
+        '_tgs_saison'          => 'string',   // '1' = saisonabhängig (Winterfelder aktiv)
+        '_tgs_winter_wochentag'    => 'string',
+        '_tgs_winter_uhrzeit'      => 'string',
+        '_tgs_winter_uhrzeit_ende' => 'string',
+        '_tgs_winter_ort'          => 'string',
+        '_tgs_winter_ort_id'       => 'integer',
+        '_tgs_winter_pause'        => 'string', // '1' = im Winter kein Betrieb
+        '_tgs_winter_von'          => 'integer', // Monat 1–12, Standard 10 (Okt)
+        '_tgs_winter_bis'          => 'integer', // Monat 1–12, Standard 3 (März)
         '_tgs_status'          => 'string',   // 'frei' or 'warteliste'
         '_tgs_max_teilnehmer'  => 'integer',
         '_tgs_kurs_anmeldung'  => 'string',   // '' / 'pflicht' or 'offen'
@@ -204,6 +214,14 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_uhrzeit'         => array( 'label' => 'Uhrzeit (Start)', 'type' => 'time' ),
         '_tgs_uhrzeit_ende'    => array( 'label' => 'Uhrzeit (Ende)', 'type' => 'time' ),
         '_tgs_ort'             => array( 'label' => 'Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle' ),
+        '_tgs_saison'          => array( 'label' => 'Saisonabhängig?', 'type' => 'select', 'options' => array( 'ja' => 'Ja – im Winter andere Zeit/Ort', 'nein' => 'Nein' ), 'note' => 'Wochentag/Uhrzeit/Ort oben gelten als <strong>Sommer</strong>. Bei „Ja" die Winter-Felder darunter ausfüllen.' ),
+        '_tgs_winter_wochentag'    => array( 'label' => '❄ Winter: Wochentag', 'type' => 'select', 'options' => array( 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So' ), 'row' => 'saison', 'note' => 'leer = wie im Sommer' ),
+        '_tgs_winter_uhrzeit'      => array( 'label' => '❄ Winter: Uhrzeit (Start)', 'type' => 'time', 'row' => 'saison' ),
+        '_tgs_winter_uhrzeit_ende' => array( 'label' => '❄ Winter: Uhrzeit (Ende)', 'type' => 'time', 'row' => 'saison' ),
+        '_tgs_winter_ort'          => array( 'label' => '❄ Winter: Ort / Halle', 'type' => 'text', 'placeholder' => 'z.B. Wilhelm-Busch-Halle', 'row' => 'saison' ),
+        '_tgs_winter_pause'        => array( 'label' => '❄ Winter: Betrieb', 'type' => 'select', 'options' => array( 'nein' => 'findet statt (Winter-Zeit/Ort)', 'ja' => 'pausiert – kein Wintertraining' ), 'row' => 'saison' ),
+        '_tgs_winter_von'          => array( 'label' => '❄ Winter von', 'type' => 'monthselect', 'default' => 10, 'row' => 'saison' ),
+        '_tgs_winter_bis'          => array( 'label' => '❄ Winter bis', 'type' => 'monthselect', 'default' => 3, 'row' => 'saison', 'note' => 'Standard: Oktober bis März.' ),
         '_tgs_max_teilnehmer'  => array( 'label' => 'Max. Teilnehmer', 'type' => 'number', 'placeholder' => 'leer = unbegrenzt' ),
         '_tgs_kurs_anmeldung'  => array( 'label' => 'Anmeldung', 'type' => 'select', 'options' => array( 'pflicht' => 'Anmeldung erforderlich (mit Warteliste)', 'offen' => 'Offener Kurs – keine Anmeldung nötig' ) ),
         '_tgs_kurs_kinder'     => array( 'label' => 'Kurs für Kinder', 'type' => 'select', 'options' => array( '1' => 'Ja – Anmeldung mit Kind + Elternkontakt', '0' => 'Nein' ) ),
@@ -221,7 +239,8 @@ function tgs_kurs_meta_box_html( $post ) {
     echo '<table class="form-table"><tbody>';
     foreach ( $fields as $key => $field ) {
         $value = get_post_meta( $post->ID, $key, true );
-        echo '<tr><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
+        $row_attr = ! empty( $field['row'] ) ? ' data-tgs-row="' . esc_attr( $field['row'] ) . '"' : '';
+        echo '<tr' . $row_attr . '><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
 
         if ( $field['type'] === 'checkboxes' ) {
             $selected = is_array( $value ) ? $value : array();
@@ -249,6 +268,14 @@ function tgs_kurs_meta_box_html( $post ) {
                 printf( '<option value="%s"%s>%s</option>', esc_attr( $opt_val ), selected( $value, $opt_val, false ), esc_html( $opt_label ) );
             }
             echo '</select>';
+        } elseif ( $field['type'] === 'monthselect' ) {
+            $eff = ( $value === '' && isset( $field['default'] ) ) ? (int) $field['default'] : (int) $value;
+            $monate = array( 1 => 'Januar', 2 => 'Februar', 3 => 'März', 4 => 'April', 5 => 'Mai', 6 => 'Juni', 7 => 'Juli', 8 => 'August', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Dezember' );
+            echo '<select id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '">';
+            foreach ( $monate as $mn => $ml ) {
+                printf( '<option value="%d"%s>%s</option>', $mn, selected( $eff, $mn, false ), esc_html( $ml ) );
+            }
+            echo '</select>';
         } else {
             printf(
                 '<input type="%s" id="%s" name="%s" value="%s" class="regular-text" placeholder="%s">',
@@ -260,9 +287,25 @@ function tgs_kurs_meta_box_html( $post ) {
             );
         }
 
+        if ( ! empty( $field['note'] ) ) {
+            echo '<p class="description">' . wp_kses_post( $field['note'] ) . '</p>';
+        }
+
         echo '</td></tr>';
     }
     echo '</tbody></table>';
+    // Winter-Felder nur einblenden, wenn „Saisonabhängig" = Ja
+    ?>
+    <script>
+    (function(){
+        var sel = document.getElementById('_tgs_saison');
+        if ( ! sel ) return;
+        var rows = document.querySelectorAll('tr[data-tgs-row="saison"]');
+        function upd(){ var on = sel.value === 'ja'; rows.forEach(function(r){ r.style.display = on ? '' : 'none'; }); }
+        sel.addEventListener('change', upd); upd();
+    })();
+    </script>
+    <?php
 }
 
 function tgs_save_kurs_meta( $post_id ) {
@@ -272,6 +315,8 @@ function tgs_save_kurs_meta( $post_id ) {
 
     $fields = array(
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
+        '_tgs_saison', '_tgs_winter_wochentag', '_tgs_winter_uhrzeit', '_tgs_winter_uhrzeit_ende',
+        '_tgs_winter_ort', '_tgs_winter_pause', '_tgs_winter_von', '_tgs_winter_bis',
         '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
         '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder',
         '_tgs_kurs_alter_min', '_tgs_kurs_alter_max',
@@ -330,7 +375,8 @@ function tgs_sportstaette_meta_box_html( $post ) {
     echo '<table class="form-table"><tbody>';
     foreach ( $fields as $key => $field ) {
         $value = get_post_meta( $post->ID, $key, true );
-        echo '<tr><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
+        $row_attr = ! empty( $field['row'] ) ? ' data-tgs-row="' . esc_attr( $field['row'] ) . '"' : '';
+        echo '<tr' . $row_attr . '><th><label for="' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
 
         if ( $field['type'] === 'textarea' ) {
             printf(

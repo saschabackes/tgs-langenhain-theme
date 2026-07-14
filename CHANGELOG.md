@@ -1,3 +1,9 @@
+## [0.20.0] — 2026-07-13
+
+### Neu — Saisonale Kurse (Sommer/Winter)
+- Kurse können pro Kurs saisonabhängig sein: im Kurs-Editor der Schalter „Saisonabhängig?" blendet Winter-Felder ein (Wochentag, Uhrzeit Start/Ende, Ort, „Winter pausiert", Wintermonate von–bis, Standard Okt–März).
+- Anzeige schaltet automatisch nach Datum um: Kurstabelle, „Auf einen Blick" und die Meta-Zeile zeigen die aktuell gültige Saison; Badge „☀️/❄️ aktuell: …", ein Callout „Wann & wo wir trainieren" mit beiden Saisons (die aktive hervorgehoben) und eine „andere Saison"-Zeile in der Info-Box. Winterpause wird als Hinweis dargestellt. Kleiner ❄️/☀️-Marker in der Kurstabelle.
+- Nebenbei: numerische Select-Werte in der Kurs-Metabox werden jetzt korrekt gespeichert (die Ja/Nein-Felder nutzen String-Keys).
 ## [0.19.3] — 2026-07-13
 
 ### Behoben — „Weitere Sportstätten"-Karten (wpautop, echte Ursache)

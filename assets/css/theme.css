@@ -41,7 +41,7 @@ img { max-width: 100%; height: auto; }
 .tgs-club-info .wp-block-site-title a { font-family: 'Libre Baskerville', Georgia, serif; font-size: 19px !important; font-weight: 700; line-height: 1; color: #fff !important; text-decoration: none; }
 .tgs-since { margin: 5px 0 0 0 !important; font-size: 10px !important; letter-spacing: .2em; color: var(--tgs-green-l); font-weight: 600; }
 .tgs-main-nav { display: flex; align-items: center; }
-.tgs-nav-toggle, .tgs-nav-burger { display: none; } /* nur mobil (Hamburger) */
+.tgs-nav-toggle, .tgs-nav-burger, .tgs-nav-mcta { display: none; } /* nur mobil (Hamburger) */
 .tgs-nav-list { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
 .tgs-nav-list li { margin: 0; }
 .tgs-nav-list li a { font-size: 16px; color: #d7e5d7; font-weight: 500; text-decoration: none; }
@@ -754,14 +754,18 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-nav { flex-wrap: wrap; gap: .6rem; min-height: 0; padding-block: .7rem; }
   .tgs-nav-left img { height: 42px !important; }
   .tgs-club-info .wp-block-site-title, .tgs-club-info .wp-block-site-title a { font-size: 17px !important; }
-  .tgs-main-nav { order: 4; width: 100%; display: flex; justify-content: flex-end; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.15); padding-top: .55rem; margin-top: .3rem; }
-  .tgs-nav-burger { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; padding: 7px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 7px; user-select: none; }
+  .tgs-nav { position: relative; flex-wrap: nowrap; }
+  .tgs-cta-nav-wrap { display: none; } /* „Mitglied werden" wandert ins Menü */
+  .tgs-main-nav { width: auto; }
+  .tgs-nav-burger { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; padding: 7px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 7px; user-select: none; white-space: nowrap; }
   .tgs-nav-burger span { font-size: 14px; }
-  .tgs-nav-list { display: none; width: 100%; flex-direction: column; gap: 0; margin-top: .5rem; }
+  .tgs-nav-list { position: absolute; top: 100%; left: 0; right: 0; z-index: 60; display: none; flex-direction: column; gap: 0; background: var(--tgs-green-d); padding: .3rem 1.5rem .8rem; box-shadow: 0 12px 26px rgba(0,0,0,.28); border-top: 1px solid rgba(255,255,255,.12); }
   .tgs-nav-toggle:checked ~ .tgs-nav-list { display: flex; }
   .tgs-nav-list li { width: 100%; }
-  .tgs-nav-list li a { display: block; padding: 12px 4px; border-top: 1px solid rgba(255,255,255,.10); font-size: 16px; }
-  .tgs-cta-nav-wrap { order: 3; }
+  .tgs-nav-list li a { display: block; padding: 13px 2px; border-top: 1px solid rgba(255,255,255,.10); font-size: 16px; }
+  .tgs-nav-list li:first-child a { border-top: none; }
+  .tgs-nav-mcta { display: block; margin-top: .7rem; }
+  .tgs-nav-mcta a { background: #fff; color: var(--tgs-green-d) !important; font-weight: 700; text-align: center; border-radius: 7px; border: none !important; padding: 12px !important; }
   .tgs-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.5rem; padding-block: 2.5rem; }
   .tgs-hero-emblem, .tgs-hero-logo-wrap { order: -1; }
   .tgs-hero-text { max-width: none; }

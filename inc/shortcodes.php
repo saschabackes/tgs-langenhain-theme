@@ -497,6 +497,8 @@ function tgs_shortcode_navigation() {
         $href = ( strpos( $url, 'http' ) === 0 ) ? $url : home_url( $url );
         $html .= '<li><a href="' . esc_url( $href ) . '">' . esc_html( $label ) . '</a></li>';
     }
+    // „Mitglied werden" nur im mobilen Menü (auf Desktop via CSS ausgeblendet – dort steht der Header-Button)
+    $html .= '<li class="tgs-nav-mcta"><a href="' . esc_url( home_url( '/mitglied-werden' ) ) . '">Mitglied werden</a></li>';
     $html .= '</ul></nav>';
     return $html;
 }

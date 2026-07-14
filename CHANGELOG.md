@@ -1,3 +1,7 @@
+## [0.20.3] — 2026-07-13
+
+### Geändert — Mobile Navigation
+- Hamburger nicht mehr auf eigener Zeile rechts, sondern im üblichen Muster: **Logo links, „☰ Menü" rechts in einer Zeile**. „Mitglied werden" ist auf dem Handy in das Dropdown gewandert (als hervorgehobener Button unten), statt zusätzlich oben rechts zu stehen. Dropdown öffnet full-width unter dem Header (CSS-only, kein JS).
 ## [0.20.2] — 2026-07-13
 
 ### Behoben — Layout (Kursseite, Kontakt, Mobil)

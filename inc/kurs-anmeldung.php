@@ -109,6 +109,16 @@ function tgs_zeit_display( $zeit, $ende = '' ) {
     return $ende ? ( $zeit . ' – ' . $ende . ' Uhr' ) : ( $zeit . ' Uhr' );
 }
 
+/** Ort als Link zur Sportstätte (falls verknüpft & veröffentlicht), sonst reiner Text. Immer HTML-escaped. */
+function tgs_ort_html( $ort, $ort_id = 0 ) {
+    $ort    = (string) $ort;
+    $ort_id = (int) $ort_id;
+    if ( $ort !== '' && $ort_id > 0 && get_post_status( $ort_id ) === 'publish' ) {
+        return '<a href="' . esc_url( get_permalink( $ort_id ) ) . '">' . esc_html( $ort ) . '</a>';
+    }
+    return esc_html( $ort );
+}
+
 /** Kurzer Monatsname (1–12), z. B. 10 => "Okt". */
 function tgs_monat_kurz( $m ) {
     $n = array( 1=>'Jan',2=>'Feb',3=>'März',4=>'Apr',5=>'Mai',6=>'Juni',7=>'Juli',8=>'Aug',9=>'Sep',10=>'Okt',11=>'Nov',12=>'Dez' );
@@ -180,7 +190,7 @@ function tgs_kurs_saison_callout( $kurs_id ) {
         } else {
             $o .= '<div class="tgs-saison-kv"><span>Tag</span><b>' . esc_html( $d['tag'] ) . '</b></div>';
             $o .= '<div class="tgs-saison-kv"><span>Zeit</span><b>' . esc_html( tgs_zeit_display( $d['zeit'], $d['ende'] ) ) . '</b></div>';
-            $o .= '<div class="tgs-saison-kv"><span>Ort</span><b>' . esc_html( $d['ort'] ) . '</b></div>';
+            $o .= '<div class="tgs-saison-kv"><span>Ort</span><b>' . tgs_ort_html( $d['ort'], isset( $d['ort_id'] ) ? $d['ort_id'] : 0 ) . '</b></div>';
         }
         return $o . '</div>';
     };

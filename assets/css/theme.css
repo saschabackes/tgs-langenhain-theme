@@ -3,6 +3,8 @@
  * Waldgrün (#3D5A40) + Creme (#F8F6F0), luftige Typo-Skala.
  * Dunkelgrüner invertierter Header, helle Hero-Flächen mit Wappen als These.
  */
+/* Scrollbar-Platz immer reservieren → kurze Seiten (z.B. Kontakt) rutschen nicht seitlich (Issue #17) */
+html { scrollbar-gutter: stable; }
 :root {
   --tgs-green:    #3D5A40;
   --tgs-green-d:  #2A3F2C;
@@ -39,6 +41,7 @@ img { max-width: 100%; height: auto; }
 .tgs-club-info .wp-block-site-title a { font-family: 'Libre Baskerville', Georgia, serif; font-size: 19px !important; font-weight: 700; line-height: 1; color: #fff !important; text-decoration: none; }
 .tgs-since { margin: 5px 0 0 0 !important; font-size: 10px !important; letter-spacing: .2em; color: var(--tgs-green-l); font-weight: 600; }
 .tgs-main-nav { display: flex; align-items: center; }
+.tgs-nav-toggle, .tgs-nav-burger { display: none; } /* nur mobil (Hamburger) */
 .tgs-nav-list { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
 .tgs-nav-list li { margin: 0; }
 .tgs-nav-list li a { font-size: 16px; color: #d7e5d7; font-weight: 500; text-decoration: none; }
@@ -182,10 +185,11 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kd-info-row { font-size: 14px; color: #44433b; margin-bottom: .55rem; display: grid; grid-template-columns: 38% 1fr; gap: .6rem; align-items: start; }
 .tgs-kd-info-row strong { font-weight: 600; }
 .tgs-kd-info-row span { color: var(--tgs-muted); text-align: left; }
-.tgs-kd-related { display: flex; flex-direction: column; gap: 4px; }
-.tgs-kd-related-item { display: flex; justify-content: space-between; font-size: 13px; color: var(--tgs-green); font-weight: 600; padding: 6px 0; border-bottom: 1px solid var(--tgs-border); gap: .5rem; }
+.tgs-kd-related { display: flex; flex-direction: column; gap: 2px; }
+.tgs-kd-related-item { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--tgs-green); font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--tgs-border); gap: .7rem; line-height: 1.35; }
 .tgs-kd-related-item:last-child { border-bottom: none; }
-.tgs-kd-related-item span { color: var(--tgs-muted); font-weight: 400; }
+.tgs-kd-related-item span { color: var(--tgs-muted); font-weight: 400; white-space: nowrap; flex-shrink: 0; }
+.tgs-kd-sidebar p:empty, .tgs-kd-info-box p:empty { display: none; }
 
 /* Foto-Hero (wenn Kursbild gesetzt) */
 .tgs-kd-hero--photo { background-size: cover; background-position: center; border-bottom: 1px solid var(--tgs-border); }
@@ -750,8 +754,13 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-nav { flex-wrap: wrap; gap: .6rem; min-height: 0; padding-block: .7rem; }
   .tgs-nav-left img { height: 42px !important; }
   .tgs-club-info .wp-block-site-title, .tgs-club-info .wp-block-site-title a { font-size: 17px !important; }
-  .tgs-main-nav { order: 4; width: 100%; border-top: 1px solid rgba(255,255,255,.15); padding-top: .6rem; margin-top: .3rem; }
-  .tgs-nav-list { gap: 1.1rem; justify-content: center; flex-wrap: wrap; }
+  .tgs-main-nav { order: 4; width: 100%; display: flex; justify-content: flex-end; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.15); padding-top: .55rem; margin-top: .3rem; }
+  .tgs-nav-burger { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; padding: 7px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 7px; user-select: none; }
+  .tgs-nav-burger span { font-size: 14px; }
+  .tgs-nav-list { display: none; width: 100%; flex-direction: column; gap: 0; margin-top: .5rem; }
+  .tgs-nav-toggle:checked ~ .tgs-nav-list { display: flex; }
+  .tgs-nav-list li { width: 100%; }
+  .tgs-nav-list li a { display: block; padding: 12px 4px; border-top: 1px solid rgba(255,255,255,.10); font-size: 16px; }
   .tgs-cta-nav-wrap { order: 3; }
   .tgs-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.5rem; padding-block: 2.5rem; }
   .tgs-hero-emblem, .tgs-hero-logo-wrap { order: -1; }

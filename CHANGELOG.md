@@ -1,3 +1,11 @@
+## [0.20.2] — 2026-07-13
+
+### Behoben — Layout (Kursseite, Kontakt, Mobil)
+- „Auf einen Blick": die Winter-Zeile stand mitten zwischen Ort und Zielgruppe → jetzt sauber am Ende der Box; leeres wpautop-`<p>` in der Sidebar ausgeblendet.
+- Ort-Verlinkung konsistent: Ort wird überall (Meta-Zeile, „Auf einen Blick", Saison-Callout, Winter-Hinweis) mit der Sportstätte verlinkt, sofern verknüpft (zentraler Helper `tgs_ort_html`).
+- „Weitere Kurse/Trainings": lange Namen brechen jetzt sauber um, Zeit bleibt rechtsbündig (align-items:baseline, Zeit nowrap).
+- Kontaktseite rutschte gegenüber anderen Seiten leicht nach rechts (Scrollbar) → `scrollbar-gutter: stable` reserviert den Platz immer (Issue #17).
+- Mobile Hauptnavigation: statt umbrechender Links jetzt ein CSS-only **Hamburger-Menü** („☰ Menü" → Dropdown), kein JavaScript, kein Template-Reset nötig.
 ## [0.20.1] — 2026-07-13
 
 ### Neu — Ort per Sportstätte wählen (statt tippen)

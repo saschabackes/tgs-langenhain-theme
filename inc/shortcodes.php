@@ -367,7 +367,7 @@ function tgs_shortcode_kurs_detail() {
             <div class="tgs-kd-meta-row">
                 <span>📅 <strong><?php echo esc_html( $tag ); ?></strong></span>
                 <span>🕐 <strong><?php echo esc_html( $zeit_display ); ?></strong></span>
-                <span>📍 <strong><?php echo esc_html( $ort ); ?></strong></span>
+                <span>📍 <strong><?php echo tgs_ort_html( $ort, ! empty( $termin['ort_id'] ) ? $termin['ort_id'] : 0 ); ?></strong></span>
                 <?php if ( ! empty( $termin['saisonal'] ) ) : ?>
                 <span class="tgs-kd-season tgs-kd-season--<?php echo esc_attr( $termin['aktiv'] ); ?>"><?php echo $termin['aktiv'] === 'winter' ? '❄️ aktuell: Winterbetrieb' : '☀️ aktuell: Sommerbetrieb'; ?></span>
                 <?php endif; ?>
@@ -416,29 +416,7 @@ function tgs_shortcode_kurs_detail() {
                 <div class="tgs-kd-info-title">Auf einen Blick</div>
                 <?php if ( $tag ) : ?><div class="tgs-kd-info-row"><strong>Tag</strong><span><?php echo esc_html( $tag ); ?></span></div><?php endif; ?>
                 <?php if ( $zeit ) : ?><div class="tgs-kd-info-row"><strong>Uhrzeit</strong><span><?php echo esc_html( $zeit_display ); ?></span></div><?php endif; ?>
-                <?php if ( $ort ) : ?><div class="tgs-kd-info-row"><strong>Ort</strong><span><?php
-                    $ort_id = ! empty( $termin['ort_id'] ) ? (int) $termin['ort_id'] : 0;
-                    if ( $ort_id && get_post_status( $ort_id ) === 'publish' ) {
-                        echo '<a href="' . esc_url( get_permalink( $ort_id ) ) . '">' . esc_html( $ort ) . '</a>';
-                    } else {
-                        echo esc_html( $ort );
-                    }
-                ?></span></div><?php endif; ?>
-                <?php
-                if ( ! empty( $termin['saisonal'] ) ) {
-                    $ist_winter   = $termin['aktiv'] === 'winter';
-                    $andere       = $ist_winter ? $termin['sommer'] : $termin['winter'];
-                    $andere_label = $ist_winter ? '☀️ Im Sommer' : '❄️ Im Winter';
-                    if ( ! $ist_winter && ! empty( $termin['winter']['pause'] ) ) {
-                        $andere_wert = 'pausiert – kein Training';
-                    } else {
-                        $andere_wert = trim( tgs_zeit_display( $andere['zeit'], $andere['ende'] ) . ' · ' . $andere['ort'], ' ·' );
-                    }
-                    if ( $andere_wert ) {
-                        echo '<div class="tgs-kd-info-season">' . $andere_label . ': <span>' . esc_html( $andere_wert ) . '</span></div>';
-                    }
-                }
-                ?>
+                <?php if ( $ort ) : ?><div class="tgs-kd-info-row"><strong>Ort</strong><span><?php echo tgs_ort_html( $ort, ! empty( $termin['ort_id'] ) ? $termin['ort_id'] : 0 ); ?></span></div><?php endif; ?>
                 <?php if ( $zielgr ) : ?><div class="tgs-kd-info-row"><strong>Zielgruppe</strong><span><?php echo esc_html( $zielgr ); ?></span></div><?php endif; ?>
                 <?php
                 if ( function_exists( 'tgs_kurs_altersgrenzen' ) ) {
@@ -450,6 +428,23 @@ function tgs_shortcode_kurs_detail() {
                 ?>
                 <?php if ( $mitbr ) : ?><div class="tgs-kd-info-row"><strong>Mitbringen</strong><span><?php echo esc_html( $mitbr ); ?></span></div><?php endif; ?>
                 <?php if ( $max_tn ) : ?><div class="tgs-kd-info-row"><strong>Max. Teiln.</strong><span><?php echo esc_html( $max_tn ); ?></span></div><?php endif; ?>
+                <?php
+                if ( ! empty( $termin['saisonal'] ) ) {
+                    $ist_winter = $termin['aktiv'] === 'winter';
+                    $andere     = $ist_winter ? $termin['sommer'] : $termin['winter'];
+                    $lbl        = $ist_winter ? '☀️ Im Sommer' : '❄️ Im Winter';
+                    if ( ! $ist_winter && ! empty( $termin['winter']['pause'] ) ) {
+                        $wert = 'pausiert – kein Training';
+                    } else {
+                        $zt   = tgs_zeit_display( $andere['zeit'], $andere['ende'] );
+                        $ol   = tgs_ort_html( $andere['ort'], isset( $andere['ort_id'] ) ? $andere['ort_id'] : 0 );
+                        $wert = trim( esc_html( $zt ) . ( $zt && $andere['ort'] ? ' · ' : '' ) . $ol );
+                    }
+                    if ( $wert ) {
+                        echo '<div class="tgs-kd-info-season">' . $lbl . ': <span>' . $wert . '</span></div>';
+                    }
+                }
+                ?>
             </div>
 
             <?php
@@ -494,7 +489,10 @@ function tgs_shortcode_navigation() {
         'Kontakt'      => '/kontakt',
     ) );
 
-    $html = '<nav class="tgs-main-nav"><ul class="tgs-nav-list">';
+    $html  = '<nav class="tgs-main-nav">';
+    $html .= '<input type="checkbox" id="tgs-nav-toggle" class="tgs-nav-toggle" aria-label="Menü ein-/ausblenden">';
+    $html .= '<label for="tgs-nav-toggle" class="tgs-nav-burger">☰ <span>Menü</span></label>';
+    $html .= '<ul class="tgs-nav-list">';
     foreach ( $items as $label => $url ) {
         $href = ( strpos( $url, 'http' ) === 0 ) ? $url : home_url( $url );
         $html .= '<li><a href="' . esc_url( $href ) . '">' . esc_html( $label ) . '</a></li>';

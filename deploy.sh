@@ -10,7 +10,7 @@ fi
 FTP_HOST="${FTP_HOST:-ftp.tgs-langenhain.de}"
 FTP_USER="${FTP_USER:-389410-claudeai}"
 FTP_PASS="${FTP_PASS:-}"
-REMOTE_PATH="/wordpress/wp-content/themes/tgs-langenhain-theme"
+REMOTE_PATH="${FTP_REMOTE_PATH:-/wordpress/wp-content/themes/tgs-langenhain-theme}"
 
 if [ -z "$FTP_PASS" ]; then
     echo "❌ FTP_PASS nicht gesetzt. Bitte .env Datei anlegen."

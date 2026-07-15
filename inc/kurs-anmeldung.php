@@ -55,6 +55,42 @@ function tgs_register_cpt_anmeldung() {
 }
 add_action( 'init', 'tgs_register_cpt_anmeldung' );
 
+/** CPT „Fragen zum Kurs" (vor der Anmeldung gestellte Fragen; Basis für spätere FAQ). */
+function tgs_register_cpt_frage() {
+    register_post_type( 'tgs_frage', array(
+        'labels' => array(
+            'name'          => 'Kurs-Fragen',
+            'singular_name' => 'Frage',
+            'menu_name'     => 'Kurs-Fragen',
+            'all_items'     => 'Alle Fragen',
+        ),
+        'public'        => false,
+        'show_ui'       => true,
+        'show_in_menu'  => true,
+        'menu_icon'     => 'dashicons-format-chat',
+        'menu_position' => 9,
+        'supports'      => array( 'title' ),
+        'capabilities'  => array( 'create_posts' => 'do_not_allow' ), // nur systemseitig anlegen
+        'map_meta_cap'  => true,
+    ) );
+
+    foreach ( array(
+        '_tgs_frage_kurs_id' => 'integer',
+        '_tgs_frage_name'    => 'string',
+        '_tgs_frage_email'   => 'string',
+        '_tgs_frage_text'    => 'string',
+        '_tgs_frage_datum'   => 'string',
+        '_tgs_frage_status'  => 'string',   // 'neu' | 'beantwortet'
+        '_tgs_frage_antwort' => 'string',   // spätere FAQ-Stufe
+        '_tgs_frage_faq'     => 'string',   // '1' = als FAQ freigegeben (spätere Stufe)
+    ) as $key => $type ) {
+        register_post_meta( 'tgs_frage', $key, array(
+            'show_in_rest' => false, 'single' => true, 'type' => $type,
+        ) );
+    }
+}
+add_action( 'init', 'tgs_register_cpt_frage' );
+
 /* =========================================================================
  * Kapazität / Helfer
  * ========================================================================= */
@@ -319,9 +355,12 @@ function tgs_anmeldung_shortcode( $atts ) {
     }
 
     $message = '';
-    if ( isset( $_POST['tgs_anm_submit'] ) && isset( $_POST['tgs_anm_nonce'] )
-         && wp_verify_nonce( $_POST['tgs_anm_nonce'], 'tgs_anmeldung' ) ) {
-        $message = tgs_create_anmeldung( $kurs_id );
+    if ( isset( $_POST['tgs_anm_nonce'] ) && wp_verify_nonce( $_POST['tgs_anm_nonce'], 'tgs_anmeldung' ) ) {
+        if ( isset( $_POST['tgs_frage_submit'] ) ) {
+            $message = tgs_create_frage( $kurs_id );          // „Frage stellen"
+        } elseif ( isset( $_POST['tgs_anm_submit'] ) ) {
+            $message = tgs_create_anmeldung( $kurs_id );        // „Anmeldung absenden"
+        }
     }
 
     $cap     = tgs_kurs_capacity( $kurs_id );
@@ -334,7 +373,7 @@ function tgs_anmeldung_shortcode( $atts ) {
     <div class="tgs-anmeldung-form" id="tgs-anmeldung">
         <?php if ( $message ) : ?><div class="tgs-anm-message"><?php echo wp_kses_post( $message ); ?></div><?php endif; ?>
 
-        <h3 class="tgs-anm-title"><?php echo $is_full ? 'Auf die Warteliste' : 'Zum Kurs anmelden'; ?></h3>
+        <h3 class="tgs-anm-title"><?php echo $is_full ? 'Auf die Warteliste' : 'Zum Kurs anmelden'; ?> <span class="tgs-anm-title-sub">– oder kurz nachfragen</span></h3>
 
         <?php if ( $is_full ) : ?>
             <p class="tgs-anm-info tgs-anm-info--wait">Dieser Kurs ist aktuell voll. Du kannst dich auf die Warteliste setzen — wir benachrichtigen dich automatisch, sobald ein Platz frei wird.</p>
@@ -384,10 +423,14 @@ function tgs_anmeldung_shortcode( $atts ) {
             <div class="tgs-anm-field"><label for="tgs_anm_telefon">Telefon (optional)</label>
                 <input type="tel" id="tgs_anm_telefon" name="tgs_anm_telefon" placeholder="0173 ..."></div>
             <?php endif; ?>
-            <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht (optional)</label>
-                <textarea id="tgs_anm_nachricht" name="tgs_anm_nachricht" rows="3" placeholder="Fragen, Anmerkungen..."></textarea></div>
+            <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht / Frage (optional)</label>
+                <textarea id="tgs_anm_nachricht" name="tgs_anm_nachricht" rows="3" placeholder="z. B. „Kann ich einmal unverbindlich reinschnuppern?“"></textarea></div>
             <div class="tgs-anm-field"><label><input type="checkbox" name="tgs_anm_dsgvo" required> Ich stimme der <a href="<?php echo esc_url( home_url( '/datenschutz' ) ); ?>" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *</label></div>
-            <button type="submit" name="tgs_anm_submit" class="tgs-anm-submit"><?php echo $is_full ? 'Auf Warteliste setzen' : 'Anmeldung absenden'; ?></button>
+            <div class="tgs-anm-frage-hint">💬 <strong>Nur eine Frage?</strong> Schreib sie oben ins Feld „Nachricht / Frage" und klick „Frage stellen" — anmelden musst du dich dafür nicht. Deine Frage geht direkt an die Kursleitung.</div>
+            <div class="tgs-anm-btns">
+                <button type="submit" name="tgs_anm_submit" class="tgs-anm-submit"><?php echo $is_full ? 'Auf Warteliste setzen' : 'Anmeldung absenden'; ?></button>
+                <button type="submit" name="tgs_frage_submit" formnovalidate class="tgs-anm-frage-btn">Frage stellen</button>
+            </div>
         </form>
     </div>
     <?php
@@ -489,6 +532,72 @@ function tgs_create_anmeldung( $kurs_id ) {
     tgs_mail_optin( $anm_id );
 
     return '<p class="tgs-anm-success"><strong>Fast geschafft!</strong> Wir haben dir eine E-Mail geschickt. Bitte klicke auf den Bestätigungslink darin — erst dann ist deine Anmeldung gültig.</p>';
+}
+
+/**
+ * Speichert eine Frage zum Kurs und benachrichtigt die Kursleitung (Reply-To = Fragende).
+ * Keine Anmeldung, kein Platz belegt. Gibt die HTML-Statusmeldung fürs Formular zurück.
+ */
+function tgs_create_frage( $kurs_id ) {
+    // Name/E-Mail aus dem jeweils sichtbaren Feld (Kinderkurs nutzt k1_*)
+    $name  = sanitize_text_field( $_POST['tgs_anm_name'] ?? ( $_POST['tgs_anm_k1_name'] ?? '' ) );
+    $email = sanitize_email( $_POST['tgs_anm_email'] ?? ( $_POST['tgs_anm_k1_email'] ?? '' ) );
+    $text  = sanitize_textarea_field( $_POST['tgs_anm_nachricht'] ?? '' );
+
+    if ( empty( $name ) || empty( $email ) || ! is_email( $email ) ) {
+        return '<p class="tgs-anm-error">Für deine Frage brauchen wir deinen Namen und eine gültige E-Mail-Adresse (für die Antwort).</p>';
+    }
+    if ( $text === '' ) {
+        return '<p class="tgs-anm-error">Bitte schreib deine Frage ins Feld „Nachricht / Frage".</p>';
+    }
+    if ( empty( $_POST['tgs_anm_dsgvo'] ) ) {
+        return '<p class="tgs-anm-error">Bitte stimme der Datenschutzerklärung zu.</p>';
+    }
+
+    $frage_id = wp_insert_post( array(
+        'post_type'   => 'tgs_frage',
+        'post_status' => 'publish',
+        'post_title'  => sprintf( 'Frage: %s — %s', $name, get_the_title( $kurs_id ) ),
+    ) );
+    if ( is_wp_error( $frage_id ) ) {
+        return '<p class="tgs-anm-error">Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.</p>';
+    }
+    update_post_meta( $frage_id, '_tgs_frage_kurs_id', $kurs_id );
+    update_post_meta( $frage_id, '_tgs_frage_name', $name );
+    update_post_meta( $frage_id, '_tgs_frage_email', $email );
+    update_post_meta( $frage_id, '_tgs_frage_text', $text );
+    update_post_meta( $frage_id, '_tgs_frage_datum', current_time( 'Y-m-d H:i:s' ) );
+    update_post_meta( $frage_id, '_tgs_frage_status', 'neu' );
+
+    tgs_mail_frage_an_leitung( $frage_id );
+
+    return '<p class="tgs-anm-success"><strong>Danke für deine Frage!</strong> Sie ist bei der Kursleitung angekommen — die Antwort kommt per E-Mail an dich.</p>';
+}
+
+/** Benachrichtigt die Kursleitung über eine neue Frage; Reply-To = Fragende (direkte Antwort möglich). */
+function tgs_mail_frage_an_leitung( $frage_id ) {
+    $kurs_id = (int) get_post_meta( $frage_id, '_tgs_frage_kurs_id', true );
+    $kl      = sanitize_email( get_post_meta( $kurs_id, '_tgs_ansprechpartner_email', true ) );
+    if ( ! $kl || ! is_email( $kl ) ) $kl = get_option( 'admin_email' );
+
+    $name  = get_post_meta( $frage_id, '_tgs_frage_name', true );
+    $email = get_post_meta( $frage_id, '_tgs_frage_email', true );
+    $text  = get_post_meta( $frage_id, '_tgs_frage_text', true );
+    $kurs  = get_the_title( $kurs_id );
+
+    $body = tgs_mail_wrap(
+        '<p>Zum Kurs <strong>' . esc_html( $kurs ) . '</strong> ist eine Frage eingegangen:</p>'
+        . '<blockquote style="margin:0 0 16px;padding:10px 14px;border-left:3px solid #3D5A40;background:#f4f6f1;">' . nl2br( esc_html( $text ) ) . '</blockquote>'
+        . '<p><strong>Von:</strong> ' . esc_html( $name ) . ' (' . esc_html( $email ) . ')</p>'
+        . '<p>Du kannst direkt auf diese E-Mail <em>antworten</em> — die Antwort geht dann an ' . esc_html( $name ) . '.</p>'
+    );
+
+    // header-sicherer Name (keine Zeilenumbrüche/Sonderzeichen)
+    $hname     = trim( str_replace( array( "\r", "\n", ',', '<', '>', '"' ), '', (string) $name ) );
+    $headers   = tgs_mail_headers();
+    $headers[] = 'Reply-To: ' . ( $hname !== '' ? '"' . $hname . '" ' : '' ) . '<' . $email . '>';
+
+    wp_mail( $kl, 'Frage zum Kurs: ' . $kurs, $body, $headers );
 }
 
 /* =========================================================================
@@ -817,8 +926,44 @@ function tgs_notify_leader( $anm_id, $art ) {
  * ========================================================================= */
 function tgs_add_kurs_anmeldungen_metabox() {
     add_meta_box( 'tgs_kurs_anmeldungen', 'Anmeldungen zu diesem Kurs', 'tgs_kurs_anmeldungen_metabox_html', 'tgs_kurs', 'normal', 'default' );
+    add_meta_box( 'tgs_kurs_fragen', 'Fragen zu diesem Kurs', 'tgs_kurs_fragen_metabox_html', 'tgs_kurs', 'normal', 'default' );
 }
 add_action( 'add_meta_boxes', 'tgs_add_kurs_anmeldungen_metabox' );
+
+/** Backend-Box: Fragen zu diesem Kurs (MVP: anzeigen; Antwort/FAQ folgt später). */
+function tgs_kurs_fragen_metabox_html( $post ) {
+    $fragen = get_posts( array(
+        'post_type'   => 'tgs_frage',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'orderby'     => 'date',
+        'order'       => 'DESC',
+        'meta_query'  => array( array( 'key' => '_tgs_frage_kurs_id', 'value' => $post->ID ) ),
+    ) );
+
+    if ( ! $fragen ) {
+        echo '<p style="color:#666;">Noch keine Fragen zu diesem Kurs.</p>';
+        return;
+    }
+
+    echo '<table class="widefat striped"><thead><tr><th>Datum</th><th>Von</th><th>Frage</th></tr></thead><tbody>';
+    foreach ( $fragen as $f ) {
+        $name  = get_post_meta( $f->ID, '_tgs_frage_name', true );
+        $email = get_post_meta( $f->ID, '_tgs_frage_email', true );
+        $text  = get_post_meta( $f->ID, '_tgs_frage_text', true );
+        $datum = get_post_meta( $f->ID, '_tgs_frage_datum', true );
+        printf(
+            '<tr><td style="white-space:nowrap;">%s</td><td>%s<br><a href="mailto:%s">%s</a></td><td>%s</td></tr>',
+            esc_html( mysql2date( 'd.m.Y H:i', $datum ) ),
+            esc_html( $name ),
+            esc_attr( $email ),
+            esc_html( $email ),
+            nl2br( esc_html( $text ) )
+        );
+    }
+    echo '</tbody></table>';
+    echo '<p class="description" style="margin-top:8px;">Die Kursleitung wurde per E-Mail benachrichtigt (mit Antwort-Adresse der fragenden Person). Antworten/FAQ-Freigabe folgt in einer späteren Ausbaustufe.</p>';
+}
 
 function tgs_kurs_anm_list( $kurs_id, $status ) {
     return get_posts( array(

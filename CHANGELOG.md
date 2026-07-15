@@ -1,3 +1,10 @@
+## [0.21.0] — 2026-07-13
+
+### Neu — Frage zum Kurs (ein Formular, zwei Aktionen) · Issue #16 (MVP)
+- Das Kurs-Anmeldeformular hat jetzt zwei Aktionen: **„Anmeldung absenden"** oder **„Frage stellen"** – kein zweites Kontaktformular. „Frage stellen" (mit `formnovalidate`) braucht nur Name, E-Mail und die Frage; die Anmelde-Pflichtfelder werden übersprungen.
+- Fragen werden als CPT `tgs_frage` im Kurs-Kontext gespeichert (Basis für spätere FAQ) und der Kursleitung per E-Mail gemeldet – mit **`Reply-To` = fragende Person**, sodass ein direktes „Antworten" genügt. Die Kursleiter-Adresse steht nirgends öffentlich.
+- Backend: Box „Fragen zu diesem Kurs" im Kurs-Editor (Datum, Absender, Frage).
+- Formular-Titel „… – oder kurz nachfragen", Feld „Nachricht / Frage", Hinweis-Kasten. Antwort-Loop + öffentliche FAQ folgen als spätere Ausbaustufe.
 ## [0.20.5] — 2026-07-13
 
 ### Geändert — Spam-Schutz für E-Mail-Adressen

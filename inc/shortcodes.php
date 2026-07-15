@@ -221,7 +221,7 @@ function tgs_shortcode_ansprechpartner() {
         $html .= '<div class="tgs-kontakt-role">' . esc_html( $abt->post_title ) . '</div>';
         $html .= '<div class="tgs-kontakt-name">' . esc_html( $name ) . '</div>';
         if ( $email ) {
-            $html .= '<a href="mailto:' . esc_attr( $email ) . '" class="tgs-kontakt-mail">' . esc_html( $email ) . '</a>';
+            $html .= tgs_mail_link( $email, '', 'class="tgs-kontakt-mail"' );
         }
         $html .= '</div>';
     }
@@ -402,7 +402,7 @@ function tgs_shortcode_kurs_detail() {
             <div class="tgs-kd-ap">
                 <strong>Ansprechpartner:</strong><br>
                 <?php echo esc_html( $ap_name ); ?>
-                <?php if ( $ap_email ) : ?> · <a href="mailto:<?php echo esc_attr( $ap_email ); ?>"><?php echo esc_html( $ap_email ); ?></a><?php endif; ?>
+                <?php if ( $ap_email ) : ?> · <?php echo tgs_mail_link( $ap_email ); ?><?php endif; ?>
                 <?php if ( $ap_tel ) : ?> · <?php echo esc_html( $ap_tel ); ?><?php endif; ?>
             </div>
             <?php endif; ?>
@@ -758,7 +758,7 @@ function tgs_shortcode_abteilung_detail() {
                 <div style="font-size:13px;font-weight:700;color:#1A2A1E;margin-bottom:.2rem;"><?php echo esc_html( $leitung ); ?></div>
                 <div style="font-size:11px;color:#999;margin-bottom:.3rem;">Abteilungsleitung</div>
                 <?php if ( $email ) : ?>
-                    <a href="mailto:<?php echo esc_attr( $email ); ?>" style="font-size:11px;color:#3D5A40;font-weight:600;">✉️ <?php echo esc_html( $email ); ?></a>
+                    <span style="font-size:11px;color:#3D5A40;font-weight:600;">✉️ <?php echo tgs_mail_link( $email ); ?></span>
                 <?php endif; ?>
                 <?php if ( $stv ) : ?>
                     <div style="margin-top:.6rem;padding-top:.5rem;border-top:1px solid #E4DDD0;">

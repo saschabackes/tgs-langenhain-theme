@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.20.4' );
+define( 'TGS_VERSION', '0.20.5' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -210,6 +210,26 @@ add_shortcode( 'tgs_logo', 'tgs_shortcode_logo' );
  */
 function tgs_strip_ws( $html ) {
     return trim( preg_replace( '/>\s+</', '><', (string) $html ) );
+}
+
+/**
+ * Mailto-Link mit Spam-Schutz gegen Crawler.
+ *
+ * Nutzt WordPress' antispambot(): die Adresse wird in zufällige HTML-Entities
+ * verschleiert (schlägt die üblichen Harvester ab) – ganz ohne JavaScript,
+ * Copy-&-Paste und Screenreader funktionieren normal.
+ *
+ * @param string $email  E-Mail-Adresse.
+ * @param string $label  Optionaler sichtbarer Text; leer = (verschleierte) Adresse.
+ * @param string $attr   Optionale zusätzliche Attribute für das <a> (z. B. 'class="x"').
+ * @return string        Fertiges <a>…</a> oder '' bei ungültiger Adresse.
+ */
+function tgs_mail_link( $email, $label = '', $attr = '' ) {
+    $email = trim( (string) $email );
+    if ( $email === '' || ! is_email( $email ) ) return '';
+    $href = antispambot( 'mailto:' . $email );
+    $text = ( $label !== '' ) ? esc_html( $label ) : antispambot( $email );
+    return '<a href="' . $href . '"' . ( $attr ? ' ' . $attr : '' ) . '>' . $text . '</a>';
 }
 
 /**

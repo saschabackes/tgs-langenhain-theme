@@ -36,7 +36,7 @@ function tgs_rechtstext_anschrift( $d ) {
     return '<address>' . esc_html( $d['verein'] ) . '<br>'
         . esc_html( $d['strasse'] ) . '<br>'
         . esc_html( $d['plz_ort'] ) . '<br>'
-        . 'E-Mail: <a href="mailto:' . esc_attr( $d['email'] ) . '">' . esc_html( $d['email'] ) . '</a>'
+        . 'E-Mail: ' . tgs_mail_link( $d['email'] )
         . $tel . '</address>';
 }
 
@@ -61,7 +61,7 @@ function tgs_shortcode_impressum() {
         Registernummer: <?php echo esc_html( $d['vr'] ); ?></p>
 
         <h2>Kontakt</h2>
-        <p>E-Mail: <a href="mailto:<?php echo esc_attr( $d['email'] ); ?>"><?php echo esc_html( $d['email'] ); ?></a><?php if ( $d['telefon'] ) echo '<br>Telefon: ' . esc_html( $d['telefon'] ); ?><br>
+        <p>E-Mail: <?php echo tgs_mail_link( $d['email'] ); ?><?php if ( $d['telefon'] ) echo '<br>Telefon: ' . esc_html( $d['telefon'] ); ?><br>
         Über unser <a href="/kontakt">Kontaktformular</a> erreichst du uns ebenfalls.</p>
 
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>

@@ -1,3 +1,7 @@
+## [0.20.5] — 2026-07-13
+
+### Geändert — Spam-Schutz für E-Mail-Adressen
+- Öffentlich angezeigte E-Mail-Adressen (Ansprechpartner auf Startseite, Kurs-Detail, Abteilungs-Detail, Impressum, Datenschutz) sind jetzt gegen Crawler verschleiert. Zentraler Helper `tgs_mail_link()` mit WordPress' `antispambot()` (zufällige HTML-Entities) – ohne JavaScript, Copy-&-Paste und Screenreader funktionieren weiter. Backend-Listen (nur im wp-admin) bleiben unverändert.
 ## [0.20.4] — 2026-07-13
 
 ### Behoben — Mobile Header

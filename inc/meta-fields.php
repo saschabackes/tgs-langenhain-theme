@@ -81,6 +81,7 @@ function tgs_register_meta_fields() {
         '_tgs_ansprechpartner' => 'string',
         '_tgs_ansprechpartner_email' => 'string',
         '_tgs_ansprechpartner_tel'   => 'string',
+        '_tgs_ansprechpartner_foto'  => 'integer', // Kursleitung-Foto (Attachment-ID), crawler-geschützt gerendert
         '_tgs_mitbringen'      => 'string',
     );
 
@@ -171,6 +172,17 @@ function tgs_add_kurs_meta_boxes() {
 }
 add_action( 'add_meta_boxes', 'tgs_add_kurs_meta_boxes' );
 
+/** WordPress-Mediathek auf der Kurs-Bearbeitungsseite laden (für den Foto-Picker). */
+function tgs_kurs_admin_media( $hook ) {
+    if ( in_array( $hook, array( 'post.php', 'post-new.php' ), true ) ) {
+        $screen = get_current_screen();
+        if ( $screen && $screen->post_type === 'tgs_kurs' ) {
+            wp_enqueue_media();
+        }
+    }
+}
+add_action( 'admin_enqueue_scripts', 'tgs_kurs_admin_media' );
+
 /**
  * Meta box "Kursbeschreibung" — die strukturierten Textfelder (festes Template).
  */
@@ -233,6 +245,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_ansprechpartner' => array( 'label' => 'Ansprechpartner (Name)', 'type' => 'text' ),
         '_tgs_ansprechpartner_email' => array( 'label' => 'E-Mail Ansprechpartner', 'type' => 'email' ),
         '_tgs_ansprechpartner_tel'   => array( 'label' => 'Telefon Ansprechpartner', 'type' => 'tel' ),
+        '_tgs_ansprechpartner_foto'  => array( 'label' => 'Kursleitung-Foto', 'type' => 'media', 'note' => 'Wird auf der Kursseite crawler-geschützt angezeigt (neutrales „alt", Name per Skript). Tipp: mit <strong>neutralem Dateinamen</strong> hochladen (nicht „vorname-nachname.jpg").' ),
         '_tgs_mitbringen'      => array( 'label' => 'Mitbringen', 'type' => 'text', 'placeholder' => 'z.B. Yogamatte, Sportkleidung' ),
     );
 
@@ -291,6 +304,14 @@ function tgs_kurs_meta_box_html( $post ) {
                 esc_attr( $key ), esc_attr( $key ), esc_attr( $value )
             );
             echo '<p class="description">Sportstätte auswählen <em>oder</em> unten frei eintippen. Bei Auswahl wird der Ort automatisch mit der Sportstätten-Seite verlinkt.</p>';
+        } elseif ( $field['type'] === 'media' ) {
+            $att_id = (int) get_post_meta( $post->ID, $key, true );
+            echo '<div class="tgs-media-field">';
+            echo '<input type="hidden" id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $att_id ) . '">';
+            echo '<div class="tgs-media-preview" style="margin-bottom:8px;">' . ( $att_id ? wp_get_attachment_image( $att_id, array( 90, 90 ) ) : '' ) . '</div>';
+            echo '<button type="button" class="button tgs-media-choose">Foto wählen</button> ';
+            echo '<button type="button" class="button tgs-media-remove"' . ( $att_id ? '' : ' style="display:none;"' ) . '>Entfernen</button>';
+            echo '</div>';
         } else {
             printf(
                 '<input type="%s" id="%s" name="%s" value="%s" class="regular-text" placeholder="%s">',
@@ -325,6 +346,28 @@ function tgs_kurs_meta_box_html( $post ) {
             var updO = function(){ var chosen = pk.value !== ''; txt.disabled = chosen; txt.style.opacity = chosen ? '.5' : '1'; };
             pk.addEventListener('change', updO); updO();
         });
+        // Foto-Picker (WordPress-Mediathek)
+        document.querySelectorAll('.tgs-media-field').forEach(function(f){
+            var input = f.querySelector('input[type=hidden]');
+            var prev  = f.querySelector('.tgs-media-preview');
+            var rem   = f.querySelector('.tgs-media-remove');
+            var frame;
+            f.querySelector('.tgs-media-choose').addEventListener('click', function(e){
+                e.preventDefault();
+                if ( frame ) { frame.open(); return; }
+                if ( ! window.wp || ! wp.media ) return;
+                frame = wp.media({ title: 'Foto wählen', button: { text: 'Übernehmen' }, multiple: false, library: { type: 'image' } });
+                frame.on('select', function(){
+                    var a = frame.state().get('selection').first().toJSON();
+                    input.value = a.id;
+                    var url = ( a.sizes && a.sizes.thumbnail ) ? a.sizes.thumbnail.url : a.url;
+                    prev.innerHTML = '<img src="' + url + '" style="max-width:90px;height:auto;border-radius:6px;">';
+                    rem.style.display = '';
+                });
+                frame.open();
+            });
+            rem.addEventListener('click', function(e){ e.preventDefault(); input.value = ''; prev.innerHTML = ''; rem.style.display = 'none'; });
+        });
     })();
     </script>
     <?php
@@ -342,7 +385,7 @@ function tgs_save_kurs_meta( $post_id ) {
         '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
         '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder',
         '_tgs_kurs_alter_min', '_tgs_kurs_alter_max',
-        '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel',
+        '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel', '_tgs_ansprechpartner_foto',
         '_tgs_mitbringen',
     );
 

@@ -180,6 +180,14 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-kd-content { font-size: 16px; color: #44433b; line-height: 1.75; }
 .tgs-kd-content p { margin-bottom: .9rem; }
 .tgs-kd-ap { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--tgs-border); font-size: 15px; }
+/* Kursleitung-Karte (Trainer-Schutz: neutrales Foto-alt, Name per JS) */
+.tgs-kd-leitung { margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--tgs-border); display: flex; align-items: center; gap: 14px; }
+.tgs-kd-leitung-foto img { width: 64px; height: 64px; object-fit: cover; border-radius: 50%; display: block; box-shadow: 0 2px 8px rgba(26,42,30,.15); }
+.tgs-kd-leitung-txt { display: flex; flex-direction: column; gap: 2px; }
+.tgs-kd-leitung-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #9a9488; }
+.tgs-kd-leitung-name { font-size: 16px; font-weight: 700; color: var(--tgs-ink); }
+.tgs-kd-leitung-contact { font-size: 13px; color: var(--tgs-muted); }
+.tgs-kd-leitung-contact a { color: var(--tgs-green); font-weight: 600; }
 .tgs-kd-info-box { background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 10px; padding: 1.1rem; margin-bottom: .8rem; }
 .tgs-kd-info-title { font-size: 11px; font-weight: 700; color: var(--tgs-ink); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .6rem; }
 .tgs-kd-info-row { font-size: 14px; color: #44433b; margin-bottom: .55rem; display: grid; grid-template-columns: 38% 1fr; gap: .6rem; align-items: start; }

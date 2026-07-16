@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.21.0' );
+define( 'TGS_VERSION', '0.22.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -230,6 +230,24 @@ function tgs_mail_link( $email, $label = '', $attr = '' ) {
     $href = antispambot( 'mailto:' . $email );
     $text = ( $label !== '' ) ? esc_html( $label ) : antispambot( $email );
     return '<a href="' . $href . '"' . ( $attr ? ' ' . $attr : '' ) . '>' . $text . '</a>';
+}
+
+/**
+ * Trainer-/Kursleiter-Name crawler-geschützt ausgeben.
+ *
+ * Der Klartext-Name steht NICHT im HTML: Er wird base64-kodiert in ein
+ * data-Attribut gelegt und per JavaScript (theme.js) eingesetzt. Ohne
+ * JavaScript erscheint der Fallback. So lässt sich der Name nicht einfach
+ * mit dem (neutral betitelten) Foto zu einem Profil verknüpfen.
+ *
+ * @param string $name
+ * @param string $fallback  Sichtbarer Text ohne JS.
+ * @return string
+ */
+function tgs_trainer_name_html( $name, $fallback = 'Kursleitung' ) {
+    $name = trim( (string) $name );
+    if ( $name === '' ) return '';
+    return '<span class="tgs-guard-name" data-n="' . esc_attr( base64_encode( $name ) ) . '">' . esc_html( $fallback ) . '</span>';
 }
 
 /**

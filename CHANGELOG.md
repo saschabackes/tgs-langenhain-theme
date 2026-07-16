@@ -1,3 +1,12 @@
+## [0.22.0] — 2026-07-13
+
+### Neu — Geschützte Kursleitung (Trainer-Block, crawler-sicher)
+- Neues Feld „Kursleitung-Foto" im Kurs-Editor (WordPress-Mediathek-Picker). Der „Ansprechpartner"-Block auf der Kursseite ist jetzt eine „Kursleitung"-Karte mit rundem Foto + Name + Kontakt.
+- Schutz gegen automatisches Abgreifen/Verknüpfen von Name+Foto zu einem Profil:
+  - **Name** steht nicht im HTML-Quelltext: base64-kodiert im data-Attribut, per JavaScript eingesetzt (Helper `tgs_trainer_name_html()` + `initGuardNames()`); ohne JS erscheint „Kursleitung".
+  - **Foto** mit neutralem `alt="Kursleitung"` (kein Name), `loading=lazy` → keine Name↔Bild-Kopplung im Markup.
+  - **E-Mail** als „E-Mail schreiben"-Link (Adresse via antispambot verschleiert, kein Klartext).
+- Ehrliche Grenze: Perfekter Schutz für öffentlich Sichtbares ist nicht möglich (JS-/OCR-Crawler); dies wehrt das einfache, automatische Harvesting zuverlässig ab.
 ## [0.21.0] — 2026-07-13
 
 ### Neu — Frage zum Kurs (ein Formular, zwei Aktionen) · Issue #16 (MVP)

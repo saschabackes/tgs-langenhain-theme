@@ -112,10 +112,24 @@
         });
     }
 
+    /**
+     * Crawler-geschützte Namen (Trainer/Kursleitung) einsetzen.
+     * Der Name steht base64-kodiert in data-n; Klartext erst per JS.
+     */
+    function initGuardNames() {
+        document.querySelectorAll('.tgs-guard-name[data-n]').forEach(function (el) {
+            try {
+                el.textContent = decodeURIComponent(escape(atob(el.getAttribute('data-n'))));
+                el.removeAttribute('data-n');
+            } catch (e) { /* Fallback-Text bleibt stehen */ }
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
         initCallConfirm();
         initVideoFacade();
+        initGuardNames();
     });
 })();

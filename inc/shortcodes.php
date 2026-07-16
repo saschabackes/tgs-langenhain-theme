@@ -338,6 +338,7 @@ function tgs_shortcode_kurs_detail() {
     $ap_name   = get_post_meta( $post_id, '_tgs_ansprechpartner', true );
     $ap_email  = get_post_meta( $post_id, '_tgs_ansprechpartner_email', true );
     $ap_tel    = get_post_meta( $post_id, '_tgs_ansprechpartner_tel', true );
+    $ap_foto   = (int) get_post_meta( $post_id, '_tgs_ansprechpartner_foto', true );
     $terms     = get_the_terms( $post_id, 'tgs_kurs_kategorie' );
     $kat       = $terms ? $terms[0]->name : '';
 
@@ -398,12 +399,19 @@ function tgs_shortcode_kurs_detail() {
             </div>
             <?php endif; ?>
 
-            <?php if ( $ap_name ) : ?>
-            <div class="tgs-kd-ap">
-                <strong>Ansprechpartner:</strong><br>
-                <?php echo esc_html( $ap_name ); ?>
-                <?php if ( $ap_email ) : ?> · <?php echo tgs_mail_link( $ap_email ); ?><?php endif; ?>
-                <?php if ( $ap_tel ) : ?> · <?php echo esc_html( $ap_tel ); ?><?php endif; ?>
+            <?php if ( $ap_name || $ap_foto ) : ?>
+            <div class="tgs-kd-leitung">
+                <?php if ( $ap_foto ) : ?>
+                <div class="tgs-kd-leitung-foto"><?php echo wp_get_attachment_image( $ap_foto, array( 88, 88 ), false, array( 'alt' => 'Kursleitung', 'loading' => 'lazy' ) ); ?></div>
+                <?php endif; ?>
+                <div class="tgs-kd-leitung-txt">
+                    <span class="tgs-kd-leitung-label">Kursleitung</span>
+                    <?php if ( $ap_name ) : ?><span class="tgs-kd-leitung-name"><?php echo tgs_trainer_name_html( $ap_name ); ?></span><?php endif; ?>
+                    <span class="tgs-kd-leitung-contact">
+                        <?php if ( $ap_email ) echo tgs_mail_link( $ap_email, 'E-Mail schreiben' ); ?>
+                        <?php if ( $ap_tel ) : ?><?php echo $ap_email ? ' · ' : ''; ?><?php echo esc_html( $ap_tel ); ?><?php endif; ?>
+                    </span>
+                </div>
             </div>
             <?php endif; ?>
 

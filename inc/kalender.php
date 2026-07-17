@@ -35,6 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /** Text für iCal maskieren (Reihenfolge wichtig: Backslash zuerst). */
 function tgs_ics_esc( $text ) {
     $text = wp_strip_all_tags( (string) $text );
+    // Entities auflösen: Titel enthalten durch wptexturize z. B. „ als &#8220;
+    // – im Kalender stünde sonst wörtlich „&#8220;“ statt des Zeichens.
+    $text = html_entity_decode( $text, ENT_QUOTES, 'UTF-8' );
     $text = str_replace( array( "\r\n", "\r" ), "\n", $text );
     $text = str_replace( array( '\\', ';', ',' ), array( '\\\\', '\\;', '\\,' ), $text );
     return str_replace( "\n", '\\n', $text );
@@ -500,6 +503,16 @@ function tgs_ics_maybe_flush() {
 add_action( 'init', 'tgs_ics_maybe_flush', 99 );
 add_action( 'after_switch_theme', 'flush_rewrite_rules' );
 
+/**
+ * WordPress hängt sonst per Canonical-Redirect einen Schrägstrich an
+ * (…/kurse.ics → …/kurse.ics/). Manche Kalender-Clients folgen Redirects
+ * nicht sauber, deshalb wird der Feed direkt ausgeliefert.
+ */
+function tgs_ics_no_canonical( $redirect ) {
+    return get_query_var( 'tgs_ics' ) ? false : $redirect;
+}
+add_filter( 'redirect_canonical', 'tgs_ics_no_canonical' );
+
 function tgs_ics_serve() {
     $slug = get_query_var( 'tgs_ics' );
     if ( ! $slug ) return;
@@ -531,7 +544,8 @@ function tgs_ics_serve() {
     echo $body;
     exit;
 }
-add_action( 'template_redirect', 'tgs_ics_serve' );
+// Priorität 0: vor allen Umleitungen/Weiterleitungen anderer Hooks.
+add_action( 'template_redirect', 'tgs_ics_serve', 0 );
 
 /* =========================================================================
  * Frontend: Abo-Button

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.30.1' );
+define( 'TGS_VERSION', '0.30.2' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -238,6 +238,28 @@ function tgs_mail_link( $email, $label = '', $attr = '' ) {
     $href = antispambot( 'mailto:' . $email );
     $text = ( $label !== '' ) ? esc_html( $label ) : antispambot( $email );
     return '<a href="' . $href . '"' . ( $attr ? ' ' . $attr : '' ) . '>' . $text . '</a>';
+}
+
+/**
+ * Telefonnummer crawler-geschützt ausgeben – analog zu tgs_mail_link().
+ *
+ * Nutzt dasselbe antispambot() wie beim E-Mail-Schutz: die Ziffern werden in
+ * zufällige HTML-Entities verschleiert (schlägt naive Harvester ab). Ohne
+ * JavaScript, Anzeige/Copy/Screenreader funktionieren normal; als tel:-Link
+ * bleibt Antippen-zum-Anrufen erhalten.
+ *
+ * @param string $tel   Telefonnummer (Trennzeichen erlaubt).
+ * @param bool   $link  Als klickbaren tel:-Link ausgeben?
+ * @return string       Verschleierte Nummer/Link oder '' wenn leer.
+ */
+function tgs_tel_link( $tel, $link = true ) {
+    $tel = trim( (string) $tel );
+    if ( $tel === '' ) return '';
+    $display = antispambot( $tel );
+    if ( ! $link ) return $display;
+    $raw = preg_replace( '/[^0-9+]/', '', $tel ); // tel:-Ziel: nur Ziffern und +
+    if ( $raw === '' ) return $display;
+    return '<a href="' . antispambot( 'tel:' . $raw ) . '">' . $display . '</a>';
 }
 
 /**

@@ -198,7 +198,7 @@ function tgs_trainer_card_markup( $foto_id, $name, $bio, $email, $tel ) {
             <?php if ( $email || $tel ) : ?>
             <span class="tgs-kd-trainer-contact">
                 <?php if ( $email ) echo tgs_mail_link( $email, 'E-Mail schreiben' ); ?>
-                <?php if ( $tel ) : ?><?php echo $email ? ' · ' : ''; ?><?php echo esc_html( $tel ); ?><?php endif; ?>
+                <?php if ( $tel ) : ?><?php echo $email ? ' · ' : ''; ?><?php echo tgs_tel_link( $tel ); ?><?php endif; ?>
             </span>
             <?php endif; ?>
         </div>

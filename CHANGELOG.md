@@ -1,3 +1,9 @@
+## [0.30.2] — 2026-07-17
+
+### Neu — Telefonnummer der Kursleitung crawler-geschützt
+- Neuer Helfer `tgs_tel_link()` – **analog zu `tgs_mail_link()`** (dasselbe `antispambot()`): die Nummer steht nicht mehr im Klartext im Quelltext, sondern als zufällige HTML-Entities. Anzeige, Copy-&-Paste und Screenreader funktionieren normal; zusätzlich als `tel:`-Link (Antippen zum Anrufen).
+- In der Kursleitung-Karte ersetzt `tgs_tel_link( $tel )` die bisherige Klartext-Ausgabe. Damit sind jetzt **alle drei** Kontaktangaben geschützt: Name (base64 + JS), E-Mail und Telefon (beide antispambot).
+- Schutzniveau wie bei der E-Mail: stoppt naive Harvester, kein absoluter Schutz gegen rendernde Scraper. Die Vereins-Hauptnummer (Kontaktseite) bleibt bewusst offen – die ist wie bei einem Betrieb öffentlich; geschützt werden die persönlichen Nummern der Kursleitungen.
 ## [0.30.0] — 2026-07-17
 
 ### Geändert — Kursleitungen als eigener Bereich (statt pro Kurs pflegen)

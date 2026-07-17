@@ -1,3 +1,14 @@
+## [0.29.0] — 2026-07-17
+
+### Neu — Moderne Kursleitung-Vorstellung (optional, kein Steckbrief)
+- Neues Feld **„Kurze Vorstellung (optional)"** im Kurs-Editor (Textarea). Ein, zwei Sätze in warmem Ton – bewusst **kein** Steckbrief-Faktengitter.
+- Die bisherige „Kursleitung"-Karte ist zu einer editorialen Vorstellung geworden: Foto (rund, größer), Name in Serifenschrift, Vorstellungstext, Kontakt – dezent und modern.
+- **Passt sich sauber an, was vorhanden ist:**
+  - Foto + Vorstellung → volle, schicke Karte.
+  - **Kein Foto → kein Platzhalter/Avatar-Lücke:** der Text steht mit dezentem grünem Akzent für sich.
+  - Nur Foto + Name → funktioniert ohne leere Textzeile.
+  - **Nichts gesetzt (Kursleitung möchte nicht) → der Bereich erscheint gar nicht** auf der Kursseite; man sieht ihr das nicht an.
+- Der Name bleibt crawler-geschützt (base64 + JS wie bisher); das Foto behält das neutrale `alt`. Hinweis: Steht der Name im frei geschriebenen Vorstellungstext, ist er dort naturgemäß im Klartext – das ist die redaktionelle Entscheidung der Kursleitung.
 ## [0.28.1] — 2026-07-17
 
 ### Ergänzt — Nahkauf Box: optionaler Google-Maps-Link

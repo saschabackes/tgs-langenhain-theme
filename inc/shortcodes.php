@@ -339,6 +339,7 @@ function tgs_shortcode_kurs_detail() {
     $ap_email  = get_post_meta( $post_id, '_tgs_ansprechpartner_email', true );
     $ap_tel    = get_post_meta( $post_id, '_tgs_ansprechpartner_tel', true );
     $ap_foto   = (int) get_post_meta( $post_id, '_tgs_ansprechpartner_foto', true );
+    $ap_text   = trim( (string) get_post_meta( $post_id, '_tgs_ansprechpartner_text', true ) );
     $terms     = get_the_terms( $post_id, 'tgs_kurs_kategorie' );
     $kat       = $terms ? $terms[0]->name : '';
 
@@ -399,18 +400,25 @@ function tgs_shortcode_kurs_detail() {
             </div>
             <?php endif; ?>
 
-            <?php if ( $ap_name || $ap_foto ) : ?>
-            <div class="tgs-kd-leitung">
+            <?php
+            // Kursleitung-Vorstellung — komplett optional. Erscheint nur, wenn
+            // Foto, Name ODER Vorstellungstext gesetzt sind; sonst gar nicht.
+            // Ohne Foto kein Platzhalter — der Text steht dann für sich.
+            if ( $ap_name || $ap_foto || $ap_text ) : ?>
+            <div class="tgs-kd-trainer<?php echo $ap_foto ? '' : ' tgs-kd-trainer--nophoto'; ?>">
                 <?php if ( $ap_foto ) : ?>
-                <div class="tgs-kd-leitung-foto"><?php echo wp_get_attachment_image( $ap_foto, array( 88, 88 ), false, array( 'alt' => 'Kursleitung', 'loading' => 'lazy' ) ); ?></div>
+                <div class="tgs-kd-trainer-foto"><?php echo wp_get_attachment_image( $ap_foto, array( 240, 240 ), false, array( 'alt' => 'Kursleitung', 'loading' => 'lazy' ) ); ?></div>
                 <?php endif; ?>
-                <div class="tgs-kd-leitung-txt">
-                    <span class="tgs-kd-leitung-label">Kursleitung</span>
-                    <?php if ( $ap_name ) : ?><span class="tgs-kd-leitung-name"><?php echo tgs_trainer_name_html( $ap_name ); ?></span><?php endif; ?>
-                    <span class="tgs-kd-leitung-contact">
+                <div class="tgs-kd-trainer-txt">
+                    <span class="tgs-kd-trainer-label">Deine Kursleitung</span>
+                    <?php if ( $ap_name ) : ?><span class="tgs-kd-trainer-name"><?php echo tgs_trainer_name_html( $ap_name ); ?></span><?php endif; ?>
+                    <?php if ( $ap_text ) : ?><p class="tgs-kd-trainer-bio"><?php echo nl2br( esc_html( $ap_text ) ); ?></p><?php endif; ?>
+                    <?php if ( $ap_email || $ap_tel ) : ?>
+                    <span class="tgs-kd-trainer-contact">
                         <?php if ( $ap_email ) echo tgs_mail_link( $ap_email, 'E-Mail schreiben' ); ?>
                         <?php if ( $ap_tel ) : ?><?php echo $ap_email ? ' · ' : ''; ?><?php echo esc_html( $ap_tel ); ?><?php endif; ?>
                     </span>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endif; ?>

@@ -83,6 +83,7 @@ function tgs_register_meta_fields() {
         '_tgs_ansprechpartner_email' => 'string',
         '_tgs_ansprechpartner_tel'   => 'string',
         '_tgs_ansprechpartner_foto'  => 'integer', // Kursleitung-Foto (Attachment-ID), crawler-geschützt gerendert
+        '_tgs_ansprechpartner_text'  => 'string',  // kurze Vorstellung (optional) – kein Steckbrief
         '_tgs_mitbringen'      => 'string',
     );
 
@@ -250,6 +251,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_ansprechpartner_email' => array( 'label' => 'E-Mail Ansprechpartner', 'type' => 'email' ),
         '_tgs_ansprechpartner_tel'   => array( 'label' => 'Telefon Ansprechpartner', 'type' => 'tel' ),
         '_tgs_ansprechpartner_foto'  => array( 'label' => 'Kursleitung-Foto', 'type' => 'media', 'note' => 'Wird auf der Kursseite crawler-geschützt angezeigt (neutrales „alt", Name per Skript). Tipp: mit <strong>neutralem Dateinamen</strong> hochladen (nicht „vorname-nachname.jpg").' ),
+        '_tgs_ansprechpartner_text'  => array( 'label' => 'Kurze Vorstellung (optional)', 'type' => 'textarea', 'note' => 'Ein, zwei Sätze in warmem Ton – <strong>kein Steckbrief</strong>. Nur, wenn die Kursleitung das möchte. Bleibt das Feld (und das Foto) leer, erscheint auf der Kursseite gar keine Vorstellung.' ),
         '_tgs_mitbringen'      => array( 'label' => 'Mitbringen', 'type' => 'text', 'placeholder' => 'z.B. Yogamatte, Sportkleidung' ),
     );
 
@@ -308,6 +310,11 @@ function tgs_kurs_meta_box_html( $post ) {
                 esc_attr( $key ), esc_attr( $key ), esc_attr( $value )
             );
             echo '<p class="description">Sportstätte auswählen <em>oder</em> unten frei eintippen. Bei Auswahl wird der Ort automatisch mit der Sportstätten-Seite verlinkt.</p>';
+        } elseif ( $field['type'] === 'textarea' ) {
+            printf(
+                '<textarea id="%s" name="%s" rows="3" class="large-text" placeholder="%s">%s</textarea>',
+                esc_attr( $key ), esc_attr( $key ), esc_attr( $field['placeholder'] ?? '' ), esc_textarea( $value )
+            );
         } elseif ( $field['type'] === 'media' ) {
             $att_id = (int) get_post_meta( $post->ID, $key, true );
             echo '<div class="tgs-media-field">';
@@ -397,6 +404,11 @@ function tgs_save_kurs_meta( $post_id ) {
         if ( isset( $_POST[ $key ] ) ) {
             update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
         }
+    }
+
+    // Vorstellung: Textarea → Zeilenumbrüche erhalten.
+    if ( isset( $_POST['_tgs_ansprechpartner_text'] ) ) {
+        update_post_meta( $post_id, '_tgs_ansprechpartner_text', sanitize_textarea_field( $_POST['_tgs_ansprechpartner_text'] ) );
     }
 
     // Ort-Picker: gewählte Sportstätte → deren Titel als Ort + verknüpfte ID; sonst Freitext (steht schon), ID leeren

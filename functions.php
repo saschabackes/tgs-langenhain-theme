@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.29.0' );
+define( 'TGS_VERSION', '0.30.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -89,6 +89,7 @@ require_once TGS_DIR . '/inc/touren-bewertung.php';
 require_once TGS_DIR . '/inc/touren-render.php';
 require_once TGS_DIR . '/inc/touren-guides.php';
 require_once TGS_DIR . '/inc/teilen.php';
+require_once TGS_DIR . '/inc/trainer.php';
 require_once TGS_DIR . '/inc/sport-icons.php';
 require_once TGS_DIR . '/inc/mitglied.php';
 require_once TGS_DIR . '/inc/gaststaette.php';

@@ -247,11 +247,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_bewertung_aktiv'    => array( 'label' => 'Bewertungen', 'type' => 'select', 'options' => array( '1' => 'Aktiviert (Teilnehmer können bewerten)', '0' => 'Aus' ) ),
         '_tgs_bewertung_anzeigen' => array( 'label' => 'Bewertungen öffentlich zeigen', 'type' => 'select', 'options' => array( '1' => 'Ja – auf der Kursseite anzeigen', '0' => 'Nein – nur intern' ) ),
         '_tgs_zielgruppe'      => array( 'label' => 'Zielgruppe', 'type' => 'checkboxes', 'options' => tgs_zielgruppen() ),
-        '_tgs_ansprechpartner' => array( 'label' => 'Ansprechpartner (Name)', 'type' => 'text' ),
-        '_tgs_ansprechpartner_email' => array( 'label' => 'E-Mail Ansprechpartner', 'type' => 'email' ),
-        '_tgs_ansprechpartner_tel'   => array( 'label' => 'Telefon Ansprechpartner', 'type' => 'tel' ),
-        '_tgs_ansprechpartner_foto'  => array( 'label' => 'Kursleitung-Foto', 'type' => 'media', 'note' => 'Wird auf der Kursseite crawler-geschützt angezeigt (neutrales „alt", Name per Skript). Tipp: mit <strong>neutralem Dateinamen</strong> hochladen (nicht „vorname-nachname.jpg").' ),
-        '_tgs_ansprechpartner_text'  => array( 'label' => 'Kurze Vorstellung (optional)', 'type' => 'textarea', 'note' => 'Ein, zwei Sätze in warmem Ton – <strong>kein Steckbrief</strong>. Nur, wenn die Kursleitung das möchte. Bleibt das Feld (und das Foto) leer, erscheint auf der Kursseite gar keine Vorstellung.' ),
+        // Kursleitung: eigene Box (siehe inc/trainer.php) — hier bewusst raus.
         '_tgs_mitbringen'      => array( 'label' => 'Mitbringen', 'type' => 'text', 'placeholder' => 'z.B. Yogamatte, Sportkleidung' ),
     );
 

@@ -1,3 +1,11 @@
+## [0.30.0] — 2026-07-17
+
+### Geändert — Kursleitungen als eigener Bereich (statt pro Kurs pflegen)
+- **Neuer CPT „Kursleitungen"** (`tgs_trainer`): Name (Titel), Foto (Beitragsbild), kurze Vorstellung, E-Mail, Telefon — **einmal** gepflegt. Wer mehrere Kurse leitet, wird nur einmal angelegt.
+- **Im Kurs nur noch eine Auswahl** („Kursleitung"-Box, Mehrfachauswahl) statt der bisherigen Inline-Felder. Der Kurs-Editor ist dadurch aufgeräumter.
+- **Datenschutz konsequent:** Der CPT ist **nicht öffentlich** — keine eigene Profilseite. Sonst wäre eine Seite mit Name + Foto + allen Kursen genau das leicht abgreifbare Profil, das der Trainer-Schutz vermeiden soll. Die Kursleitung erscheint nur eingebettet auf den Kursseiten (Name crawler-geschützt, Foto neutrales „alt").
+- **Kein Datenverlust:** Kurse ohne verknüpfte Kursleitung fallen automatisch auf die alten Inline-Daten (`_tgs_ansprechpartner*`) zurück. Sobald eine Kursleitung verknüpft ist, gilt diese.
+- **Mehrere Kursleitungen pro Kurs** möglich (Karten werden gestapelt). Layout-Feinschliff: Foto oben-bündig bei langer Vorstellung, mittig bei kurzer — kein Leerraum mehr zwischen Text und Kontakt.
 ## [0.29.0] — 2026-07-17
 
 ### Neu — Moderne Kursleitung-Vorstellung (optional, kein Steckbrief)

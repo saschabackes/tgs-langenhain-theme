@@ -1,3 +1,20 @@
+## [0.23.0] — 2026-07-17
+
+### Neu — Abonnierbarer Kurskalender (.ics) · Issue #19
+- **Live erzeugte iCal-Feeds** statt statischer Download-Datei: Wer abonniert, bekommt jede Änderung (Zeit, Ort, Saisonwechsel, Ausfall) automatisch, sobald sein Kalender nachfragt. Es wird nichts gespeichert – der Feed entsteht bei jedem Abruf aus den Kursdaten.
+  - `/kalender/kurse.ics` — alle Kurse
+  - `/kalender/kurs-<ID>.ics` — ein einzelner Kurs
+  - `/kalender/sportstaette-<ID>.ics` — Belegung einer Sportstätte (nur die Serien, die dort stattfinden)
+- **Echte Serientermine** (`RRULE`) statt hunderter Einzeleinträge — der Feed bleibt winzig und läuft unbegrenzt weiter.
+- **Saisonkurse** ergeben zwei Serien (Sommer/Winter) über `BYMONTH`; eine Winterpause lässt die Winter-Serie weg. Nutzt die bestehende `tgs_kurs_termin()`-Logik.
+- **Ausfälle & Pausen** aus dem Meldungs-System wirken direkt im Kalender: der Termin wird per `EXDATE` aus der Serie genommen **und** als eigener Eintrag „Fällt aus: …" bzw. „Pause: …" mit Grund sichtbar gemacht — sonst würde er kommentarlos verschwinden.
+- **`VTIMEZONE` Europe/Berlin**: „19:30" bleibt 19:30, auch über die Zeitumstellung hinweg.
+- **`SEQUENCE`-Zähler** pro Kurs (`_tgs_ical_seq`), erhöht bei jeder Kursänderung und bei jedem angelegten/gelöschten Ausfall — damit Kalender eine Aktualisierung als solche erkennen.
+- **ETag + 304**: unveränderte Feeds werden nicht neu übertragen; stündlich fragende Abonnenten kosten fast nichts.
+- **Abo-Box** in der Kurs-Sidebar („In deinen Kalender") plus Shortcode `[tgs_kalender_abo]` (Attribute: `kurs`, `sportstaette`, `label`, `hint`). `webcal://`-Link abonniert per Tipp direkt; „Link kopieren" als Fallback für Desktop/Google.
+- **Datenschutz**: im Feed stehen bewusst **keine** Namen von Kursleitungen und keine E-Mail-Adressen — ein Feed ist öffentlich und maschinenlesbar. Kein Drittanbieter, alles selbst gehostet.
+- **Ehrliche Grenze**: Wie schnell „sofort" ist, entscheidet der Kalender-Client. Apple fragt zuverlässig nach (`REFRESH-INTERVAL`/`X-PUBLISHED-TTL` = 1 h werden mitgesendet), **Google Kalender aktualisiert externe ICS-Feeds notorisch träge (teils 12–24 h)** und ignoriert die Hinweise. Für die kurzfristige Absage bleibt daher die bestehende E-Mail-Benachrichtigung an bestätigte Teilnehmer der schnelle Kanal; der Feed ist die verlässliche Basis.
+
 ## [0.22.0] — 2026-07-13
 
 ### Neu — Geschützte Kursleitung (Trainer-Block, crawler-sicher)

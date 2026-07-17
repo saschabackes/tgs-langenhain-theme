@@ -125,11 +125,39 @@
         });
     }
 
+    /**
+     * Kalender-Abo: Feed-Link in die Zwischenablage.
+     * Für alle, bei denen der webcal:-Tipp nichts öffnet (Desktop, Google
+     * Kalender) — dort fügt man die URL von Hand als Abo ein.
+     */
+    function initAboCopy() {
+        document.querySelectorAll('.tgs-abo-copy[data-url]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var url = btn.getAttribute('data-url');
+                var done = function () {
+                    var alt = btn.textContent;
+                    btn.textContent = 'Kopiert ✓';
+                    btn.classList.add('is-done');
+                    setTimeout(function () {
+                        btn.textContent = alt;
+                        btn.classList.remove('is-done');
+                    }, 2000);
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(url).then(done, function () { window.prompt('Link kopieren:', url); });
+                } else {
+                    window.prompt('Link kopieren:', url);
+                }
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
         initCallConfirm();
         initVideoFacade();
         initGuardNames();
+        initAboCopy();
     });
 })();

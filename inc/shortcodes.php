@@ -456,6 +456,16 @@ function tgs_shortcode_kurs_detail() {
             </div>
 
             <?php
+            // Kalender-Abo — nur wenn der Kurs einen regelmäßigen Termin hat.
+            if ( function_exists( 'tgs_ics_kurs_serien' ) && tgs_ics_kurs_serien( $post_id ) ) {
+                echo '<div class="tgs-kd-info-box">'
+                   . '<div class="tgs-kd-info-title">In deinen Kalender</div>'
+                   . tgs_kalender_abo_html( 'kurs-' . $post_id, 'Kurs abonnieren' )
+                   . '</div>';
+            }
+            ?>
+
+            <?php
             // Verwandte Kurse aus gleicher Kategorie
             if ( $terms ) :
                 $related = get_posts( array(

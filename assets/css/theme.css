@@ -870,3 +870,23 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-abt-grid, .tgs-kontakt-grid { grid-template-columns: 1fr; }
   .tgs-kd-h1, .tgs-ss-h1, .tgs-abt-hero-h1 { font-size: 26px; }
 }
+
+/* ── Kalender-Abo ─────────────────────────────────────────────────────── */
+.tgs-abo { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; }
+.tgs-abo-btn {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: var(--tgs-green); color: #fff; text-decoration: none;
+  font-size: 14px; font-weight: 600; line-height: 1;
+  padding: .62rem .9rem; border-radius: 8px;
+  transition: background .15s ease;
+}
+.tgs-abo-btn:hover, .tgs-abo-btn:focus { background: var(--tgs-green-d); color: #fff; }
+.tgs-abo-icon { font-size: 15px; }
+.tgs-abo-copy {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; font-size: 13px; color: var(--tgs-muted);
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.tgs-abo-copy:hover, .tgs-abo-copy:focus { color: var(--tgs-green); }
+.tgs-abo-copy.is-done { color: var(--tgs-green); text-decoration: none; }
+.tgs-abo-hint { font-size: 12.5px; line-height: 1.45; color: var(--tgs-muted); margin: 0; }

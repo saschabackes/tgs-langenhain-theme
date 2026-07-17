@@ -251,6 +251,9 @@ function tgs_handle_meldung_add() {
         update_post_meta( $id, '_tgs_meld_sichtbar_bis', sanitize_text_field( $_POST['tgs_meld_sichtbar_bis'] ?? '' ) );
     }
 
+    // Abonnierte Kalender über die Änderung informieren (SEQUENCE hochzählen).
+    if ( function_exists( 'tgs_ics_bump_seq' ) ) tgs_ics_bump_seq( $kurs_id );
+
     $sent = 0;
     if ( ! empty( $_POST['tgs_meld_email'] ) ) {
         update_post_meta( $id, '_tgs_meld_email', '1' );
@@ -267,7 +270,10 @@ function tgs_handle_meldung_manage() {
     if ( ! $meld || empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'tgs_meldung_manage_' . $meld ) ) wp_die( 'Ungültige Anfrage.' );
     if ( ! current_user_can( 'edit_posts' ) ) wp_die( 'Keine Berechtigung.' );
     $kurs_id = intval( get_post_meta( $meld, '_tgs_meld_kurs_id', true ) );
-    if ( $op === 'delete' ) wp_delete_post( $meld, true );
+    if ( $op === 'delete' ) {
+        wp_delete_post( $meld, true );
+        if ( function_exists( 'tgs_ics_bump_seq' ) ) tgs_ics_bump_seq( $kurs_id );
+    }
     wp_safe_redirect( admin_url( 'post.php?post=' . $kurs_id . '&action=edit' ) );
     exit;
 }

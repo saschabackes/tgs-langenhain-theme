@@ -100,6 +100,7 @@ function tgs_shortcode_news_detail() {
 
             <div class="tgs-news-foot">
                 <a href="<?php echo esc_url( home_url( '/aktuelles' ) ); ?>" class="tgs-news-back">← Zu allen Beiträgen</a>
+                <?php if ( function_exists( 'tgs_teilen_html' ) ) echo tgs_teilen_html( $post_id, 'Beitrag teilen' ); ?>
             </div>
 
             <?php

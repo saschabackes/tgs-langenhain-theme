@@ -1111,3 +1111,36 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-offen-frage summary::before { content: "💬 "; }
 .tgs-offen-frage[open] summary { margin-bottom: .7rem; }
 .tgs-offen-frage form { display: flex; flex-direction: column; gap: .6rem; }
+
+/* ── Teilen ───────────────────────────────────────────────────────────── */
+.tgs-teilen { position: relative; display: inline-block; }
+.tgs-teilen-toggle {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: #fff; border: 1px solid var(--tgs-border); border-radius: 8px;
+  font: inherit; font-size: 13.5px; font-weight: 600; color: var(--tgs-green);
+  padding: .5rem .85rem; cursor: pointer; line-height: 1;
+  transition: border-color .15s ease, background .15s ease;
+}
+.tgs-teilen-toggle:hover, .tgs-teilen-toggle:focus-visible { border-color: var(--tgs-green-l); background: var(--tgs-creme); }
+.tgs-teilen-icon { font-size: 15px; }
+.tgs-teilen-menu {
+  position: absolute; z-index: 20; left: 0; top: calc(100% + .35rem);
+  min-width: 170px; display: flex; flex-direction: column;
+  background: #fff; border: 1px solid var(--tgs-border); border-radius: 9px;
+  box-shadow: 0 6px 20px rgba(26,42,30,.13); overflow: hidden;
+}
+.tgs-teilen-menu[hidden] { display: none; }
+.tgs-teilen-opt {
+  display: block; width: 100%; text-align: left; background: none; border: 0;
+  font: inherit; font-size: 13.5px; color: var(--tgs-body); text-decoration: none;
+  padding: .6rem .85rem; cursor: pointer; line-height: 1.3;
+}
+.tgs-teilen-opt:hover, .tgs-teilen-opt:focus-visible { background: var(--tgs-creme); color: var(--tgs-green); }
+.tgs-teilen-opt + .tgs-teilen-opt { border-top: 1px solid var(--tgs-border-l); }
+
+/* In der Tour-Sidebar volle Breite unter dem Download */
+.tgs-kd-info-box .tgs-teilen { display: block; margin-top: .7rem; }
+.tgs-kd-info-box .tgs-teilen-toggle { width: 100%; justify-content: center; }
+
+/* News-Fuß: Zurück-Link links, Teilen rechts */
+.tgs-news-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }

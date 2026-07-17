@@ -1,3 +1,14 @@
+## [0.27.0] — 2026-07-17
+
+### Neu — Inhalte teilen (Open Graph + datenschutzfreundlicher Button) · Issue #20
+- **Open-Graph-/Twitter-Meta im `<head>`** für Kurse, Beiträge, Touren, Sportstätten, Guides, Seiten und die Startseite. Ein geteilter Link „entfaltet" sich damit auf WhatsApp, Facebook, iMessage & Co. zu einer Karte mit **Foto + Titel + Text** statt als nackte URL.
+  - Beschreibung automatisch je Typ: Kurs = Kurzbeschreibung; **Tour = Eckdaten** („37,7 km · ▲ 711 m · MTB"); sonst Auszug/Textanfang. Bild = Beitragsbild, sonst Vereinslogo als Fallback.
+  - **Guard gegen Doppel-Tags:** Läuft später ein SEO-Plugin (Yoast/RankMath/AIOSEO/SEO Framework), hält sich unser OG-Code automatisch zurück.
+- **Teilen-Button ohne Fremd-Widgets** auf Kurs-, Tour- und Beitragsseiten:
+  - Native **Web-Share-API** — auf dem Handy ein Tipp, dann öffnet der System-Teilen-Dialog (WhatsApp, alles).
+  - Am Desktop ein Aufklapp-Menü mit **Link kopieren · WhatsApp · E-Mail** — alles echte Links/Bordmittel, funktionieren auch ohne JavaScript.
+  - **Bewusst kein Facebook-/Twitter-Widget**: die tracken schon beim Laden der Seite. Hier wird **nichts** übertragen, bis der Nutzer aktiv teilt. Kein Skript, kein Pixel, DSGVO-sauber.
+- Shortcode `[tgs_teilen]` (optional `label="…"`).
 ## [0.26.0] — 2026-07-17
 
 ### Neu — Rückfragen abschaltbar + „Einfach vorbeikommen"-Karte für offene Kurse

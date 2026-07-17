@@ -144,6 +144,7 @@ function tgs_tour_detail_shortcode() {
                         <?php endif; ?>
                         <p class="tgs-abo-hint">Die GPX läuft auf Garmin, Wahoo, Komoot &amp; Co. — und bleibt deine, auch offline.</p>
                     </div>
+                    <?php if ( function_exists( 'tgs_teilen_html' ) ) echo tgs_teilen_html( $id, 'Tour teilen' ); ?>
                 </div>
 
                 <?php

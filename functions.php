@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TGS_VERSION', '0.26.0' );
+define( 'TGS_VERSION', '0.27.0' );
 define( 'TGS_DIR', get_template_directory() );
 define( 'TGS_URI', get_template_directory_uri() );
 
@@ -88,6 +88,7 @@ require_once TGS_DIR . '/inc/touren-admin.php';
 require_once TGS_DIR . '/inc/touren-bewertung.php';
 require_once TGS_DIR . '/inc/touren-render.php';
 require_once TGS_DIR . '/inc/touren-guides.php';
+require_once TGS_DIR . '/inc/teilen.php';
 require_once TGS_DIR . '/inc/sport-icons.php';
 require_once TGS_DIR . '/inc/mitglied.php';
 require_once TGS_DIR . '/inc/gaststaette.php';
@@ -266,7 +267,7 @@ function tgs_fix_shortcode_wpautop( $content ) {
         'tgs_navigation', 'tgs_logo', 'tgs_anmeldung', 'tgs_kurs_status',
         'tgs_sportstaette_detail', 'tgs_sportstaetten_liste',
         'tgs_abteilung_detail', 'tgs_abteilungen_detail_liste',
-        'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box', 'tgs_whatsapp', 'tgs_hsg', 'tgs_kurs_bewertungen', 'tgs_kurs_meldungen', 'tgs_breadcrumb', 'tgs_beitraege', 'tgs_mitglied_werden', 'tgs_gaststaette', 'tgs_speisekarte', 'tgs_kontakt', 'tgs_impressum', 'tgs_datenschutz', 'tgs_news_detail', 'tgs_news_liste', 'tgs_news_teaser', 'tgs_kalender_abo', 'tgs_tour_detail', 'tgs_touren', 'tgs_tour_tipp', 'tgs_guide_detail',
+        'tgs_chips', 'tgs_infobox', 'tgs_gruppen', 'tgs_cta_box', 'tgs_whatsapp', 'tgs_hsg', 'tgs_kurs_bewertungen', 'tgs_kurs_meldungen', 'tgs_breadcrumb', 'tgs_beitraege', 'tgs_mitglied_werden', 'tgs_gaststaette', 'tgs_speisekarte', 'tgs_kontakt', 'tgs_impressum', 'tgs_datenschutz', 'tgs_news_detail', 'tgs_news_liste', 'tgs_news_teaser', 'tgs_kalender_abo', 'tgs_tour_detail', 'tgs_touren', 'tgs_tour_tipp', 'tgs_guide_detail', 'tgs_teilen',
     );
     
     foreach ( $shortcodes as $sc ) {

@@ -377,6 +377,7 @@ function tgs_shortcode_kurs_detail() {
         <div class="tgs-kd-cta">
             <?php if ( ! $offen ) : ?><a href="#tgs-anmeldung" class="tgs-kd-btn"><?php echo $btn_label; ?></a><?php endif; ?>
             <div class="<?php echo $status_class; ?>"><?php echo $status_label; ?></div>
+            <?php if ( function_exists( 'tgs_teilen_html' ) ) echo tgs_teilen_html( $post_id ); ?>
         </div>
     </div>
 

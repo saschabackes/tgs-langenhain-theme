@@ -234,6 +234,70 @@
         });
     }
 
+    /**
+     * Teilen: native Web-Share-API (Handy) oder Aufklapp-Menü (Desktop).
+     * Kein Fremd-Skript, keine Datenübertragung beim Laden — erst wenn der
+     * Nutzer aktiv teilt.
+     */
+    function initTeilen() {
+        var boxes = document.querySelectorAll('.tgs-teilen');
+        if (!boxes.length) return;
+        var canShare = typeof navigator.share === 'function';
+
+        boxes.forEach(function (box) {
+            var toggle = box.querySelector('.tgs-teilen-toggle');
+            var menu = box.querySelector('.tgs-teilen-menu');
+            if (!toggle || !menu) return;
+
+            function closeMenu() {
+                menu.setAttribute('hidden', '');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+            function openMenu() {
+                menu.removeAttribute('hidden');
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+
+            toggle.addEventListener('click', function (e) {
+                if (canShare) {
+                    e.preventDefault();
+                    navigator.share({
+                        title: box.getAttribute('data-title') || document.title,
+                        text: box.getAttribute('data-text') || '',
+                        url: box.getAttribute('data-url') || location.href
+                    }).catch(function () { /* Nutzer hat abgebrochen – ok */ });
+                } else {
+                    menu.hasAttribute('hidden') ? openMenu() : closeMenu();
+                }
+            });
+
+            var copy = box.querySelector('.tgs-teilen-copy');
+            if (copy) {
+                copy.addEventListener('click', function () {
+                    var url = copy.getAttribute('data-url');
+                    var done = function () {
+                        var alt = copy.textContent;
+                        copy.textContent = 'Kopiert ✓';
+                        setTimeout(function () { copy.textContent = alt; closeMenu(); }, 1400);
+                    };
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(url).then(done, function () { window.prompt('Link kopieren:', url); });
+                    } else {
+                        window.prompt('Link kopieren:', url);
+                    }
+                });
+            }
+
+            // Klick außerhalb schließt das Menü.
+            document.addEventListener('click', function (e) {
+                if (!box.contains(e.target)) closeMenu();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
@@ -242,5 +306,6 @@
         initGuardNames();
         initAboCopy();
         initTourMap();
+        initTeilen();
     });
 })();

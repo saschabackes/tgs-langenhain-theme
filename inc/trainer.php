@@ -194,7 +194,7 @@ function tgs_trainer_card_markup( $foto_id, $name, $bio, $email, $tel ) {
         <div class="tgs-kd-trainer-txt">
             <span class="tgs-kd-trainer-label">Deine Kursleitung</span>
             <?php if ( $name !== '' ) : ?><span class="tgs-kd-trainer-name"><?php echo tgs_trainer_name_html( $name ); ?></span><?php endif; ?>
-            <?php if ( $bio !== '' ) : ?><p class="tgs-kd-trainer-bio"><?php echo nl2br( esc_html( $bio ) ); ?></p><?php endif; ?>
+            <?php if ( $bio !== '' ) : ?><span class="tgs-kd-trainer-bio"><?php echo nl2br( esc_html( $bio ) ); ?></span><?php endif; ?>
             <?php if ( $email || $tel ) : ?>
             <span class="tgs-kd-trainer-contact">
                 <?php if ( $email ) echo tgs_mail_link( $email, 'E-Mail schreiben' ); ?>

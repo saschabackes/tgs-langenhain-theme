@@ -125,6 +125,11 @@ function tgs_kurs_ist_offen( $kurs_id ) {
     return get_post_meta( $kurs_id, '_tgs_kurs_anmeldung', true ) === 'offen';
 }
 
+/** Rückfragen an die Kursleitung erlaubt? Standard: ja (nur 'aus' schaltet ab). */
+function tgs_kurs_fragen_erlaubt( $kurs_id ) {
+    return get_post_meta( $kurs_id, '_tgs_kurs_fragen', true ) !== 'aus';
+}
+
 /** Kinderkurs (Anmeldung mit Kind + Elternkontakt)? */
 function tgs_kurs_ist_kinderkurs( $kurs_id ) {
     return get_post_meta( $kurs_id, '_tgs_kurs_kinder', true ) === '1';
@@ -348,15 +353,18 @@ function tgs_anmeldung_shortcode( $atts ) {
     $kurs    = get_post( $kurs_id );
     if ( ! $kurs || $kurs->post_type !== 'tgs_kurs' ) return '<p>Kurs nicht gefunden.</p>';
 
-    // Offener Kurs: keine Anmeldung, nur Hinweis
+    $fragen_an = tgs_kurs_fragen_erlaubt( $kurs_id );
+
+    // Offener Kurs: kein Anmeldeformular. Die frei werdende Fläche wird mit
+    // dem gefüllt, was bei „komm einfach vorbei" wirklich hilft — den Termin
+    // in den eigenen Kalender holen und die Anfahrt. Optional eine Rückfrage.
     if ( tgs_kurs_ist_offen( $kurs_id ) ) {
-        return '<div class="tgs-anmeldung-form"><h3 class="tgs-anm-title">Keine Anmeldung nötig</h3>'
-            . '<p class="tgs-anm-info">Dieser Kurs ist offen für alle — komm einfach vorbei! Die Teilnahme ist über deine TGS-Mitgliedschaft abgedeckt.</p></div>';
+        return tgs_offener_kurs_html( $kurs_id, $fragen_an );
     }
 
     $message = '';
     if ( isset( $_POST['tgs_anm_nonce'] ) && wp_verify_nonce( $_POST['tgs_anm_nonce'], 'tgs_anmeldung' ) ) {
-        if ( isset( $_POST['tgs_frage_submit'] ) ) {
+        if ( isset( $_POST['tgs_frage_submit'] ) && $fragen_an ) {
             $message = tgs_create_frage( $kurs_id );          // „Frage stellen"
         } elseif ( isset( $_POST['tgs_anm_submit'] ) ) {
             $message = tgs_create_anmeldung( $kurs_id );        // „Anmeldung absenden"
@@ -373,7 +381,7 @@ function tgs_anmeldung_shortcode( $atts ) {
     <div class="tgs-anmeldung-form" id="tgs-anmeldung">
         <?php if ( $message ) : ?><div class="tgs-anm-message"><?php echo wp_kses_post( $message ); ?></div><?php endif; ?>
 
-        <h3 class="tgs-anm-title"><?php echo $is_full ? 'Auf die Warteliste' : 'Zum Kurs anmelden'; ?> <span class="tgs-anm-title-sub">– oder kurz nachfragen</span></h3>
+        <h3 class="tgs-anm-title"><?php echo $is_full ? 'Auf die Warteliste' : 'Zum Kurs anmelden'; ?><?php if ( $fragen_an ) : ?> <span class="tgs-anm-title-sub">– oder kurz nachfragen</span><?php endif; ?></h3>
 
         <?php if ( $is_full ) : ?>
             <p class="tgs-anm-info tgs-anm-info--wait">Dieser Kurs ist aktuell voll. Du kannst dich auf die Warteliste setzen — wir benachrichtigen dich automatisch, sobald ein Platz frei wird.</p>
@@ -423,13 +431,15 @@ function tgs_anmeldung_shortcode( $atts ) {
             <div class="tgs-anm-field"><label for="tgs_anm_telefon">Telefon (optional)</label>
                 <input type="tel" id="tgs_anm_telefon" name="tgs_anm_telefon" placeholder="0173 ..."></div>
             <?php endif; ?>
-            <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht / Frage (optional)</label>
+            <div class="tgs-anm-field"><label for="tgs_anm_nachricht">Nachricht<?php echo $fragen_an ? ' / Frage' : ''; ?> (optional)</label>
                 <textarea id="tgs_anm_nachricht" name="tgs_anm_nachricht" rows="3" placeholder="z. B. „Kann ich einmal unverbindlich reinschnuppern?“"></textarea></div>
             <div class="tgs-anm-field"><label><input type="checkbox" name="tgs_anm_dsgvo" required> Ich stimme der <a href="<?php echo esc_url( home_url( '/datenschutz' ) ); ?>" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *</label></div>
+            <?php if ( $fragen_an ) : ?>
             <div class="tgs-anm-frage-hint">💬 <strong>Nur eine Frage?</strong> Schreib sie oben ins Feld „Nachricht / Frage" und klick „Frage stellen" — anmelden musst du dich dafür nicht. Deine Frage geht direkt an die Kursleitung.</div>
+            <?php endif; ?>
             <div class="tgs-anm-btns">
                 <button type="submit" name="tgs_anm_submit" class="tgs-anm-submit"><?php echo $is_full ? 'Auf Warteliste setzen' : 'Anmeldung absenden'; ?></button>
-                <button type="submit" name="tgs_frage_submit" formnovalidate class="tgs-anm-frage-btn">Frage stellen</button>
+                <?php if ( $fragen_an ) : ?><button type="submit" name="tgs_frage_submit" formnovalidate class="tgs-anm-frage-btn">Frage stellen</button><?php endif; ?>
             </div>
         </form>
     </div>
@@ -437,6 +447,90 @@ function tgs_anmeldung_shortcode( $atts ) {
     return tgs_strip_ws( ob_get_clean() );
 }
 add_shortcode( 'tgs_anmeldung', 'tgs_anmeldung_shortcode' );
+
+/**
+ * „Einfach vorbeikommen"-Karte für offene Kurse.
+ *
+ * Statt eines winzigen Hinweises (und viel leerer Fläche daneben) bündelt die
+ * Karte das, was bei einem Drop-in-Kurs echten Nutzen hat: den wiederkehrenden
+ * Termin in den eigenen Kalender holen (nutzt den bestehenden .ics-Feed) und
+ * die Anfahrt zur Sportstätte. Optional eine Rückfrage an die Kursleitung.
+ *
+ * @param int  $kurs_id
+ * @param bool $fragen_an  Rückfrage-Funktion anzeigen?
+ */
+function tgs_offener_kurs_html( $kurs_id, $fragen_an = true ) {
+    $termin = function_exists( 'tgs_kurs_termin' ) ? tgs_kurs_termin( $kurs_id ) : array();
+    $tag    = isset( $termin['tag'] ) ? $termin['tag'] : '';
+    $zeit   = isset( $termin['zeit'] ) ? tgs_zeit_display( $termin['zeit'], isset( $termin['ende'] ) ? $termin['ende'] : '' ) : '';
+    $ort    = isset( $termin['ort'] ) ? $termin['ort'] : '';
+    $ort_id = isset( $termin['ort_id'] ) ? (int) $termin['ort_id'] : 0;
+
+    // Nachfrage verarbeiten (nur wenn erlaubt)
+    $message = '';
+    if ( $fragen_an && isset( $_POST['tgs_anm_nonce'] ) && wp_verify_nonce( $_POST['tgs_anm_nonce'], 'tgs_anmeldung' ) && isset( $_POST['tgs_frage_submit'] ) ) {
+        $message = tgs_create_frage( $kurs_id );
+    }
+
+    // Kalender-Abo nur, wenn der Kurs einen regelmäßigen Termin hat.
+    $hat_serie = function_exists( 'tgs_ics_kurs_serien' ) && tgs_ics_kurs_serien( $kurs_id );
+
+    ob_start();
+    ?>
+    <div class="tgs-offen" id="tgs-anmeldung">
+        <div class="tgs-offen-head">
+            <span class="tgs-offen-badge">Offener Kurs</span>
+            <h3 class="tgs-offen-title">Einfach vorbeikommen</h3>
+            <p class="tgs-offen-lead">Keine Anmeldung nötig – die Teilnahme ist über deine TGS-Mitgliedschaft abgedeckt. Komm zur Trainingszeit vorbei und mach mit.</p>
+        </div>
+
+        <?php if ( $tag || $zeit || $ort ) : ?>
+        <div class="tgs-offen-wann">
+            <?php if ( $tag || $zeit ) : ?><div class="tgs-offen-wann-item"><span>Wann</span><strong><?php echo esc_html( trim( $tag . ' ' . $zeit ) ); ?></strong></div><?php endif; ?>
+            <?php if ( $ort ) : ?><div class="tgs-offen-wann-item"><span>Wo</span><strong><?php echo tgs_ort_html( $ort, $ort_id ); ?></strong></div><?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <div class="tgs-offen-actions">
+            <?php if ( $hat_serie && function_exists( 'tgs_kalender_abo_html' ) ) : ?>
+                <?php echo tgs_kalender_abo_html( 'kurs-' . $kurs_id, 'Termin in meinen Kalender', 'So verpasst du keine Woche – der Termin landet automatisch in deinem Kalender, inklusive Ausfällen.' ); ?>
+            <?php endif; ?>
+
+            <?php if ( $ort_id && get_post_status( $ort_id ) === 'publish' ) :
+                $maps = get_post_meta( $ort_id, '_tgs_maps_link', true ); ?>
+                <div class="tgs-offen-anfahrt">
+                    <span class="tgs-offen-anfahrt-l">Anfahrt</span>
+                    <a href="<?php echo esc_url( get_permalink( $ort_id ) ); ?>"><?php echo esc_html( get_the_title( $ort_id ) ); ?></a>
+                    <?php if ( $maps ) : ?> · <a href="<?php echo esc_url( $maps ); ?>" target="_blank" rel="noopener">Route ↗</a><?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <?php if ( $fragen_an ) : ?>
+            <?php if ( $message ) : ?>
+                <div class="tgs-anm-message"><?php echo wp_kses_post( $message ); ?></div>
+            <?php else : ?>
+            <details class="tgs-offen-frage">
+                <summary>Noch eine Frage? Kurz an die Kursleitung schreiben</summary>
+                <form method="post" action="#tgs-anmeldung">
+                    <?php wp_nonce_field( 'tgs_anmeldung', 'tgs_anm_nonce' ); ?>
+                    <input type="hidden" name="tgs_anm_kurs_id" value="<?php echo esc_attr( $kurs_id ); ?>">
+                    <div class="tgs-anm-field"><label for="tgs_of_name">Name *</label>
+                        <input type="text" id="tgs_of_name" name="tgs_anm_name" required placeholder="Vor- und Nachname"></div>
+                    <div class="tgs-anm-field"><label for="tgs_of_email">E-Mail *</label>
+                        <input type="email" id="tgs_of_email" name="tgs_anm_email" required placeholder="deine@email.de"></div>
+                    <div class="tgs-anm-field"><label for="tgs_of_text">Deine Frage *</label>
+                        <textarea id="tgs_of_text" name="tgs_anm_nachricht" rows="3" required placeholder="z. B. „Sollte ich etwas mitbringen?“"></textarea></div>
+                    <div class="tgs-anm-field"><label><input type="checkbox" name="tgs_anm_dsgvo" required> Ich stimme der <a href="<?php echo esc_url( home_url( '/datenschutz' ) ); ?>" target="_blank" rel="noopener">Datenschutzerklärung</a> zu. *</label></div>
+                    <button type="submit" name="tgs_frage_submit" class="tgs-anm-frage-btn">Frage stellen</button>
+                </form>
+            </details>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <?php
+    return tgs_strip_ws( ob_get_clean() );
+}
 
 /**
  * Legt eine unbestätigte Anmeldung an und verschickt die Bestätigungs-Mail.

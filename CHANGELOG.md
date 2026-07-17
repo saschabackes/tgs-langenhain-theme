@@ -1,3 +1,12 @@
+## [0.26.0] — 2026-07-17
+
+### Neu — Rückfragen abschaltbar + „Einfach vorbeikommen"-Karte für offene Kurse
+- **Neuer Schalter „Rückfragen" in den Kursdetails** (Ja/Nein, Standard Ja), unabhängig von der Anmeldung. Damit sind alle Kombinationen möglich: offener Kurs ohne jede Interaktion, offener Kurs mit Nachfrage-Möglichkeit, oder Pflichtanmeldung ohne Frage-Funktion. Ist er auf „Nein", verschwinden Frage-Button, Hinweis und Formular überall auf der Kursseite.
+- **Offene Kurse zeigen statt eines winzigen Hinweises eine „Einfach vorbeikommen"-Karte**, die die frei werdende Fläche mit echtem Nutzen füllt statt mit Leerraum:
+  - **„Termin in meinen Kalender"** — der bestehende .ics-Abo-Button (v0.23.0), damit man den wiederkehrenden Termin nicht vergisst (nur, wenn der Kurs eine regelmäßige Serie hat).
+  - **Wann/Wo** als klare Kacheln, **Anfahrt** mit Link zur Sportstätte + Maps-Route.
+  - Optional eine **aufklappbare Kurzfrage** an die Kursleitung (nur wenn Rückfragen erlaubt) — nutzt das bestehende `tgs_frage`-System, kein zweites Formular.
+- Verifiziert: Toggle blendet die Frage-Funktion in beiden Ansichten (volles Formular + Offen-Karte) sauber aus; Offen-Karte rendert 520 px (statt 647 px Formular) und füllt die Content-Spalte sinnvoll.
 ## [0.25.0] — 2026-07-17
 
 ### Neu — Guides & wechselnder Tourentipp

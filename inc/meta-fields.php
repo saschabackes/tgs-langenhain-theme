@@ -73,6 +73,7 @@ function tgs_register_meta_fields() {
         '_tgs_status'          => 'string',   // 'frei' or 'warteliste'
         '_tgs_max_teilnehmer'  => 'integer',
         '_tgs_kurs_anmeldung'  => 'string',   // '' / 'pflicht' or 'offen'
+        '_tgs_kurs_fragen'     => 'string',   // '' (=an) / 'aus' – Rückfrage-Funktion
         '_tgs_bewertung_aktiv'    => 'string', // '1' = an
         '_tgs_bewertung_anzeigen' => 'string', // '1' = öffentlich zeigen
         '_tgs_kurs_kinder'        => 'string', // '1' = Kinderkurs (Kind + Elternkontakt)
@@ -236,6 +237,7 @@ function tgs_kurs_meta_box_html( $post ) {
         '_tgs_winter_bis'          => array( 'label' => '❄ Winter bis', 'type' => 'monthselect', 'default' => 3, 'row' => 'saison', 'note' => 'Standard: Oktober bis März.' ),
         '_tgs_max_teilnehmer'  => array( 'label' => 'Max. Teilnehmer', 'type' => 'number', 'placeholder' => 'leer = unbegrenzt' ),
         '_tgs_kurs_anmeldung'  => array( 'label' => 'Anmeldung', 'type' => 'select', 'options' => array( 'pflicht' => 'Anmeldung erforderlich (mit Warteliste)', 'offen' => 'Offener Kurs – keine Anmeldung nötig' ) ),
+        '_tgs_kurs_fragen'     => array( 'label' => 'Rückfragen', 'type' => 'select', 'options' => array( '' => 'Ja – Nachfragen an die Kursleitung erlauben', 'aus' => 'Nein – keine Frage-Funktion zeigen' ) ),
         '_tgs_kurs_kinder'     => array( 'label' => 'Kurs für Kinder', 'type' => 'select', 'options' => array( '1' => 'Ja – Anmeldung mit Kind + Elternkontakt', '0' => 'Nein' ) ),
         '_tgs_kurs_alter_min'  => array( 'label' => 'Mindestalter (Jahre)', 'type' => 'number', 'placeholder' => 'leer = keine Grenze' ),
         '_tgs_kurs_alter_max'  => array( 'label' => 'Höchstalter (Jahre)', 'type' => 'number', 'placeholder' => 'leer = keine Grenze' ),
@@ -382,7 +384,7 @@ function tgs_save_kurs_meta( $post_id ) {
         '_tgs_wochentag', '_tgs_uhrzeit', '_tgs_uhrzeit_ende', '_tgs_ort',
         '_tgs_saison', '_tgs_winter_wochentag', '_tgs_winter_uhrzeit', '_tgs_winter_uhrzeit_ende',
         '_tgs_winter_ort', '_tgs_winter_pause', '_tgs_winter_von', '_tgs_winter_bis',
-        '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung',
+        '_tgs_status', '_tgs_max_teilnehmer', '_tgs_kurs_anmeldung', '_tgs_kurs_fragen',
         '_tgs_bewertung_aktiv', '_tgs_bewertung_anzeigen', '_tgs_kurs_kinder',
         '_tgs_kurs_alter_min', '_tgs_kurs_alter_max',
         '_tgs_ansprechpartner', '_tgs_ansprechpartner_email', '_tgs_ansprechpartner_tel', '_tgs_ansprechpartner_foto',

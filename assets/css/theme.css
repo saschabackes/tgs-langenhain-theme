@@ -1070,3 +1070,44 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-tipp-held-body { padding: .9rem 1rem; }
   .tgs-tipp-title { font-size: 1.15rem; }
 }
+
+/* ── Offener Kurs (kein Anmeldeformular) ──────────────────────────────── */
+.tgs-offen {
+  background: var(--tgs-creme); border: 1px solid var(--tgs-border);
+  border-radius: 12px; padding: 1.4rem;
+}
+.tgs-offen-head { margin-bottom: 1.1rem; }
+.tgs-offen-badge {
+  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--tgs-green); background: var(--tgs-green-ll);
+  padding: .22rem .55rem; border-radius: 999px; margin-bottom: .5rem;
+}
+.tgs-offen-title { font-size: 1.4rem; line-height: 1.2; margin: 0 0 .35rem; color: var(--tgs-ink); }
+.tgs-offen-lead { font-size: 14.5px; line-height: 1.55; color: var(--tgs-body); margin: 0; }
+
+.tgs-offen-wann {
+  display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.1rem 0;
+}
+.tgs-offen-wann-item {
+  flex: 1 1 160px; display: flex; flex-direction: column; gap: .15rem;
+  background: #fff; border: 1px solid var(--tgs-border); border-radius: 8px; padding: .6rem .8rem;
+}
+.tgs-offen-wann-item span { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-muted); }
+.tgs-offen-wann-item strong { font-size: 15px; color: var(--tgs-ink); font-weight: 600; }
+.tgs-offen-wann-item a { color: var(--tgs-green); }
+
+.tgs-offen-actions { display: flex; flex-direction: column; gap: .9rem; }
+.tgs-offen-actions .tgs-abo { background: #fff; border: 1px solid var(--tgs-border); border-radius: 8px; padding: .9rem 1rem; }
+.tgs-offen-anfahrt { font-size: 13.5px; color: var(--tgs-body); }
+.tgs-offen-anfahrt-l { font-weight: 700; text-transform: uppercase; font-size: 10.5px; letter-spacing: .06em; color: var(--tgs-muted); margin-right: .4rem; }
+.tgs-offen-anfahrt a { color: var(--tgs-green); }
+
+.tgs-offen-frage { margin-top: 1.1rem; border-top: 1px solid var(--tgs-border); padding-top: .9rem; }
+.tgs-offen-frage summary {
+  cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--tgs-green);
+  list-style: none; padding: .2rem 0;
+}
+.tgs-offen-frage summary::-webkit-details-marker { display: none; }
+.tgs-offen-frage summary::before { content: "💬 "; }
+.tgs-offen-frage[open] summary { margin-bottom: .7rem; }
+.tgs-offen-frage form { display: flex; flex-direction: column; gap: .6rem; }

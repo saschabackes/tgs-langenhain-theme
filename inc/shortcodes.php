@@ -547,6 +547,7 @@ function tgs_shortcode_sportstaette_detail() {
     $app_desc  = get_post_meta( $post_id, '_tgs_ss_app_desc', true );
     $app_ios   = get_post_meta( $post_id, '_tgs_ss_app_ios', true );
     $app_andr  = get_post_meta( $post_id, '_tgs_ss_app_android', true );
+    $nahkauf   = trim( (string) get_post_meta( $post_id, '_tgs_ss_nahkauf', true ) );
 
     // Ausstattung in Listenpunkte zerlegen (Zeilenweise; Altdaten mit Kommas werden gesplittet)
     $ausst_items = array();
@@ -634,6 +635,25 @@ function tgs_shortcode_sportstaette_detail() {
             <div class="tgs-ss-app-btns">
                 <?php if ( $app_ios ) : ?><a href="<?php echo esc_url( $app_ios ); ?>" class="tgs-ss-app-btn" target="_blank" rel="noopener"> App&nbsp;Store</a><?php endif; ?>
                 <?php if ( $app_andr ) : ?><a href="<?php echo esc_url( $app_andr ); ?>" class="tgs-ss-app-btn" target="_blank" rel="noopener">▶ Google&nbsp;Play</a><?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if ( $nahkauf ) : ?>
+    <div class="tgs-section">
+        <div class="tgs-ss-nahkauf">
+            <div class="tgs-ss-nahkauf-ic" aria-hidden="true">🛒</div>
+            <div class="tgs-ss-nahkauf-body">
+                <div class="tgs-ss-nahkauf-top">
+                    <span class="tgs-ss-nahkauf-name">Nahkauf Box <?php echo esc_html( $nahkauf ); ?></span>
+                    <span class="tgs-ss-nahkauf-tag">Gute Nachbarschaft</span>
+                </div>
+                <p class="tgs-ss-nahkauf-desc">Rund um die Uhr geöffnet, 7 Tage die Woche: ein Selbstbedienungs-Markt mit frischen Lebensmitteln, kühlen Getränken und Snacks — praktisch vor oder nach dem Training. Zutritt und Bezahlung bargeldlos per Karte.</p>
+                <p class="tgs-ss-nahkauf-hint">Ein unabhängiges Angebot in der Nachbarschaft, nicht vom Verein betrieben.</p>
+            </div>
+            <div class="tgs-ss-nahkauf-btns">
+                <a href="https://www.nahkauf.de/nahkauf-box" class="tgs-ss-app-btn" target="_blank" rel="noopener noreferrer">Was ist das? ↗</a>
             </div>
         </div>
     </div>

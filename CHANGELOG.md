@@ -1,3 +1,9 @@
+## [0.28.0] — 2026-07-17
+
+### Neu — „Nahkauf Box in der Nähe" auf Sportstätten-Seiten
+- Neues Feld **„Nahkauf Box in der Nähe"** je Sportstätte (Text = Entfernung/Hinweis, z. B. „direkt am Platz"; leer = ausgeblendet). Gilt für Calisthenics-Fläche, Sportplatz und Wilhelm-Busch-Halle — alle in direkter Nachbarschaft.
+- Rendert eine dezente Karte (amber-Akzent, grenzt sie vom Vereinsgrün ab): 24/7-SB-Markt mit Lebensmitteln, Getränken, Snacks, bargeldlos per Karte — echter Standortvorteil an einer Sportanlage.
+- **Ehrlich & DSGVO-konform:** klar als „Gute Nachbarschaft / nicht vom Verein betrieben" gekennzeichnet; nur Text + Klick-Link zu nahkauf.de, **kein eingebettetes Widget, kein Fremd-Logo, kein Tracking**.
 ## [0.27.3] — 2026-07-17
 
 ### Behoben — Sportstätten-Hero-Inhalt lief zu breit

@@ -70,6 +70,22 @@ function tgs_tour_detail_shortcode() {
                 }
                 ?>
 
+                <?php
+                // Die Empfehlung eines Nachbarn — steht bewusst VOR den Zahlen.
+                $guide_id = (int) get_post_meta( $id, '_tgs_tour_guide_id', true );
+                $zitat    = get_post_meta( $id, '_tgs_tour_zitat', true );
+                if ( $guide_id && get_post_status( $guide_id ) === 'publish' && $zitat ) :
+                    $gfoto = get_post_thumbnail_id( $guide_id );
+                ?>
+                <div class="tgs-tour-empfehlung">
+                    <?php if ( $gfoto ) : ?><div class="tgs-tour-empfehlung-foto"><?php echo wp_get_attachment_image( $gfoto, array( 64, 64 ), false, array( 'alt' => 'Guide', 'loading' => 'lazy' ) ); ?></div><?php endif; ?>
+                    <div class="tgs-tour-empfehlung-txt">
+                        <span class="tgs-tour-empfehlung-zitat">„<?php echo esc_html( $zitat ); ?>"</span>
+                        <span class="tgs-tour-empfehlung-wer">— <a href="<?php echo esc_url( get_permalink( $guide_id ) ); ?>"><?php echo tgs_guide_name_html( $guide_id ); ?></a>, Guide</span>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <?php echo tgs_tour_karte_html( $id ); ?>
                 <?php echo tgs_tour_fakten_html( $id ); ?>
 

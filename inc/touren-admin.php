@@ -45,6 +45,7 @@ function tgs_register_tour_meta() {
         '_tgs_tour_punkte' => 'integer', '_tgs_tour_track' => 'string', '_tgs_tour_profil' => 'string',
         '_tgs_tour_bounds' => 'string', '_tgs_tour_start' => 'string', '_tgs_tour_ende' => 'string',
         '_tgs_tour_fehler' => 'string', '_tgs_tour_bewertung' => 'string',
+        '_tgs_tour_guide_id' => 'integer', '_tgs_tour_zitat' => 'string',
     );
     foreach ( $felder as $k => $t ) {
         register_post_meta( 'tgs_tour', $k, array(
@@ -82,6 +83,7 @@ function tgs_tour_metabox_html( $post ) {
 
     $staetten = get_posts( array( 'post_type' => 'tgs_sportstaette', 'numberposts' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC' ) );
     $kurse    = get_posts( array( 'post_type' => 'tgs_kurs', 'numberposts' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC' ) );
+    $guides   = get_posts( array( 'post_type' => 'tgs_guide', 'numberposts' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC' ) );
     ?>
     <?php if ( $fehler ) : ?>
         <div class="notice notice-error inline" style="margin:.2em 0 1em;"><p><?php echo esc_html( $fehler ); ?></p></div>
@@ -164,6 +166,23 @@ function tgs_tour_metabox_html( $post ) {
                 <?php endforeach; ?>
             </select>
             <p class="description">Macht aus einer Datei eine Einladung: „Diese Runde fahren wir dienstags — hier anmelden."</p></td>
+        </tr>
+
+        <tr>
+            <th><label for="tgs_tour_guide_id">Empfohlen von</label></th>
+            <td><select id="tgs_tour_guide_id" name="_tgs_tour_guide_id">
+                <option value="0">— kein Guide —</option>
+                <?php foreach ( $guides as $g ) : ?>
+                    <option value="<?php echo esc_attr( $g->ID ); ?>" <?php selected( (int) get_post_meta( $post->ID, '_tgs_tour_guide_id', true ), $g->ID ); ?>><?php echo esc_html( $g->post_title ); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <p class="description">Guides werden unter „Guides" angelegt. Der Tourentipp auf der Startseite wechselt automatisch wöchentlich zwischen allen Guides, die mindestens eine Tour empfehlen.</p></td>
+        </tr>
+
+        <tr>
+            <th><label for="tgs_tour_zitat">Warum diese Runde?</label></th>
+            <td><input type="text" id="tgs_tour_zitat" name="_tgs_tour_zitat" value="<?php echo esc_attr( get_post_meta( $post->ID, '_tgs_tour_zitat', true ) ); ?>" class="large-text" maxlength="180" placeholder="z. B. Oben kommt die Aussicht über den ganzen Taunus — dafür lohnt sich jeder Höhenmeter.">
+                <p class="description">Ein Satz in der Ich-Form des Guides. Genau das kann eine Tourenplattform nicht.</p></td>
         </tr>
 
         <tr>
@@ -258,6 +277,10 @@ function tgs_save_tour_meta( $post_id ) {
 
     $kid = isset( $_POST['_tgs_tour_kurs_id'] ) ? intval( $_POST['_tgs_tour_kurs_id'] ) : 0;
     update_post_meta( $post_id, '_tgs_tour_kurs_id', ( $kid > 0 && get_post_type( $kid ) === 'tgs_kurs' ) ? $kid : 0 );
+
+    $gid = isset( $_POST['_tgs_tour_guide_id'] ) ? intval( $_POST['_tgs_tour_guide_id'] ) : 0;
+    update_post_meta( $post_id, '_tgs_tour_guide_id', ( $gid > 0 && get_post_type( $gid ) === 'tgs_guide' ) ? $gid : 0 );
+    update_post_meta( $post_id, '_tgs_tour_zitat', sanitize_text_field( $_POST['_tgs_tour_zitat'] ?? '' ) );
 
     // Nur neu auswerten, wenn sich die Datei oder der Zuschnitt geändert hat —
     // das Parsen einer großen GPX soll nicht bei jedem Speichern laufen.

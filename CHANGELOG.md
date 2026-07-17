@@ -1,3 +1,14 @@
+## [0.25.0] — 2026-07-17
+
+### Neu — Guides & wechselnder Tourentipp
+- **Neuer CPT `tgs_guide`** (Name, Foto, kurze Vorstellung) mit eigener Seite `/guides/<name>/`, die alle Lieblingstouren des Guides zeigt.
+- **Tour-Felder „Empfohlen von" (Guide-Picker) und „Warum diese Runde?"** — ein Satz in der Ich-Form. Das ist der Mehrwert gegenüber jeder Tourenplattform: nicht eine Linie auf der Karte, sondern die Empfehlung eines Nachbarn. Erscheint als Zitat-Karte oben auf der Tourseite, bewusst **vor** den Zahlen.
+- **`[tgs_tour_tipp]` — „Lieblingstouren von …", wechselt automatisch jede Woche.** Attribute: `guide` (feste ID statt Rotation), `touren` (Anzahl).
+  - **Rein rechnerische Rotation, kein Cronjob, kein gespeicherter Zustand.** Alles, was wöchentliche Handarbeit braucht, schläft in einem Verein nach drei Wochen ein.
+  - Gezählt wird eine **fortlaufende Wochennummer seit 1970**, nicht Jahr+Kalenderwoche: Ein Jahr hat mal 52, mal 53 Wochen — mit Jahr+KW blieb der Tipp am Jahreswechsel bei 2 Guides zwei Wochen lang derselbe (im Test nachgewiesen und behoben). Wechsel erfolgt montags.
+  - **Die Lieblingstour eines Guides rotiert über die „Runde"** (wie oft war er schon dran), nicht über die Woche. Sonst liefen beide Rotationen im Gleichschritt und jeder Guide zeigte für immer dieselbe Tour — im Test nachgewiesen und behoben. Verifiziert über 156 Wochen: jede Guide-Anzahl wechselt in **jeder** Woche, gleichverteilt, und jeder Guide durchläuft **alle** seine Touren.
+  - **Ehrlich beschriftet:** Das Label „Tourentipp der Woche" und „Wechselt jede Woche" erscheinen nur, wenn es tatsächlich etwas zu rotieren gibt (mehr als ein Guide bzw. mehr als eine Tour). Sonst stünde dort ein Versprechen, das nicht eingelöst wird.
+- **Guide-Namen laufen durch denselben Crawler-Schutz wie die Kursleitungen** (`tgs_trainer_name_html()`, Fallback „unserem Guide"). Ein Guide mit Foto, Name UND seinen Hausrunden wäre sonst ein fertiges Bewegungsprofil.
 ## [0.24.0] — 2026-07-17
 
 ### Neu — Touren (GPX-basiert) · Issue #15

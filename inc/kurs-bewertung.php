@@ -212,11 +212,14 @@ function tgs_handle_bew_manage() {
     $op  = isset( $_GET['op'] ) ? sanitize_key( $_GET['op'] ) : '';
     if ( ! $bew || empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'tgs_bew_manage_' . $bew ) ) wp_die( 'Ungültige Anfrage.' );
     if ( ! current_user_can( 'edit_posts' ) ) wp_die( 'Keine Berechtigung.' );
-    $kurs_id = intval( get_post_meta( $bew, '_tgs_bew_kurs_id', true ) );
+    // Bewertungen hängen entweder an einem Kurs oder an einer Tour —
+    // zurück geht es zu dem Beitrag, von dem aus moderiert wurde.
+    $ziel = intval( get_post_meta( $bew, '_tgs_bew_kurs_id', true ) );
+    if ( ! $ziel ) $ziel = intval( get_post_meta( $bew, '_tgs_bew_tour_id', true ) );
     if ( $op === 'publish' )     update_post_meta( $bew, '_tgs_bew_public', '1' );
     elseif ( $op === 'hide' )    update_post_meta( $bew, '_tgs_bew_public', '0' );
     elseif ( $op === 'delete' )  wp_delete_post( $bew, true );
-    wp_safe_redirect( admin_url( 'post.php?post=' . $kurs_id . '&action=edit' ) );
+    wp_safe_redirect( admin_url( 'post.php?post=' . $ziel . '&action=edit' ) );
     exit;
 }
 add_action( 'admin_post_tgs_bew_manage', 'tgs_handle_bew_manage' );

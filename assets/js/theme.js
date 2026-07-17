@@ -14,7 +14,9 @@
      * Chip passt ("alle" = kein Filter).
      */
     function initFilterChips() {
-        const rows = document.querySelectorAll('.tgs-kurs-row');
+        // .tgs-kurs-row = Kurstabelle, .tgs-filter-item = alles andere
+        // (z. B. Tour-Karten) — dasselbe Bauteil, zwei Anwendungen.
+        const rows = document.querySelectorAll('.tgs-kurs-row, .tgs-filter-item');
         if (!rows.length) return;
 
         const groups = document.querySelectorAll('.tgs-chip-row[data-filter-group]');
@@ -152,6 +154,86 @@
         });
     }
 
+    /**
+     * Tour-Karte: lädt Leaflet (aus dem Theme) und die Kartenkacheln (von
+     * OpenStreetMap) erst auf Klick. Vorher steht dort der selbst gerenderte
+     * SVG-Streckenverlauf — kein externer Request, kein IP-Transfer.
+     */
+    function initTourMap() {
+        var boxes = document.querySelectorAll('.tgs-tour-map[data-track]');
+        if (!boxes.length) return;
+
+        function loadAsset(tag, attrs) {
+            return new Promise(function (resolve, reject) {
+                var el = document.createElement(tag);
+                Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+                el.onload = resolve;
+                el.onerror = reject;
+                document.head.appendChild(el);
+            });
+        }
+
+        function json(box, name, fallback) {
+            try { return JSON.parse(box.getAttribute(name)); } catch (e) { return fallback; }
+        }
+
+        boxes.forEach(function (box) {
+            var btn = box.querySelector('.tgs-tour-map-load');
+            if (!btn) return;
+
+            btn.addEventListener('click', function () {
+                var track = json(box, 'data-track', []);
+                if (!track.length) return;
+
+                btn.disabled = true;
+                btn.textContent = 'Karte wird geladen …';
+
+                var css = window.L ? Promise.resolve() : loadAsset('link', {
+                    rel: 'stylesheet', href: box.getAttribute('data-css')
+                });
+                var js = window.L ? Promise.resolve() : loadAsset('script', {
+                    src: box.getAttribute('data-js')
+                });
+
+                Promise.all([css, js]).then(function () {
+                    var canvas = document.createElement('div');
+                    canvas.className = 'tgs-tour-map-canvas';
+                    box.innerHTML = '';
+                    box.appendChild(canvas);
+                    box.classList.add('is-loaded');
+
+                    var map = L.map(canvas, { scrollWheelZoom: false });
+                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende'
+                    }).addTo(map);
+
+                    var line = L.polyline(track, { color: '#3D5A40', weight: 4, opacity: .9 }).addTo(map);
+                    map.fitBounds(line.getBounds(), { padding: [24, 24] });
+
+                    var start = json(box, 'data-start', null);
+                    var ende  = json(box, 'data-ende', null);
+                    var rund  = box.getAttribute('data-rund') === '1';
+                    var titel = box.getAttribute('data-title') || 'Tour';
+
+                    if (start && start.length === 2) {
+                        L.circleMarker(start, {
+                            radius: 7, color: '#fff', weight: 2, fillColor: '#c8873f', fillOpacity: 1
+                        }).addTo(map).bindPopup(rund ? 'Start & Ziel: ' + titel : 'Start: ' + titel);
+                    }
+                    if (!rund && ende && ende.length === 2) {
+                        L.circleMarker(ende, {
+                            radius: 7, color: '#fff', weight: 2, fillColor: '#3D5A40', fillOpacity: 1
+                        }).addTo(map).bindPopup('Ziel');
+                    }
+                }).catch(function () {
+                    btn.disabled = false;
+                    btn.textContent = 'Karte konnte nicht geladen werden — nochmal versuchen';
+                });
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
@@ -159,5 +241,6 @@
         initVideoFacade();
         initGuardNames();
         initAboCopy();
+        initTourMap();
     });
 })();

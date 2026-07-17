@@ -1,3 +1,23 @@
+## [0.24.0] — 2026-07-17
+
+### Neu — Touren (GPX-basiert) · Issue #15
+- **Neuer CPT `tgs_tour`** mit Archiv `/touren/`, Detailseite und Liste `[tgs_touren]` (Attribute: `art`, `level`, `anzahl`, `filter`) — z. B. für die Radsport-Seite.
+- **Die GPX gehört dem Verein.** Sie liegt in der Mediathek und ist die Quelle; ein Komoot-Link ist optional und nur ein zusätzlicher Kanal. WordPress erlaubt `.gpx` normalerweise nicht — Upload-Freigabe via `upload_mimes` + `wp_check_filetype_and_ext`.
+- **GPX hochladen genügt — der Rest rechnet sich selbst** (einmal beim Speichern, nicht bei jedem Aufruf): Distanz (Haversine), Höhenmeter, Min/Max-Höhe, Rundkurs-Erkennung, Streckenzug und Höhenprofil.
+  - **Höhenmeter werden geglättet** (gleitender Mittelwert + 2-m-Schwelle). Ohne das summiert sich GPS-Rauschen auf: Verifiziert an einer Testtour mit exakt 200 echten Höhenmetern → **roh 3.002 m, geglättet 194 m**. Die rohe Zahl wäre unbrauchbar.
+  - **Streckenzug wird ausgedünnt** (Douglas-Peucker): 3.001 → 77 Punkte (−97 %) bei 0,04 % Abweichung in der Distanz. Die Original-GPX bleibt für den Download unangetastet.
+- **Höhenprofil als SVG**, selbst gerendert in Vereinsfarben — kein Drittanbieter, skaliert scharf.
+- **Karte hinter einer Klick-Fassade** (wie beim Imagefilm): Vorher steht dort der selbst gerenderte Streckenverlauf als SVG — null externe Requests, funktioniert ohne JavaScript. Erst auf Klick werden **Leaflet (selbst gehostet im Theme, v1.9.4, BSD-2)** und die Kartenkacheln von OpenStreetMap geladen; der Hinweis nennt den IP-Transfer ausdrücklich.
+- **Tour ↔ Kurs verknüpfbar** — der Mehrwert, den Komoot strukturell nicht hat: aus einer Datei wird eine Einladung („Diese Runde fahren wir gemeinsam" → zur Gruppe, mit Anmeldung). Dazu Startpunkt als Sportstätte (Parkplätze, Treffpunkt) und Einkehr-Hinweis.
+- **GPX-Download** — läuft auf Garmin, Wahoo, Komoot & Co.
+- **Privatsphäre:** Feld „Anfang/Ende kürzen" (Meter). Aufgezeichnete Touren starten oft an der Haustür der aufzeichnenden Person; die Adresse stünde sonst maschinenlesbar in der GPX.
+
+### Neu — Bewertungen & Kommentare für Touren
+- Nutzt denselben CPT `tgs_bewertung` wie die Kurse (nur `_tgs_bew_tour_id` statt `_tgs_bew_kurs_id`), damit es **ein** Bewertungs- und Moderationskonzept gibt. Moderation direkt an der Tour; der Freigabe-Handler kennt jetzt beide Ziele.
+- **Ohne Anmelde-Anker braucht es Spamschutz.** Kursbewertungen sind über den Anmelde-Token abgesichert — eine Tour kann jeder fahren. Statt eines Captchas (reCAPTCHA wäre Google) greifen ineinander: Honeypot, Mindest-Ausfüllzeit, Rate-Limit (gespeichert wird ein **Hash**, nie die IP), Nonce — und **Moderation**: nichts erscheint ohne Freigabe. Ehrlich: Letzteres bedeutet Arbeit; ohne geht es nicht.
+
+### Geändert
+- Filter-Chips funktionieren jetzt auch außerhalb der Kurstabelle (`.tgs-filter-item`) — dasselbe Bauteil, zwei Anwendungen.
 ## [0.23.0] — 2026-07-17
 
 ### Neu — Abonnierbarer Kurskalender (.ics) · Issue #19

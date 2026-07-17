@@ -890,3 +890,107 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-abo-copy:hover, .tgs-abo-copy:focus { color: var(--tgs-green); }
 .tgs-abo-copy.is-done { color: var(--tgs-green); text-decoration: none; }
 .tgs-abo-hint { font-size: 12.5px; line-height: 1.45; color: var(--tgs-muted); margin: 0; }
+
+/* ── Touren ───────────────────────────────────────────────────────────── */
+.tgs-tour-badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1rem; }
+.tgs-tour-badge {
+  font-size: 12px; font-weight: 600; letter-spacing: .02em;
+  background: var(--tgs-creme); border: 1px solid var(--tgs-border);
+  color: var(--tgs-ink); padding: .28rem .6rem; border-radius: 999px;
+}
+
+/* Karten-Fassade: SVG-Vorschau, echte Karte erst auf Klick */
+.tgs-tour-map {
+  position: relative; border: 1px solid var(--tgs-border); border-radius: 10px;
+  overflow: hidden; background: var(--tgs-creme); margin-bottom: .9rem;
+}
+.tgs-tour-map-preview { display: block; }
+.tgs-tour-shape { display: block; width: 100%; height: auto; }
+/* Kein Schleier über der ganzen Fläche — die Route soll sichtbar bleiben.
+   Button und Hinweis sitzen auf einer eigenen Karte am unteren Rand. */
+.tgs-tour-map-overlay {
+  position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column;
+  align-items: center; gap: .5rem; padding: .9rem;
+  background: linear-gradient(180deg, rgba(248,246,240,0), rgba(248,246,240,.92) 45%);
+  text-align: center;
+}
+.tgs-tour-map-load {
+  background: var(--tgs-green); color: #fff; border: 0; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; line-height: 1;
+  padding: .7rem 1.1rem; border-radius: 8px; transition: background .15s ease;
+}
+.tgs-tour-map-load:hover:not(:disabled) { background: var(--tgs-green-d); }
+.tgs-tour-map-load:disabled { opacity: .7; cursor: default; }
+.tgs-tour-map-note { font-size: 12px; line-height: 1.5; color: var(--tgs-muted); margin: 0; max-width: 42ch; }
+.tgs-tour-map-canvas { height: 420px; width: 100%; }
+.tgs-tour-map.is-loaded { background: none; }
+
+/* Eckdaten */
+.tgs-tour-fakten {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: .5rem; margin-bottom: 1.2rem;
+}
+.tgs-tour-fakt {
+  display: flex; flex-direction: column; gap: .15rem;
+  background: var(--tgs-creme); border: 1px solid var(--tgs-border);
+  border-radius: 8px; padding: .6rem .7rem;
+}
+.tgs-tour-fakt-l { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--tgs-muted); }
+.tgs-tour-fakt-v { font-size: 15px; color: var(--tgs-ink); }
+
+/* Höhenprofil */
+.tgs-tour-profil-box { margin-bottom: 1.4rem; }
+.tgs-tour-profil-h { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--tgs-ink); margin-bottom: .4rem; }
+.tgs-tour-profil { display: block; width: 100%; height: auto; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 8px; }
+.tgs-pg-grid { stroke: #d8d2c4; stroke-width: 1; stroke-dasharray: 3 3; }
+.tgs-pg-lbl { font-size: 9px; fill: #8a8577; font-family: inherit; }
+
+/* Verknüpfte Gruppe */
+.tgs-tour-gruppe {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  background: var(--tgs-creme); border: 1px solid var(--tgs-border);
+  border-left: 3px solid var(--tgs-green); border-radius: 8px;
+  padding: .9rem 1rem; margin: 1.4rem 0;
+}
+.tgs-tour-gruppe-txt { display: flex; flex-direction: column; gap: .15rem; }
+.tgs-tour-gruppe-txt strong { font-size: 14px; color: var(--tgs-ink); }
+.tgs-tour-gruppe-txt span { font-size: 13px; color: var(--tgs-muted); }
+
+/* Tourenliste */
+.tgs-touren-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+.tgs-tour-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--tgs-border); border-radius: 10px; overflow: hidden;
+  background: #fff; transition: border-color .15s ease, transform .15s ease;
+}
+.tgs-tour-card:hover { border-color: var(--tgs-green-l); transform: translateY(-2px); }
+.tgs-tour-card-map { display: block; background: var(--tgs-creme); border-bottom: 1px solid var(--tgs-border-l); }
+.tgs-tour-card-map .tgs-tour-shape { width: 100%; height: auto; }
+.tgs-tour-card-body { display: block; padding: .75rem .85rem .85rem; }
+.tgs-tour-card-title { display: block; font-weight: 600; font-size: 15px; color: var(--tgs-ink); line-height: 1.3; }
+.tgs-tour-card-meta { display: block; font-size: 12.5px; color: var(--tgs-muted); margin-top: .25rem; }
+
+/* Bewertungsformular Tour */
+.tgs-tbew-form { margin-top: 1.2rem; border-top: 1px solid var(--tgs-border); padding-top: 1.2rem; }
+.tgs-tbew-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.tgs-tbew-stars { border: 0; padding: 0; margin: 0 0 .8rem; display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: .1rem; }
+.tgs-tbew-stars legend { float: left; width: 100%; font-size: 13px; font-weight: 600; color: var(--tgs-ink); margin-bottom: .3rem; }
+.tgs-tbew-stars input { position: absolute; opacity: 0; width: 0; height: 0; }
+.tgs-tbew-stars label { cursor: pointer; font-size: 26px; line-height: 1; color: #d8d2c4; transition: color .1s ease; }
+.tgs-tbew-stars label:hover, .tgs-tbew-stars label:hover ~ label,
+.tgs-tbew-stars input:checked ~ label { color: #c8873f; }
+.tgs-tbew-stars input:focus-visible + label { outline: 2px solid var(--tgs-green); outline-offset: 2px; }
+.tgs-tbew-row { display: flex; flex-direction: column; gap: .3rem; margin: 0 0 .8rem; }
+.tgs-tbew-row label { font-size: 13px; font-weight: 600; color: var(--tgs-ink); }
+.tgs-tbew-row label span { font-weight: 400; color: var(--tgs-muted); }
+.tgs-tbew-row input, .tgs-tbew-row textarea {
+  font: inherit; font-size: 14px; padding: .55rem .7rem;
+  border: 1px solid var(--tgs-border); border-radius: 7px; background: #fff; width: 100%;
+}
+.tgs-tbew-row textarea { resize: vertical; }
+.tgs-tbew-hint { font-size: 12px; color: var(--tgs-muted); margin: 0 0 .8rem; }
+
+@media (max-width: 640px) {
+  .tgs-tour-map-canvas { height: 300px; }
+  .tgs-touren-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}

@@ -1,3 +1,8 @@
+## [0.27.1] — 2026-07-17
+
+### Geändert — Layout-Feinschliff
+- **Teilen-Button aus dem Kurs-Header entfernt.** Er machte die rechte CTA-Spalte höher als die Titel-/Info-Spalte links → sichtbare Unwucht mit viel Leerraum bis zum Trennstrich. Der Button sitzt jetzt dezent am **Ende der Inhaltsspalte** („Kurs weiterempfehlen") — der natürliche Ort zum Teilen.
+- **Unterer „Mitglied werden"-Block durch die Sponsoren-Leiste ersetzt** (auf allen Inhalts- und Archivseiten). Grund: „Mitglied werden" ist dauerhaft im Menü — der große grüne Block am Seitenende war doppelt. Die Sponsoren-Leiste (`parts/sponsor-bar.html`) existierte bereits, wurde aber nirgends eingebunden; sie dient jetzt als dezenter Begrenzer über dem Footer und gibt den Sponsoren durchgehend Sichtbarkeit. Mitgliedschaft bleibt über das Menü und die Startseite präsent (Homepage unverändert).
 ## [0.27.0] — 2026-07-17
 
 ### Neu — Inhalte teilen (Open Graph + datenschutzfreundlicher Button) · Issue #20

@@ -27,7 +27,7 @@ img { max-width: 100%; height: auto; }
 
 /* Vollbreite-Bänder auf zentrierte Inhaltsbreite bringen — ohne Wrapper-Div */
 .tgs-nav, .tgs-hero, .tgs-page-hero, .tgs-section, .tgs-section-alt,
-.tgs-mitglied-cta, .tgs-sponsor-section, .tgs-footer,
+.tgs-mitglied-cta, .tgs-sponsor-section, .tgs-sponsor-bar, .tgs-footer,
 .tgs-kd-header, .tgs-kd-body, .tgs-abt-hero {
   padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2));
 }
@@ -1144,3 +1144,14 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 
 /* News-Fuß: Zurück-Link links, Teilen rechts */
 .tgs-news-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+/* ── Teilen am Inhaltsende (statt im Header) ──────────────────────────── */
+.tgs-kd-teilen {
+  display: flex; align-items: center; gap: .8rem;
+  margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--tgs-border);
+}
+.tgs-kd-teilen-l { font-size: 13.5px; font-weight: 600; color: var(--tgs-muted); }
+
+/* ── Sponsoren-Leiste als unterer Begrenzer (über dem Footer) ─────────── */
+.tgs-sponsor-bar { padding-block: 1.35rem; }
+.tgs-sponsor-bar .wp-block-group { gap: .4rem 1.2rem; }

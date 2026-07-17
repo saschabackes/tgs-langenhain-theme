@@ -469,7 +469,11 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-mw code, .tgs-gs code, .tgs-sk code { font: inherit; background: none; padding: 0; }
 .tgs-section:has(.tgs-mw), .wp-block-post-content:has(.tgs-mw),
 .tgs-section:has(.tgs-gs), .wp-block-post-content:has(.tgs-gs),
-.tgs-section:has(.tgs-sk), .wp-block-post-content:has(.tgs-sk) { padding: 0 !important; border-bottom: none; background: transparent; }
+.tgs-section:has(.tgs-sk), .wp-block-post-content:has(.tgs-sk) { padding: 0 !important; border-bottom: none; background: transparent;
+  /* page.html rahmt den Inhalt in ein constrained-Layout (contentSize 720px);
+     diese Shortcode-Seiten brauchen aber die volle Breite wie die CPT-Seiten
+     und zentrieren sich über ihr eigenes padding-inline (--tgs-wrap). */
+  max-width: none !important; }
 body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, body:has(.tgs-sk) .wp-block-post-title { display: none; }
 .tgs-mw-block { margin-top: 2.6rem; }
 .tgs-mw-intro { max-width: 760px; }

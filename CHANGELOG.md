@@ -1,3 +1,7 @@
+## [0.27.2] — 2026-07-17
+
+### Behoben — Gaststätte/Speisekarte/Mitglied-werden waren zu schmal
+- Diese drei Seiten sind normale WordPress-Seiten und laufen über `page.html`, das den Inhalt in ein `constrained`-Layout rahmt (theme.json `contentSize: 720px`). Dadurch waren sie mit **720px** deutlich schmaler als die CPT-Seiten (Kurse, Sportstätten …) mit **1180px** — beim Seitenwechsel sprang das ins Auge. Das bestehende Breakout-CSS nullte nur das Padding, nicht die `max-width` des `.wp-block-post-content`. Jetzt zusätzlich `max-width: none` → volle Breite wie überall, Zentrierung über das eigene `padding-inline` (`--tgs-wrap`).
 ## [0.27.1] — 2026-07-17
 
 ### Geändert — Layout-Feinschliff

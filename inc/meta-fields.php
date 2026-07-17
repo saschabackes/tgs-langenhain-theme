@@ -121,6 +121,7 @@ function tgs_register_meta_fields() {
         '_tgs_ss_app_ios'     => 'string',
         '_tgs_ss_app_android' => 'string',
         '_tgs_ss_nahkauf'     => 'string',   // Entfernung/Hinweis zur Nahkauf Box; leer = ausblenden
+        '_tgs_ss_nahkauf_link'=> 'string',   // optionaler Google-Maps-Link der Box
     );
 
     foreach ( $ss_fields as $key => $type ) {
@@ -450,6 +451,7 @@ function tgs_sportstaette_meta_box_html( $post ) {
         '_tgs_ss_app_ios'       => array( 'label' => 'App-Store-Link (iOS)', 'type' => 'url', 'placeholder' => 'https://apps.apple.com/…' ),
         '_tgs_ss_app_android'   => array( 'label' => 'Google-Play-Link', 'type' => 'url', 'placeholder' => 'https://play.google.com/…' ),
         '_tgs_ss_nahkauf'       => array( 'label' => 'Nahkauf Box in der Nähe', 'type' => 'text', 'placeholder' => 'Entfernung/Hinweis, z.B. „direkt am Platz" — leer lassen = ausblenden' ),
+        '_tgs_ss_nahkauf_link'  => array( 'label' => 'Nahkauf Box: Google-Maps-Link', 'type' => 'url', 'placeholder' => 'https://maps.app.goo.gl/… (Teilen-Link der Box, optional)' ),
     );
 
     echo '<table class="form-table"><tbody>';
@@ -488,7 +490,7 @@ function tgs_save_sportstaette_meta( $post_id ) {
             update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
         }
     }
-    $url_fields = array( '_tgs_maps_link', '_tgs_ss_app_ios', '_tgs_ss_app_android' );
+    $url_fields = array( '_tgs_maps_link', '_tgs_ss_app_ios', '_tgs_ss_app_android', '_tgs_ss_nahkauf_link' );
     foreach ( $url_fields as $key ) {
         if ( isset( $_POST[ $key ] ) ) {
             update_post_meta( $post_id, $key, esc_url_raw( trim( $_POST[ $key ] ) ) );

@@ -547,7 +547,8 @@ function tgs_shortcode_sportstaette_detail() {
     $app_desc  = get_post_meta( $post_id, '_tgs_ss_app_desc', true );
     $app_ios   = get_post_meta( $post_id, '_tgs_ss_app_ios', true );
     $app_andr  = get_post_meta( $post_id, '_tgs_ss_app_android', true );
-    $nahkauf   = trim( (string) get_post_meta( $post_id, '_tgs_ss_nahkauf', true ) );
+    $nahkauf      = trim( (string) get_post_meta( $post_id, '_tgs_ss_nahkauf', true ) );
+    $nahkauf_link = trim( (string) get_post_meta( $post_id, '_tgs_ss_nahkauf_link', true ) );
 
     // Ausstattung in Listenpunkte zerlegen (Zeilenweise; Altdaten mit Kommas werden gesplittet)
     $ausst_items = array();
@@ -653,7 +654,12 @@ function tgs_shortcode_sportstaette_detail() {
                 <p class="tgs-ss-nahkauf-hint">Ein unabhängiges Angebot in der Nachbarschaft, nicht vom Verein betrieben.</p>
             </div>
             <div class="tgs-ss-nahkauf-btns">
-                <a href="https://www.nahkauf.de/nahkauf-box" class="tgs-ss-app-btn" target="_blank" rel="noopener noreferrer">Was ist das? ↗</a>
+                <?php if ( $nahkauf_link ) : ?>
+                    <a href="<?php echo esc_url( $nahkauf_link ); ?>" class="tgs-ss-app-btn" target="_blank" rel="noopener noreferrer">Standort &amp; Öffnungszeiten ↗</a>
+                    <a href="https://www.nahkauf.de/nahkauf-box" class="tgs-ss-nahkauf-more" target="_blank" rel="noopener noreferrer">Was ist das?</a>
+                <?php else : ?>
+                    <a href="https://www.nahkauf.de/nahkauf-box" class="tgs-ss-app-btn" target="_blank" rel="noopener noreferrer">Was ist das? ↗</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

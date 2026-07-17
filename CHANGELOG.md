@@ -1,3 +1,8 @@
+## [0.28.1] — 2026-07-17
+
+### Ergänzt — Nahkauf Box: optionaler Google-Maps-Link
+- Neues optionales Feld **„Nahkauf Box: Google-Maps-Link"** je Sportstätte. Ist er gesetzt, zeigt die Karte einen **„Standort & Öffnungszeiten ↗"**-Button (zur Google-Maps-Seite der konkreten Box) plus einen dezenten „Was ist das?"-Link zum Konzept.
+- Bewusst nur **Link, kein eingebettetes Google-Maps-iframe**: ein Embed würde beim Seitenaufruf Google-Skripte laden und IP/Cookies übertragen — der Klick-Link tut das erst, wenn der Nutzer ihn aktiv anklickt (konsistent mit der DSGVO-Linie: selbstgehostete Fonts, Video-Fassade etc.).
 ## [0.28.0] — 2026-07-17
 
 ### Neu — „Nahkauf Box in der Nähe" auf Sportstätten-Seiten

@@ -375,7 +375,7 @@ a.tgs-chip:hover { color: #fff; }
 /* ============ SPORTSTÄTTE DETAIL ============ */
 /* Hero — Standard (ohne Foto) */
 .tgs-ss-hero { background: var(--tgs-green); border-bottom: 1px solid var(--tgs-border); }
-.tgs-ss-hero-inner { padding: 2.4rem 2rem; }
+.tgs-ss-hero-inner { padding-block: 2.4rem; padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); }
 .tgs-ss-hero .tgs-ss-typ { display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #fff; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); padding: 4px 12px; border-radius: 999px; margin-bottom: .8rem; }
 .tgs-ss-h1 { font-family: 'Libre Baskerville', serif; font-size: 34px; color: #fff; margin: 0 0 .55rem 0; font-weight: 700; line-height: 1.15; }
 .tgs-ss-addr { font-size: 15px; color: rgba(255,255,255,.82); line-height: 1.55; margin-bottom: 1.1rem; }
@@ -383,7 +383,7 @@ a.tgs-chip:hover { color: #fff; }
 .tgs-ss-maps-btn:hover { text-decoration: none; opacity: .92; }
 /* Hero — mit Foto (Beitragsbild als Hintergrund) */
 .tgs-ss-hero--photo { background-size: cover; background-position: center; border-bottom: none; }
-.tgs-ss-hero--photo .tgs-ss-hero-inner { padding: 4.5rem 2rem 2.2rem; display: flex; flex-direction: column; align-items: flex-start; min-height: 300px; justify-content: flex-end; }
+.tgs-ss-hero--photo .tgs-ss-hero-inner { padding-block: 4.5rem 2.2rem; padding-inline: max(1.5rem, calc((100% - var(--tgs-wrap)) / 2)); display: flex; flex-direction: column; align-items: flex-start; min-height: 300px; justify-content: flex-end; }
 
 /* Fakten-Leiste */
 .tgs-ss-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--tgs-border); border-bottom: 1px solid var(--tgs-border); }

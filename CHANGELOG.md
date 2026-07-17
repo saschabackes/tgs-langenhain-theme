@@ -1,3 +1,7 @@
+## [0.27.3] — 2026-07-17
+
+### Behoben — Sportstätten-Hero-Inhalt lief zu breit
+- Der Hero der Sportstätten-Seiten hatte fixe 2rem-Ränder statt der Spalten-Ausrichtung (`--tgs-wrap` 1180px) wie Kurs- und News-Heros. Dadurch zog sich der Hero-**Inhalt** (Titel/Badge) auf breiten Monitoren immer weiter mit der Fensterbreite und wirkte „seitenfüllend" gegenüber dem 1180px-Body darunter. Jetzt richtet sich der Hero-Inhalt auf dieselbe Spalte aus; der Hintergrund/das Foto bleibt full-bleed (wie bei Kursen/News). Body war bereits korrekt bei 1180px.
 ## [0.27.2] — 2026-07-17
 
 ### Behoben — Gaststätte/Speisekarte/Mitglied-werden waren zu schmal

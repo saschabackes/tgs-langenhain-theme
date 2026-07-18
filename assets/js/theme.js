@@ -298,6 +298,46 @@
         });
     }
 
+    /**
+     * Termine-Agenda: nach Typ filtern (Kurse/Handball/…). Leere Tage UND
+     * Wochen-Überschriften klappen automatisch weg.
+     */
+    function initTermineFilter() {
+        var box = document.querySelector('.tgs-chip-row[data-termine-filter]');
+        if (!box) return;
+        var agenda = box.closest('.tgs-agenda');
+        if (!agenda) return;
+        var chips = box.querySelectorAll('.tgs-chip');
+
+        function apply(f) {
+            agenda.querySelectorAll('.tgs-heute-item[data-typ]').forEach(function (it) {
+                it.classList.toggle('is-hidden', f !== 'alle' && it.getAttribute('data-typ') !== f);
+            });
+            // Tage ohne sichtbares Item ausblenden
+            agenda.querySelectorAll('.tgs-agenda-day').forEach(function (day) {
+                var any = day.querySelector('.tgs-heute-item:not(.is-hidden)');
+                day.classList.toggle('is-hidden', !any);
+            });
+            // Wochen-Label ausblenden, wenn bis zum nächsten Label kein sichtbarer Tag
+            agenda.querySelectorAll('.tgs-agenda-week').forEach(function (wk) {
+                var n = wk.nextElementSibling, visible = false;
+                while (n && !n.classList.contains('tgs-agenda-week')) {
+                    if (n.classList.contains('tgs-agenda-day') && !n.classList.contains('is-hidden')) { visible = true; break; }
+                    n = n.nextElementSibling;
+                }
+                wk.classList.toggle('is-hidden', !visible);
+            });
+        }
+
+        chips.forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                chips.forEach(function (c) { c.classList.remove('active'); });
+                chip.classList.add('active');
+                apply(chip.getAttribute('data-f') || 'alle');
+            });
+        });
+    }
+
     // Init on DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         initFilterChips();
@@ -307,5 +347,6 @@
         initAboCopy();
         initTourMap();
         initTeilen();
+        initTermineFilter();
     });
 })();

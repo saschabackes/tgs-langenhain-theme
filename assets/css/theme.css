@@ -1271,3 +1271,19 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 .tgs-abt3-foot { margin-top: 1rem; font-size: 13.5px; font-weight: 600; color: var(--tgs-green); }
 
 @media (max-width: 640px) { .tgs-abt3-grid { grid-template-columns: 1fr; } }
+
+/* ── Termine-Agenda ───────────────────────────────────────────────────── */
+.tgs-agenda-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+.tgs-agenda-title { font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.9rem; line-height: 1.1; color: var(--tgs-ink); margin: 0; }
+.tgs-agenda-sub { font-size: 13.5px; color: var(--tgs-muted); margin: .2rem 0 0; }
+.tgs-agenda-abo .tgs-abo { flex-direction: row; align-items: center; gap: .8rem; }
+.tgs-agenda-abo .tgs-abo-hint { display: none; }
+.tgs-agenda .tgs-chip-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.4rem; }
+.tgs-agenda-week { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--tgs-green); margin: 1.6rem 0 .5rem; }
+.tgs-agenda-week:first-of-type { margin-top: 0; }
+.tgs-agenda-day { margin-bottom: 1rem; }
+.tgs-agenda-day.is-hidden, .tgs-agenda-week.is-hidden { display: none; }
+.tgs-agenda-daylabel { font-size: 13.5px; font-weight: 700; color: var(--tgs-ink); margin: 0 0 .4rem; }
+.tgs-agenda-daylabel.is-today { color: var(--tgs-green); }
+.tgs-agenda-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+.tgs-agenda-list .tgs-heute-item.is-hidden { display: none; }

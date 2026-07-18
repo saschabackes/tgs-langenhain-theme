@@ -446,7 +446,7 @@ function tgs_heute_render() {
         }
         ?>
 
-        <a class="tgs-heute-more" href="<?php echo esc_url( home_url( '/kurse' ) ); ?>">Alle Kurse ansehen →</a>
+        <a class="tgs-heute-more" href="<?php echo esc_url( home_url( '/termine' ) ); ?>">Alle Termine ansehen →</a>
     </section>
     <?php
     return tgs_strip_ws( ob_get_clean() );

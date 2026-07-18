@@ -1,3 +1,13 @@
+## [0.34.0] — 2026-07-18
+
+### Neu — Termine-Agenda (`/termine`) · Issue #24
+- Filterbare Wochen-Vorschau: **Kurse + Handball** (Tischtennis folgt) über die nächsten Wochen, chronologisch gruppiert nach **Woche & Tag**, leere Tage werden übersprungen. Shortcode `[tgs_termine wochen="4"]` + Auto-Seite `/termine`.
+- **Kurse werden über den Zeitraum expandiert** (jeder wöchentliche Termin), inkl. datumsgenauer **Ausfälle/Pausen** aus dem Meldungs-System, Saison-Badge und Status (Freie Plätze/Warteliste/Offen). Performance: Kurs-Termin je Kurs einmal berechnet, dann über die Tage gestreut.
+- **Handball** aus dem serverseitigen Feed an den richtigen Tagen eingemischt (WBH-Heimspiele verlinkt, Spielart, Ergebnis).
+- **Filter-Chips** (Alle/Kurse/Handball) clientseitig — leere Tage **und** Wochen-Überschriften klappen automatisch weg.
+- **Abo-Button** oben (nutzt die bestehenden `.ics`-Feeds) — durchblättern oder in den eigenen Kalender holen.
+- „Heute" verlinkt jetzt mit **„Alle Termine ansehen →"** auf `/termine`.
+- Verifiziert: Datums-Expansion, Wochen-Gruppierung und Handball-Merge gegen echten Feed getestet.
 ## [0.33.0] — 2026-07-18
 
 ### Neu — Abteilungsseite: „Verein in Zahlen" + lebendige Karten

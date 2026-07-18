@@ -148,7 +148,7 @@ function tgs_handball_club_url() {
  * @return array Spiele: ts, heim, gast, ort, stadt, wbh, heimspiel, state, hg, ag
  */
 function tgs_handball_spiele_alle() {
-    $key    = 'tgs_hb_feed';
+    $key    = 'tgs_hb_feed_v2';
     $cached = get_transient( $key );
     if ( is_array( $cached ) ) return $cached;
 
@@ -159,7 +159,7 @@ function tgs_handball_spiele_alle() {
     ) );
 
     if ( is_wp_error( $res ) || (int) wp_remote_retrieve_response_code( $res ) !== 200 ) {
-        $backup = get_option( 'tgs_hb_backup', array() );
+        $backup = get_option( 'tgs_hb_backup_v2', array() );
         set_transient( $key, $backup, 15 * MINUTE_IN_SECONDS ); // kurz cachen, nicht hämmern
         return is_array( $backup ) ? $backup : array();
     }
@@ -191,7 +191,7 @@ function tgs_handball_spiele_alle() {
     usort( $clean, function ( $a, $b ) { return $a['ts'] - $b['ts']; } );
 
     set_transient( $key, $clean, 30 * MINUTE_IN_SECONDS );
-    update_option( 'tgs_hb_backup', $clean, false );
+    update_option( 'tgs_hb_backup_v2', $clean, false );
     return $clean;
 }
 

@@ -369,15 +369,15 @@ function tgs_heute_render() {
     foreach ( $matches_today as $s ) $items[] = tgs_handball_item( $s );
     usort( $items, function ( $a, $b ) { return $a['sort'] - $b['sort']; } );
 
-    $datum_lang = wp_date( 'l, j. F', current_time( 'timestamp' ) );
-    $stand      = wp_date( 'H:i', current_time( 'timestamp' ) );
+    // wp_date() ohne Timestamp = jetzt, korrekt lokalisiert. NICHT
+    // current_time('timestamp') übergeben — das wäre doppelter Zeitzonen-Offset.
+    $datum_lang = wp_date( 'l, j. F' );
 
     ob_start();
     ?>
     <section class="tgs-heute">
         <div class="tgs-heute-head">
             <span class="tgs-heute-eyebrow">Heute in der TGS</span>
-            <span class="tgs-heute-live">Stand <b><?php echo esc_html( $stand ); ?> Uhr</b></span>
             <h2 class="tgs-heute-date"><?php echo esc_html( $datum_lang ); ?></h2>
         </div>
 

@@ -1,3 +1,8 @@
+## [0.32.1] — 2026-07-18
+
+### Behoben — „Heute": falsche Uhrzeit (doppelter Zeitzonen-Offset)
+- Die „Stand HH:MM Uhr"-Anzeige lag 2 Std. daneben: `wp_date()` bekam `current_time('timestamp')` übergeben — das ist schon lokale Zeit, `wp_date()` addierte den Zeitzonen-Offset ein zweites Mal. Betraf auch das Datum (falscher Tag um Mitternacht).
+- Fix: `wp_date()` ohne Timestamp (= jetzt, korrekt lokalisiert). Die minutengenaue „Stand"-Zeile ist entfallen — sie brachte keinen Mehrwert (Seite wird gecacht) und war irreführend. Das Datum („Samstag, 18. Juli") bleibt.
 ## [0.32.0] — 2026-07-18
 
 ### Ergänzt — „Heute" auf der Startseite, Quellen-Hinweis, Link-Verwaltung

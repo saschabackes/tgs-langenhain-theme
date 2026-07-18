@@ -1245,3 +1245,5 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
   .tgs-heute-item { gap: .7rem; padding: .65rem .75rem; }
   .tgs-heute-time { flex-basis: 52px; font-size: 14px; }
 }
+.tgs-heute-quelle { font-size: 11.5px; color: var(--tgs-muted); margin: .9rem 0 0; }
+.tgs-heute-quelle a { color: var(--tgs-muted); text-decoration: underline; text-underline-offset: 2px; }

@@ -1,3 +1,9 @@
+## [0.32.0] — 2026-07-18
+
+### Ergänzt — „Heute" auf der Startseite, Quellen-Hinweis, Link-Verwaltung
+- **`[tgs_heute]` als Sektion auf der Startseite** (direkt unter dem Hero) — der Wiederkehr-Anker ganz oben.
+- **Quellen-Hinweis** unter den Spielen: „Handball-Spielplan: handball.net (Hessischer Handball-Verband)" mit Link auf die offizielle Vereinsseite. Erscheint nur, wenn Handball-Inhalte gezeigt werden.
+- **Einstellungsseite „Heute & Handball"** (unter Einstellungen): Hier pflegt der Verein die Links zu den HSG-Mannschaftsseiten (Herren 1/2/3, Damen) selbst — kein Code-Edit nötig. Leeres Feld = kein Link. Standardwerte (Herren 1, Damen) sind vorbelegt; Option `tgs_handball_links` überlagert die Defaults, Filter `tgs_handball_team_links` bleibt für Entwickler.
 ## [0.31.1] — 2026-07-18
 
 ### Ergänzt — „Heute": Handball-Spiele mit Team-Link, Hallen-Link, Spielart

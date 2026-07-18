@@ -247,11 +247,67 @@ function tgs_handball_team_url( $team_name, $liga ) {
     elseif ( $women )  $key = 'damen' . ( $num > 1 ? '-' . $num : '' );
     else               $key = 'herren-' . $num;
 
-    $map = apply_filters( 'tgs_handball_team_links', array(
+    $map = apply_filters( 'tgs_handball_team_links', tgs_handball_links() );
+    return ( $key !== '' && ! empty( $map[ $key ] ) ) ? $map[ $key ] : '';
+}
+
+/** Standard-Mannschaftslinks (Herren 1 & Damen bestätigt, Rest leer). */
+function tgs_handball_links_defaults() {
+    return array(
         'herren-1' => 'https://hsg-eppla.de/list/herren-1',
+        'herren-2' => '',
+        'herren-3' => '',
         'damen'    => 'https://hsg-eppla.de/list/damen',
-    ) );
-    return ( $key !== '' && isset( $map[ $key ] ) ) ? $map[ $key ] : '';
+    );
+}
+
+/** Gepflegte Mannschaftslinks (Einstellungen) über die Standards gelegt. */
+function tgs_handball_links() {
+    $out = tgs_handball_links_defaults();
+    $opt = get_option( 'tgs_handball_links', array() );
+    if ( is_array( $opt ) ) {
+        foreach ( $opt as $k => $v ) {
+            if ( is_string( $v ) && $v !== '' ) $out[ $k ] = $v;
+        }
+    }
+    return $out;
+}
+
+/* --- Einstellungsseite: „Heute & Handball" (unter Einstellungen) --------- */
+add_action( 'admin_menu', function () {
+    add_options_page( 'Heute & Handball', 'Heute & Handball', 'manage_options', 'tgs-heute', 'tgs_heute_settings_page' );
+} );
+add_action( 'admin_init', function () {
+    register_setting( 'tgs_heute_group', 'tgs_handball_links', array( 'sanitize_callback' => 'tgs_handball_links_sanitize' ) );
+} );
+function tgs_handball_links_sanitize( $in ) {
+    $out = array();
+    if ( is_array( $in ) ) {
+        foreach ( $in as $k => $v ) $out[ sanitize_key( $k ) ] = esc_url_raw( trim( (string) $v ) );
+    }
+    return $out;
+}
+function tgs_heute_settings_page() {
+    $links  = tgs_handball_links();
+    $labels = array( 'herren-1' => 'Herren 1', 'herren-2' => 'Herren 2', 'herren-3' => 'Herren 3', 'damen' => 'Damen' );
+    ?>
+    <div class="wrap">
+        <h1>Heute &amp; Handball</h1>
+        <p>Links zu den Mannschaftsseiten der HSG EppLa. In „Heute in der TGS" wird der Teamname damit verlinkt. <strong>Leeres Feld = kein Link.</strong> Am einfachsten: die Seite der Mannschaft auf hsg-eppla.de öffnen und die Adresse aus der Adresszeile hier einfügen.</p>
+        <form method="post" action="options.php">
+            <?php settings_fields( 'tgs_heute_group' ); ?>
+            <table class="form-table"><tbody>
+                <?php foreach ( $labels as $k => $lbl ) : ?>
+                <tr>
+                    <th scope="row"><label for="tgs-hb-<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $lbl ); ?></label></th>
+                    <td><input type="url" id="tgs-hb-<?php echo esc_attr( $k ); ?>" name="tgs_handball_links[<?php echo esc_attr( $k ); ?>]" value="<?php echo esc_attr( isset( $links[ $k ] ) ? $links[ $k ] : '' ); ?>" class="regular-text" placeholder="https://hsg-eppla.de/list/…"></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody></table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
 }
 
 /** Handball-Spiel in ein Zeitleisten-Item übersetzen (mit Links + Spielart). */
@@ -308,8 +364,9 @@ function tgs_heute_render() {
     $today = current_time( 'Y-m-d' );
 
     // Items zusammentragen
+    $matches_today = tgs_handball_spiele_am( $today );
     $items = tgs_heute_kurse_am( $code, true );
-    foreach ( tgs_handball_spiele_am( $today ) as $s ) $items[] = tgs_handball_item( $s );
+    foreach ( $matches_today as $s ) $items[] = tgs_handball_item( $s );
     usort( $items, function ( $a, $b ) { return $a['sort'] - $b['sort']; } );
 
     $datum_lang = wp_date( 'l, j. F', current_time( 'timestamp' ) );
@@ -373,15 +430,19 @@ function tgs_heute_render() {
 
         <?php
         // Nächstes Handball-Spiel als Teaser, wenn heute keins läuft.
-        $hb_heute = tgs_handball_spiele_am( $today );
-        if ( empty( $hb_heute ) ) {
+        $handball_shown = ! empty( $matches_today );
+        if ( empty( $matches_today ) ) {
             $next_hb = tgs_handball_naechstes();
             if ( $next_hb ) {
+                $handball_shown = true;
                 $wo  = $next_hb['wbh'] ? 'in der Wilhelm-Busch-Halle' : ( $next_hb['heimspiel'] ? 'zu Hause' : 'auswärts' );
                 $art = tgs_handball_art( $next_hb['liga'] );
                 echo '<p class="tgs-heute-next">🤾 <strong>Nächstes Handballspiel:</strong> '
                     . esc_html( wp_date( 'D, j. M · H:i', $next_hb['ts'] ) . ' Uhr — ' . $next_hb['heim'] . ' – ' . $next_hb['gast'] . ' (' . $wo . ', ' . $art . ')' ) . '</p>';
             }
+        }
+        if ( $handball_shown ) {
+            echo '<p class="tgs-heute-quelle">Handball-Spielplan: <a href="https://www.handball.net/vereine/nuliga.hhv.16173" target="_blank" rel="noopener noreferrer">handball.net</a> (Hessischer Handball-Verband)</p>';
         }
         ?>
 

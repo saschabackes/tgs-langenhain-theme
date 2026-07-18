@@ -1,3 +1,12 @@
+## [0.31.0] — 2026-07-18
+
+### Neu — „Heute in der TGS" (Kurse + Handball) · Dorf-Dashboard
+- **Shortcode `[tgs_heute]`** + automatisch angelegte Seite **`/heute`**: zeigt, was heute läuft — als Zeitleiste nach Uhrzeit sortiert. Der Wiederkehr-Motor der Seite; läuft komplett von allein (Wochentag/Uhrzeit vom Server, Rest aus den Kursdaten).
+- **Kurse heute:** Tag/Zeit/Ort aus `tgs_kurs_termin()` (saisonabhängig), Status als Badge — **Jetzt läuft** (grün), Freie Plätze, Warteliste, Offen, ☀️/❄️ Saison und **Fällt aus** (mit Grund, durchgestrichen) direkt aus dem Meldungs-System.
+- **Handball-Spiele der HSG EppLa:** serverseitig aus der handball.net-JSON-API geholt (Verein 16173), 30 Min. gecacht, bei Fehler letzter guter Stand. **Heimspiele in der Wilhelm-Busch-Halle werden als solche erkannt und hervorgehoben.** Ergebnis erscheint bei gespielten Partien. Verifiziert am echten Feed (2 Spiele geparst, Zeitzone/WBH/Heim korrekt).
+- **DSGVO:** Der Feed wird **serverseitig** geholt — der Browser der Besucher spricht nie mit handball.net. Kein iframe, kein Widget.
+- **Leer-Zustand** freundlich: „Heute kein Training — das Nächste: …" plus, wenn heute kein Spiel ist, ein Teaser aufs **nächste Handballspiel**.
+- Vorbereitet für **Tischtennis** als dritte Quelle (TGS spielt 1./3. Kreisklasse Main-Taunus über click-TT/HTTV) — Feinschliff als Folgeschritt.
 ## [0.30.2] — 2026-07-17
 
 ### Neu — Telefonnummer der Kursleitung crawler-geschützt

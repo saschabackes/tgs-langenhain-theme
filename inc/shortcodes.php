@@ -818,44 +818,116 @@ function tgs_shortcode_abteilung_detail() {
 }
 add_shortcode( 'tgs_abteilung_detail', 'tgs_shortcode_abteilung_detail' );
 
+/** Abteilungs-Typ aus Titel ableiten (steuert das lebendige Signal + Icon). */
+function tgs_abt_typ( $abt ) {
+    $manual = get_post_meta( $abt->ID, '_tgs_abt_typ', true );
+    if ( $manual ) return $manual;
+    $t = function_exists( 'mb_strtolower' ) ? mb_strtolower( $abt->post_title ) : strtolower( $abt->post_title );
+    if ( strpos( $t, 'handball' ) !== false )    return 'handball';
+    if ( strpos( $t, 'tischtennis' ) !== false ) return 'tischtennis';
+    if ( strpos( $t, 'rad' ) !== false )         return 'radsport';
+    return 'fitness';
+}
+
+/** Passendes Emoji je Typ. */
+function tgs_abt_emoji( $typ ) {
+    $map = array( 'fitness' => '🤸', 'handball' => '🤾', 'tischtennis' => '🏓', 'radsport' => '🚴' );
+    return isset( $map[ $typ ] ) ? $map[ $typ ] : '🏅';
+}
+
+/** Anzahl veröffentlichter Beiträge eines Typs. */
+function tgs_count_posts( $post_type ) {
+    return count( get_posts( array( 'post_type' => $post_type, 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids' ) ) );
+}
+
 /**
- * [tgs_abteilungen_detail_liste] — Alle Abteilungen als ausführliche Karten
+ * Lebendiges Signal je Abteilung: array( lbl, html, amber ).
+ * Nutzt vorhandene Daten (Handball-Feed, Touren, Kurse). Manuelles Feld
+ * `_tgs_abt_signal` übersteuert alles.
+ */
+function tgs_abt_signal( $abt, $typ ) {
+    $manual = trim( (string) get_post_meta( $abt->ID, '_tgs_abt_signal', true ) );
+    if ( $manual !== '' ) return array( 'lbl' => 'Aktuell', 'html' => esc_html( $manual ), 'amber' => false );
+
+    if ( $typ === 'handball' && function_exists( 'tgs_handball_naechstes' ) ) {
+        $n = tgs_handball_naechstes();
+        if ( $n ) {
+            $wo = $n['wbh'] ? 'in der Wilhelm-Busch-Halle' : ( $n['heimspiel'] ? 'zu Hause' : 'auswärts' );
+            return array(
+                'lbl'   => $n['heimspiel'] ? 'Nächstes Heimspiel' : 'Nächstes Spiel',
+                'html'  => '<b>' . esc_html( wp_date( 'D, j. M · H:i', $n['ts'] ) ) . ' Uhr</b> — ' . esc_html( $n['heim'] . ' – ' . $n['gast'] ) . '<br>' . esc_html( $wo ),
+                'amber' => false,
+            );
+        }
+        return array( 'lbl' => 'Ligabetrieb', 'html' => 'HSG EppLa — die nächsten Spiele folgen.', 'amber' => true );
+    }
+
+    if ( $typ === 'radsport' ) {
+        $n = tgs_count_posts( 'tgs_tour' );
+        if ( $n > 0 ) {
+            return array( 'lbl' => 'Zum Nachfahren', 'html' => '<b>' . $n . ' Taunus-Tour' . ( $n === 1 ? '' : 'en' ) . '</b> mit Höhenprofil &amp; GPX<br>direkt vor der Haustür', 'amber' => false );
+        }
+        return array( 'lbl' => 'Draußen', 'html' => 'Touren, Kids-on-Bike &amp; gemeinsame Ausfahrten im Taunus.', 'amber' => true );
+    }
+
+    if ( $typ === 'tischtennis' ) {
+        return array( 'lbl' => 'Ligabetrieb', 'html' => 'Zwei Herren-Mannschaften · Kreisklasse Main-Taunus<br>Neuer Spielplan ab September.', 'amber' => true );
+    }
+
+    // fitness (Standard): Kurszahl + Breite
+    $anz = tgs_count_posts( 'tgs_kurs' );
+    return array( 'lbl' => 'Kursangebot', 'html' => '<b>' . $anz . ' Kurse &amp; Trainings</b><br>von Kinderturnen bis „Aktiv bis 100"', 'amber' => false );
+}
+
+/**
+ * [tgs_abteilungen_detail_liste] — „Verein in Zahlen" + lebendige Abteilungskarten.
  */
 function tgs_shortcode_abteilungen_detail_liste() {
     $abteilungen = get_posts( array(
-        'post_type'      => 'tgs_abteilung',
-        'posts_per_page' => -1,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
+        'post_type' => 'tgs_abteilung', 'posts_per_page' => -1,
+        'orderby' => 'menu_order', 'order' => 'ASC',
     ) );
     if ( empty( $abteilungen ) ) return '<p>Keine Abteilungen vorhanden.</p>';
 
-    $html = '<div class="tgs-abt-liste">';
-    foreach ( $abteilungen as $abt ) {
-        $icon    = get_post_meta( $abt->ID, '_tgs_abt_icon', true ) ?: '🏅';
-        $leitung = get_post_meta( $abt->ID, '_tgs_abt_leitung', true );
-        $excerpt = get_the_excerpt( $abt->ID );
-        $url     = get_permalink( $abt->ID );
+    $zahlen = apply_filters( 'tgs_verein_zahlen', array(
+        array( count( $abteilungen ), 'Abteilungen' ),
+        array( tgs_count_posts( 'tgs_kurs' ), 'Kurse & Trainings' ),
+        array( '1886', 'gegründet' ),
+        array( '3–99', 'Jahre — für alle' ),
+    ) );
 
-        $html .= '<div class="tgs-abt2-card" onclick="window.location=\'' . esc_url( $url ) . '\'">';
-        $html .= '<span class="tgs-abt2-top">';
-        $html .= '<span class="tgs-abt2-badge">' . tgs_abteilung_icon_html( $abt->ID ) . '</span>';
-        $html .= '<span class="tgs-abt2-name">' . esc_html( $abt->post_title ) . '</span>';
-        $html .= '</span>';
-        if ( $excerpt ) {
-            $html .= '<span class="tgs-abt2-desc">' . esc_html( $excerpt ) . '</span>';
-        }
-        $html .= '<span class="tgs-abt2-foot">';
-        if ( $leitung ) {
-            $html .= '<span class="tgs-abt2-ap">Ansprechpartner: <b>' . esc_html( $leitung ) . '</b></span>';
-        } else {
-            $html .= '<span class="tgs-abt2-ap"></span>';
-        }
-        $html .= '<span class="tgs-abt2-link">Zur Abteilung →</span>';
-        $html .= '</span>';
-        $html .= '</div>';
-    }
-    $html .= '</div>';
-    return $html;
+    ob_start();
+    ?>
+    <div class="tgs-zahlen">
+        <?php foreach ( $zahlen as $z ) : ?>
+            <div class="tgs-zahl"><b><?php echo esc_html( $z[0] ); ?></b><span><?php echo esc_html( $z[1] ); ?></span></div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="tgs-abt3-grid">
+        <?php foreach ( $abteilungen as $abt ) :
+            $typ    = tgs_abt_typ( $abt );
+            $sig    = tgs_abt_signal( $abt, $typ );
+            $tags   = get_the_excerpt( $abt->ID );
+            $url    = get_permalink( $abt->ID );
+        ?>
+        <a class="tgs-abt3-card" href="<?php echo esc_url( $url ); ?>">
+            <span class="tgs-abt3-top">
+                <span class="tgs-abt3-ic"><?php echo tgs_abt_emoji( $typ ); ?></span>
+                <span class="tgs-abt3-head">
+                    <span class="tgs-abt3-name"><?php echo esc_html( $abt->post_title ); ?></span>
+                    <?php if ( $tags ) : ?><span class="tgs-abt3-tags"><?php echo esc_html( $tags ); ?></span><?php endif; ?>
+                </span>
+            </span>
+            <span class="tgs-abt3-live<?php echo $sig['amber'] ? ' is-amber' : ''; ?>">
+                <span class="tgs-abt3-live-lbl"><?php echo esc_html( $sig['lbl'] ); ?></span>
+                <span class="tgs-abt3-live-txt"><?php echo wp_kses_post( $sig['html'] ); ?></span>
+            </span>
+            <span class="tgs-abt3-foot">Zur Abteilung →</span>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    <?php
+    return tgs_strip_ws( ob_get_clean() );
 }
 add_shortcode( 'tgs_abteilungen_detail_liste', 'tgs_shortcode_abteilungen_detail_liste' );

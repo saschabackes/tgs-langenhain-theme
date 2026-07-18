@@ -1,3 +1,13 @@
+## [0.33.0] — 2026-07-18
+
+### Neu — Abteilungsseite: „Verein in Zahlen" + lebendige Karten
+- Die Abteilungsübersicht (`/abteilungen/`) war ein reines Menü. Jetzt: oben ein **„Verein in Zahlen"-Streifen** (Abteilungen, Kurse, gegründet 1886, Altersspanne) und **lebendige Kacheln** mit einem echten, aktuellen Signal je Sparte:
+  - **Handball:** nächstes (Heim-)Spiel live aus dem handball.net-Feed (WBH hervorgehoben).
+  - **Radsport:** Anzahl Taunus-Touren mit GPX (automatisch).
+  - **Fitness & Turnen:** Kurszahl + Altersbreite.
+  - **Tischtennis:** Ligabetrieb-Hinweis (bis click-TT dran ist).
+- Signal je Abteilung aus dem Titel abgeleitet (Handball/Tischtennis/Radsport/Fitness); manuell übersteuerbar per Meta `_tgs_abt_signal`, Zahlen per Filter `tgs_verein_zahlen`.
+- Passendes Emoji je Sparte (🤸🤾🏓🚴 — die Tischtennis-Lupe ist weg), **Ansprechpartner von der Kachel entfernt** (stehen auf der Abteilungs-Detailseite). Ganze Karte verlinkt.
 ## [0.32.1] — 2026-07-18
 
 ### Behoben — „Heute": falsche Uhrzeit (doppelter Zeitzonen-Offset)

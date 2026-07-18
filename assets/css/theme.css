@@ -1247,3 +1247,27 @@ body:has(.tgs-mw) .wp-block-post-title, body:has(.tgs-gs) .wp-block-post-title, 
 }
 .tgs-heute-quelle { font-size: 11.5px; color: var(--tgs-muted); margin: .9rem 0 0; }
 .tgs-heute-quelle a { color: var(--tgs-muted); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── Abteilungen: „Verein in Zahlen" + lebendige Karten ───────────────── */
+.tgs-zahlen { display: flex; flex-wrap: wrap; gap: .7rem; margin: 0 0 1.8rem; }
+.tgs-zahl { flex: 1 1 150px; background: var(--tgs-creme); border: 1px solid var(--tgs-border); border-radius: 12px; padding: 1rem 1.1rem; text-align: center; }
+.tgs-zahl b { display: block; font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.7rem; color: var(--tgs-green); line-height: 1; }
+.tgs-zahl span { display: block; font-size: 12px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--tgs-muted); margin-top: .4rem; }
+
+.tgs-abt3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.tgs-abt3-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--tgs-border); border-radius: 16px; padding: 1.4rem 1.5rem; transition: border-color .15s ease, transform .15s ease; }
+.tgs-abt3-card:hover { border-color: var(--tgs-green-l); transform: translateY(-2px); text-decoration: none; }
+.tgs-abt3-top { display: flex; align-items: center; gap: .9rem; }
+.tgs-abt3-ic { width: 52px; height: 52px; flex: 0 0 auto; border-radius: 13px; background: var(--tgs-creme); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.tgs-abt3-head { min-width: 0; }
+.tgs-abt3-name { display: block; font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.4rem; color: var(--tgs-ink); line-height: 1.15; }
+.tgs-abt3-tags { display: block; font-size: 13px; color: var(--tgs-muted); margin-top: .15rem; }
+.tgs-abt3-live { display: block; background: var(--tgs-creme); border-left: 3px solid var(--tgs-green); border-radius: 8px; padding: .65rem .8rem; margin: 1rem 0 0; }
+.tgs-abt3-live.is-amber { border-left-color: #c8873f; }
+.tgs-abt3-live-lbl { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--tgs-green); margin-bottom: 2px; }
+.tgs-abt3-live.is-amber .tgs-abt3-live-lbl { color: #a5641f; }
+.tgs-abt3-live-txt { display: block; font-size: 13.5px; line-height: 1.5; color: var(--tgs-body); }
+.tgs-abt3-live-txt b { color: var(--tgs-ink); }
+.tgs-abt3-foot { margin-top: 1rem; font-size: 13.5px; font-weight: 600; color: var(--tgs-green); }
+
+@media (max-width: 640px) { .tgs-abt3-grid { grid-template-columns: 1fr; } }

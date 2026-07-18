@@ -1,3 +1,9 @@
+## [0.34.1] — 2026-07-18
+
+### Neu — Kurszahlen dynamisch statt hartkodiert
+- **Shortcode `[tgs_kurs_anzahl]`** zählt die veröffentlichten Kurse live; optional `kategorie="radsport"` (auch mehrere, komma-getrennt) für abteilungsspezifische Zählung. Ändert sich die Kurszahl, ändern sich die Anzeigen automatisch.
+- Startseiten-Hero nutzt jetzt `[tgs_kurs_anzahl]` statt der festen „20" (im Block-Template-Absatz — Rendering live bestätigt).
+- **Abteilungs-Auszüge sind shortcode-fähig**: Detail-Hero, Archiv-Karte und Open-Graph-Beschreibung laufen durch `do_shortcode()`. So kann `[tgs_kurs_anzahl]` direkt im „Auszug"-Text einer Abteilung stehen und wird als aktuelle Zahl ausgegeben.
 ## [0.34.0] — 2026-07-18
 
 ### Neu — Termine-Agenda (`/termine`) · Issue #24

@@ -486,6 +486,7 @@ function tgs_shortcode_navigation() {
     // Anpassbar über den Filter 'tgs_nav_items' (Label => URL-Pfad).
     $items = apply_filters( 'tgs_nav_items', array(
         'Kurse'        => '/kurse',
+        'Termine'      => '/termine',
         'Abteilungen'  => '/abteilungen',
         'Sportstätten' => '/sportstaetten',
         'Gaststätte'   => '/gaststaette',

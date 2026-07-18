@@ -1,3 +1,8 @@
+## [0.34.2] — 2026-07-18
+
+### Behoben — Nav-Eintrag „Termine" + Ansprechpartner von der Startseite
+- **„Termine" in die Navigation aufgenommen** (nach „Kurse"). Die Nav ist fest im `tgs_navigation`-Shortcode definiert, nicht das WP-Menü — deshalb hatte ein manueller Menü-Eintrag keine Wirkung.
+- **Ansprechpartner-Sektion von der Startseite entfernt** (Issue #25, Teil 1). Sie standen fest in `front-page.html` und kamen beim Zurücksetzen der Vorlage wieder; die Kontakte bleiben auf den Abteilungsseiten. (Sponsoren-Aufwertung mit Logos folgt separat, #25 Teil 2.)
 ## [0.34.1] — 2026-07-18
 
 ### Neu — Kurszahlen dynamisch statt hartkodiert

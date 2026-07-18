@@ -1,3 +1,10 @@
+## [0.31.1] — 2026-07-18
+
+### Ergänzt — „Heute": Handball-Spiele mit Team-Link, Hallen-Link, Spielart
+- **Team verlinkt:** Der EppLa-Teamname im Spiel führt auf die HSG-Mannschaftsseite (z. B. Herren 1 → `hsg-eppla.de/list/herren-1`). Gender/Alter aus dem Turniernamen, Nummer aus dem Teamnamen. Standardmäßig verlinkt sind die bestätigt funktionierenden Seiten (Herren 1, Damen); weitere per Filter `tgs_handball_team_links` ergänzbar — keine kaputten Links.
+- **Wilhelm-Busch-Halle verlinkt:** Bei Heimspielen in der WBH führt der Ort auf unsere eigene Sportstätten-Seite.
+- **Spielart wird angezeigt:** aus dem Turniernamen abgeleitet — **Testspiel** (Freundschaftsspiel/Vereins-Event/Turnier), **Quali** (Qualifikation) oder **Punktspiel** (Liga). Erscheint in der Spielzeile und im „nächstes Spiel"-Teaser.
+- Verifiziert am echten Feed: EppLa-1-Heimspiel in der WBH als „Testspiel" korrekt erkannt und verlinkt.
 ## [0.31.0] — 2026-07-18
 
 ### Neu — „Heute in der TGS" (Kurse + Handball) · Dorf-Dashboard

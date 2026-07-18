@@ -185,6 +185,7 @@ function tgs_handball_spiele_alle() {
             'state'     => isset( $m['state'] ) ? $m['state'] : '',
             'hg'        => isset( $m['homeGoals'] ) ? $m['homeGoals'] : null,
             'ag'        => isset( $m['awayGoals'] ) ? $m['awayGoals'] : null,
+            'liga'      => isset( $m['tournament']['name'] ) ? $m['tournament']['name'] : '',
         );
     }
     usort( $clean, function ( $a, $b ) { return $a['ts'] - $b['ts']; } );
@@ -212,34 +213,89 @@ function tgs_handball_naechstes() {
     return null;
 }
 
-/** Handball-Spiel in ein Zeitleisten-Item übersetzen. */
+/** Permalink der Wilhelm-Busch-Halle (Sportstätte), oder '' wenn nicht vorhanden. */
+function tgs_wbh_permalink() {
+    static $url = null;
+    if ( $url !== null ) return $url;
+    $url = '';
+    $p = get_page_by_path( 'wilhelm-busch-halle', OBJECT, 'tgs_sportstaette' );
+    if ( $p && get_post_status( $p->ID ) === 'publish' ) $url = get_permalink( $p->ID );
+    return $url;
+}
+
+/** Spielart aus dem Turniernamen: Testspiel / Quali / Punktspiel. */
+function tgs_handball_art( $liga ) {
+    $l = (string) $liga;
+    if ( stripos( $l, 'freundschaft' ) !== false || stripos( $l, 'vereins-event' ) !== false || stripos( $l, 'turnier' ) !== false ) return 'Testspiel';
+    if ( stripos( $l, 'quali' ) !== false ) return 'Quali';
+    return 'Punktspiel';
+}
+
+/**
+ * URL zur HSG-EppLa-Mannschaftsseite (dynamisch, per Filter erweiterbar).
+ * Gender/Alter kommt aus dem Turniernamen, die Nummer aus dem Teamnamen.
+ * Standardmäßig verlinkt sind nur die bestätigt funktionierenden Seiten
+ * (Herren 1, Damen). Weitere kann die HSG per Filter `tgs_handball_team_links`
+ * ergänzen (Schlüssel z. B. „herren-2", „herren-3").
+ */
+function tgs_handball_team_url( $team_name, $liga ) {
+    $women = ( stripos( $liga, 'weiblich' ) !== false || stripos( $liga, 'frauen' ) !== false || stripos( $liga, 'damen' ) !== false );
+    $youth = ( stripos( $liga, 'jugend' ) !== false );
+    preg_match( '/(\d+)\s*$/', (string) $team_name, $mm );
+    $num = isset( $mm[1] ) ? (int) $mm[1] : 1;
+    if ( $youth )      $key = '';
+    elseif ( $women )  $key = 'damen' . ( $num > 1 ? '-' . $num : '' );
+    else               $key = 'herren-' . $num;
+
+    $map = apply_filters( 'tgs_handball_team_links', array(
+        'herren-1' => 'https://hsg-eppla.de/list/herren-1',
+        'damen'    => 'https://hsg-eppla.de/list/damen',
+    ) );
+    return ( $key !== '' && isset( $map[ $key ] ) ) ? $map[ $key ] : '';
+}
+
+/** Handball-Spiel in ein Zeitleisten-Item übersetzen (mit Links + Spielart). */
 function tgs_handball_item( $s ) {
-    $zeit = wp_date( 'H:i', $s['ts'] );
-    $name = 'Handball: ' . $s['heim'] . ' – ' . $s['gast'];
+    $art   = tgs_handball_art( $s['liga'] );
+    $eppla = $s['heimspiel'] ? $s['heim'] : $s['gast'];
+    $url   = tgs_handball_team_url( $eppla, $s['liga'] );
 
+    // Nur das EppLa-Team verlinken (auf die HSG-Seite).
+    $team_html = function ( $name ) use ( $eppla, $url ) {
+        if ( $name === $eppla && $url ) {
+            return '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $name ) . '</a>';
+        }
+        return esc_html( $name );
+    };
+    $name_html = '🤾 Handball: ' . $team_html( $s['heim'] ) . ' – ' . $team_html( $s['gast'] );
+
+    // Ort – Wilhelm-Busch-Halle auf unsere Sportstätte verlinken.
     if ( $s['wbh'] ) {
-        $meta = 'Wilhelm-Busch-Halle · Heimspiel';
+        $wbh = tgs_wbh_permalink();
+        $ort_html = $wbh ? '<a href="' . esc_url( $wbh ) . '">Wilhelm-Busch-Halle</a>' : 'Wilhelm-Busch-Halle';
+        $wo = 'Heimspiel';
     } elseif ( $s['heimspiel'] ) {
-        $meta = trim( $s['ort'] . ( $s['stadt'] ? ', ' . $s['stadt'] : '' ) . ' · Heimspiel' );
+        $ort_html = esc_html( trim( $s['ort'] . ( $s['stadt'] ? ', ' . $s['stadt'] : '' ) ) );
+        $wo = 'Heimspiel';
     } else {
-        $meta = trim( ( $s['ort'] ? $s['ort'] : $s['stadt'] ) . ' · Auswärts' );
+        $ort_html = esc_html( $s['ort'] ? $s['ort'] : $s['stadt'] );
+        $wo = 'Auswärts';
     }
+    $meta_html = implode( ' · ', array_filter( array( $ort_html, $wo, esc_html( $art ) ) ) );
 
-    // Ergebnis, wenn gespielt
-    $badge = $s['wbh'] ? 'Heimspiel' : ( $s['heimspiel'] ? 'Heimspiel' : 'Auswärts' );
-    $badge_typ = $s['wbh'] ? 'home' : ( $s['heimspiel'] ? 'home' : 'away' );
+    $badge = $s['heimspiel'] ? 'Heimspiel' : 'Auswärts';
+    $badge_typ = $s['heimspiel'] ? 'home' : 'away';
     if ( $s['state'] === 'Post' && $s['hg'] !== null && $s['ag'] !== null ) {
         $badge = (int) $s['hg'] . ':' . (int) $s['ag']; $badge_typ = 'result';
     }
 
     return array(
-        'typ'   => 'spiel',
-        'sort'  => (int) wp_date( 'G', $s['ts'] ) * 60 + (int) wp_date( 'i', $s['ts'] ),
-        'zeit'  => $zeit,
-        'name'  => $name,
-        'meta'  => $meta,
-        'wbh'   => $s['wbh'],
-        'badge' => $badge, 'badge_typ' => $badge_typ,
+        'typ'       => 'spiel',
+        'sort'      => (int) wp_date( 'G', $s['ts'] ) * 60 + (int) wp_date( 'i', $s['ts'] ),
+        'zeit'      => wp_date( 'H:i', $s['ts'] ),
+        'name_html' => $name_html,
+        'meta_html' => $meta_html,
+        'badge'     => $badge, 'badge_typ' => $badge_typ,
     );
 }
 
@@ -275,13 +331,14 @@ function tgs_heute_render() {
                 if ( ! empty( $it['jetzt'] ) ) $cls .= ' is-now';
                 if ( ! empty( $it['cancelled'] ) ) $cls .= ' is-cancelled';
                 if ( $it['typ'] === 'spiel' ) $cls .= ' is-match';
-                $icon = $it['typ'] === 'spiel' ? '🤾' : '';
             ?>
             <li class="<?php echo esc_attr( $cls ); ?>">
                 <span class="tgs-heute-time"><?php echo esc_html( $it['zeit'] ); ?><?php if ( ! empty( $it['jetzt'] ) ) : ?><small>läuft</small><?php endif; ?></span>
                 <span class="tgs-heute-body">
-                    <span class="tgs-heute-name"><?php if ( $icon ) echo $icon . ' '; ?><?php
-                        if ( $it['typ'] === 'kurs' && ! empty( $it['url'] ) ) {
+                    <span class="tgs-heute-name"><?php
+                        if ( $it['typ'] === 'spiel' ) {
+                            echo $it['name_html']; // enthält Icon + geprüfte Links
+                        } elseif ( ! empty( $it['url'] ) ) {
                             echo '<a href="' . esc_url( $it['url'] ) . '">' . esc_html( $it['name'] ) . '</a>';
                         } else {
                             echo esc_html( $it['name'] );
@@ -289,7 +346,7 @@ function tgs_heute_render() {
                     ?></span>
                     <span class="tgs-heute-meta"><?php
                         if ( $it['typ'] === 'spiel' ) {
-                            echo esc_html( $it['meta'] );
+                            echo $it['meta_html'];
                         } elseif ( ! empty( $it['cancelled'] ) && $it['reason'] ) {
                             echo esc_html( 'Fällt heute aus — ' . $it['reason'] );
                         } else {
@@ -320,9 +377,10 @@ function tgs_heute_render() {
         if ( empty( $hb_heute ) ) {
             $next_hb = tgs_handball_naechstes();
             if ( $next_hb ) {
-                $wo = $next_hb['wbh'] ? 'in der Wilhelm-Busch-Halle' : ( $next_hb['heimspiel'] ? 'zu Hause' : 'auswärts' );
+                $wo  = $next_hb['wbh'] ? 'in der Wilhelm-Busch-Halle' : ( $next_hb['heimspiel'] ? 'zu Hause' : 'auswärts' );
+                $art = tgs_handball_art( $next_hb['liga'] );
                 echo '<p class="tgs-heute-next">🤾 <strong>Nächstes Handballspiel:</strong> '
-                    . esc_html( wp_date( 'D, j. M · H:i', $next_hb['ts'] ) . ' Uhr — ' . $next_hb['heim'] . ' – ' . $next_hb['gast'] . ' (' . $wo . ')' ) . '</p>';
+                    . esc_html( wp_date( 'D, j. M · H:i', $next_hb['ts'] ) . ' Uhr — ' . $next_hb['heim'] . ' – ' . $next_hb['gast'] . ' (' . $wo . ', ' . $art . ')' ) . '</p>';
             }
         }
         ?>

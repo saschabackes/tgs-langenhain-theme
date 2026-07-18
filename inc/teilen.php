@@ -70,7 +70,7 @@ function tgs_og_daten( $id ) {
     if ( $desc === '' ) {
         $desc = get_post_field( 'post_content', $id );
     }
-    $desc = tgs_og_kurz( $desc );
+    $desc = tgs_og_kurz( do_shortcode( $desc ) ); // z. B. [tgs_kurs_anzahl] im Auszug auflösen
 
     // Bild: Beitragsbild, sonst Logo
     $image = get_the_post_thumbnail_url( $id, 'large' );

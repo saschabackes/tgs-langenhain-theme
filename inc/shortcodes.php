@@ -772,7 +772,7 @@ function tgs_shortcode_abteilung_detail() {
         <div class="tgs-abt-hero-inner">
             <div class="tgs-abt-hero-badge"><?php echo tgs_abteilung_icon_html( $post_id ); ?></div>
             <h1 class="tgs-abt-hero-h1"><?php echo esc_html( $abt_name ); ?></h1>
-            <p class="tgs-abt-hero-sub"><?php echo esc_html( get_the_excerpt() ); ?></p>
+            <p class="tgs-abt-hero-sub"><?php echo esc_html( do_shortcode( get_the_excerpt() ) ); ?></p>
         </div>
     </div>
 
@@ -839,6 +839,22 @@ function tgs_abt_emoji( $typ ) {
 function tgs_count_posts( $post_type ) {
     return count( get_posts( array( 'post_type' => $post_type, 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids' ) ) );
 }
+
+/**
+ * [tgs_kurs_anzahl] — Anzahl veröffentlichter Kurse (dynamisch, nie hartkodiert).
+ * Optional: kategorie="radsport" (auch mehrere, komma-getrennt) für abteilungs-
+ * spezifische Zählung. Nutzbar auch im Auszug/Text einer Abteilung.
+ */
+function tgs_shortcode_kurs_anzahl( $atts ) {
+    $a = shortcode_atts( array( 'kategorie' => '' ), $atts );
+    $args = array( 'post_type' => 'tgs_kurs', 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids' );
+    if ( trim( $a['kategorie'] ) !== '' ) {
+        $slugs = array_filter( array_map( 'trim', explode( ',', $a['kategorie'] ) ) );
+        $args['tax_query'] = array( array( 'taxonomy' => 'tgs_kurs_kategorie', 'field' => 'slug', 'terms' => $slugs ) );
+    }
+    return (string) count( get_posts( $args ) );
+}
+add_shortcode( 'tgs_kurs_anzahl', 'tgs_shortcode_kurs_anzahl' );
 
 /**
  * Lebendiges Signal je Abteilung: array( lbl, html, amber ).
@@ -908,7 +924,7 @@ function tgs_shortcode_abteilungen_detail_liste() {
         <?php foreach ( $abteilungen as $abt ) :
             $typ    = tgs_abt_typ( $abt );
             $sig    = tgs_abt_signal( $abt, $typ );
-            $tags   = get_the_excerpt( $abt->ID );
+            $tags   = do_shortcode( get_the_excerpt( $abt->ID ) );
             $url    = get_permalink( $abt->ID );
         ?>
         <a class="tgs-abt3-card" href="<?php echo esc_url( $url ); ?>">
